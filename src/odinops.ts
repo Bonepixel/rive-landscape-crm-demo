@@ -10,6 +10,8 @@ export const ROLE_LABEL: Record<StaffRole, string> = {
   worker: 'Worker',
 }
 
+export const ORG = 'Acme'
+
 export type HomeLens = 'pulse' | 'schedule' | 'sales' | 'crew' | 'stops'
 
 export function homeLens(role: StaffRole): HomeLens {
@@ -30,7 +32,7 @@ export function isCrewRole(role: StaffRole) {
 
 export type IntakeTiming = 'write' | 'schedule' | 'later'
 
-export function intakeDefaults(role: StaffRole): { kind: Kind; timing: IntakeTiming } {
+export function intakeDefaults(role: StaffRole): { kind: Extract<Kind, 'estimate' | 'service'>; timing: IntakeTiming } {
   if (role === 'scheduling') return { kind: 'service', timing: 'later' }
   if (isCrewRole(role)) return { kind: 'service', timing: 'schedule' }
   return { kind: 'estimate', timing: 'write' }
@@ -49,15 +51,16 @@ export const SEATS: Seat[] = [
 
 export type Tab = 'home' | 'jobs' | 'create' | 'alerts' | 'more'
 
-export const DOCK: { id: Tab; label: string }[] = [
-  { id: 'home', label: 'Home' },
-  { id: 'jobs', label: 'Jobs' },
-  { id: 'create', label: 'Create' },
-  { id: 'alerts', label: 'Alerts' },
-  { id: 'more', label: 'More' },
+export const DOCK: { id: Tab; label: string; icon: 'home' | 'jobs' | 'create' | 'alerts' | 'more' }[] = [
+  { id: 'home', label: 'Home', icon: 'home' },
+  { id: 'jobs', label: 'Jobs', icon: 'jobs' },
+  { id: 'create', label: 'Create', icon: 'create' },
+  { id: 'alerts', label: 'Alerts', icon: 'alerts' },
+  { id: 'more', label: 'More', icon: 'more' },
 ]
 
-export type Kind = 'estimate' | 'service'
+export type Kind = 'estimate' | 'service' | 'inspection'
+export type DisplayKind = 'estimate' | 'job' | 'service' | 'inspection'
 export type Step =
   | 'request'
   | 'create'
@@ -76,19 +79,19 @@ export const KIND_FILL = {
   inspection: 0xffa78bfa,
 } as const
 
-export const KIND_HEX = {
+export const KIND_HEX: Record<DisplayKind, string> = {
   estimate: '#D4AF37',
   job: '#2DD4BF',
   service: '#FB923C',
   inspection: '#A78BFA',
-} as const
+}
 
 export const STEP_PILL: Record<Step, string> = {
   request: 'Lead',
   create: 'Draft',
   awaiting: 'Awaiting deposit',
-  ready: 'Ready to schedule',
-  schedule: 'Ready to schedule',
+  ready: 'Ready',
+  schedule: 'Unscheduled',
   start: 'Scheduled',
   progress: 'In progress',
   workDone: 'Done',
@@ -121,6 +124,7 @@ export type Alert = {
   kind: AlertKind
   jobId?: string
   unread: boolean
+  time: string
 }
 
 export type MoreItem = {
@@ -167,11 +171,12 @@ export function compactMoney(value: number) {
 }
 
 export function isFieldPhase(job: Job) {
-  if (job.kind === 'service') return true
+  if (job.kind === 'service' || job.kind === 'inspection') return true
   return job.signed && job.depositPaid
 }
 
-export function displayKind(job: Job): keyof typeof KIND_HEX {
+export function displayKind(job: Job): DisplayKind {
+  if (job.kind === 'inspection') return 'inspection'
   if (job.kind === 'service') return 'service'
   return isFieldPhase(job) ? 'job' : 'estimate'
 }
@@ -180,6 +185,7 @@ export function kindLabel(job: Job) {
   const kind = displayKind(job)
   if (kind === 'job') return 'Job'
   if (kind === 'service') return 'Service'
+  if (kind === 'inspection') return 'Inspection'
   return 'Estimate'
 }
 
@@ -195,42 +201,53 @@ export function flowLabel(job: Job) {
   return STEP_PILL[job.step]
 }
 
-export function kindNote(job: Job) {
-  if (job.kind === 'estimate' && !isFieldPhase(job)) {
-    return 'Estimate — price, e-sign, and deposit. Both unlock Ready to schedule on this same job.'
-  }
-  if (isFieldPhase(job) && job.kind === 'estimate') {
-    return 'Committed job — office / foreman / owner schedule this same record.'
-  }
-  return 'Service — start, do the work, mark done, then close. Unpaid never blocks close.'
+export type JobCta = {
+  primary: string
+  disabled: boolean
+  reason: string
+  attention: string
 }
 
-export function jobCta(job: Job, role: StaffRole): { primary: string; secondary: string; attention: string } {
+export function jobCta(job: Job, role: StaffRole): JobCta {
   if (job.kind === 'estimate' && !isFieldPhase(job)) {
     if (job.step === 'request') {
-      return { primary: 'Write estimate', secondary: 'Own lead', attention: 'Lead is open — own it or start the write-up' }
+      return { primary: 'Own lead', disabled: false, reason: '', attention: 'Inbound — own it, then write' }
     }
     if (job.step === 'create') {
-      return { primary: 'Send for sign + deposit', secondary: 'Add lines', attention: 'Add line items, then send for e-sign and deposit' }
+      return { primary: 'Send estimate', disabled: false, reason: '', attention: 'Draft is priced — send it' }
     }
     if (job.step === 'awaiting') {
-      return { primary: 'Collect deposit', secondary: 'Resend link', attention: 'Estimate sent — e-sign and deposit unlock Ready' }
+      return { primary: 'Deposit paid', disabled: false, reason: '', attention: 'Waiting on e-sign + deposit' }
     }
   }
   if (job.step === 'ready' || job.step === 'schedule') {
-    return { primary: 'Schedule install', secondary: 'Assign later', attention: 'Ready to schedule — pick crew and a window' }
+    const allowed = isOwnerLike(role) || role === 'scheduling' || role === 'foreman' || role === 'sales'
+    return {
+      primary: 'Schedule',
+      disabled: !allowed,
+      reason: allowed ? '' : 'Office books this job',
+      attention: 'Ready — pick a crew and window',
+    }
   }
   if (job.step === 'start') {
-    return { primary: 'Start job', secondary: 'Delay', attention: 'Review the stop, then start the crew' }
+    const allowed = isOwnerLike(role) || role === 'foreman' || role === 'worker'
+    return {
+      primary: 'Start',
+      disabled: !allowed,
+      reason: allowed ? '' : 'Crew starts this stop',
+      attention: 'On the book — start when you roll',
+    }
   }
   if (job.step === 'progress') {
-    return { primary: 'Check off', secondary: 'Need help', attention: 'On site — photos, notes, then check off' }
+    return { primary: 'Complete', disabled: false, reason: '', attention: 'On site — finish, then close' }
   }
   if (job.step === 'workDone') {
-    return { primary: 'Close job', secondary: 'Send invoice', attention: 'Done — close anytime. Unpaid does not block.' }
+    return { primary: 'Close', disabled: false, reason: '', attention: 'Done. Unpaid does not block close.' }
   }
-  return { primary: role === 'sales' ? 'Open estimate' : 'Open job', secondary: 'Notes', attention: 'Closed' }
+  return { primary: 'Closed', disabled: true, reason: 'Already closed', attention: 'Closed' }
 }
+
+export const OVERFLOW = ['Reschedule', 'Reassign', 'Note'] as const
 
 export function homeSubtitle(lens: HomeLens) {
   if (lens === 'sales') return 'Leads, estimates to write/send, awaiting deposit.'
@@ -244,6 +261,63 @@ export function homeTitle(lens: HomeLens) {
   return lens === 'sales' ? 'Sales' : "Today's jobs"
 }
 
+export const HOME_DATE_LINE = 'Sun, Sep 20'
+
+export function homeStopCountLabel(count: number) {
+  return `${count} ${count === 1 ? 'stop' : 'stops'}`
+}
+
+export type CreateLane = {
+  id: string
+  label: string
+  hint: string
+  tone: DisplayKind | 'lead' | 'book' | 'neutral'
+  section: 'primary' | 'also'
+  action: 'lead' | 'estimate' | 'service' | 'inspection' | 'stub'
+  route?: string
+}
+
+const LANE_TONE_HEX: Record<CreateLane['tone'], string> = {
+  lead: '#6B3DFF',
+  estimate: '#D4AF37',
+  job: '#2DD4BF',
+  service: '#FB923C',
+  inspection: '#A78BFA',
+  book: '#2EEBFA',
+  neutral: '#A1A1AA',
+}
+
+export function laneHex(tone: CreateLane['tone']) {
+  return LANE_TONE_HEX[tone]
+}
+
+export function createLanes(role: StaffRole): { primary: CreateLane[]; also: CreateLane[] } {
+  const primary: CreateLane[] = []
+  if (isOwnerLike(role) || role === 'scheduling' || role === 'sales' || role === 'foreman') {
+    primary.push({ id: 'lead', label: 'New lead', hint: 'Inbound request — assign later', tone: 'lead', section: 'primary', action: 'lead' })
+  }
+  if (isOwnerLike(role) || role === 'sales') {
+    primary.push({ id: 'estimate', label: 'New estimate', hint: 'Price → e-sign + deposit → Ready', tone: 'estimate', section: 'primary', action: 'estimate' })
+  }
+  primary.push({ id: 'service', label: 'New service', hint: 'Fixed-price service or consult', tone: 'service', section: 'primary', action: 'service' })
+  primary.push({ id: 'inspection', label: 'New inspection', hint: 'Issue / warranty look · diagnose', tone: 'inspection', section: 'primary', action: 'inspection' })
+  if (isOwnerLike(role) || role === 'scheduling' || role === 'sales') {
+    primary.push({ id: 'share', label: 'Share self-book', hint: 'Public /b/… · customer books themselves', tone: 'book', section: 'primary', action: 'stub', route: 'book' })
+  }
+
+  const also: CreateLane[] = []
+  if (isCrewRole(role)) {
+    also.push({ id: 'jobs', label: 'Open jobs', hint: "Today's stops and work in progress.", tone: 'neutral', section: 'also', action: 'stub', route: 'jobs' })
+  }
+  if (isOwnerLike(role) || role === 'sales' || role === 'scheduling') {
+    also.push({ id: 'invoice', label: 'New invoice', hint: 'Draft a PDF, then send.', tone: 'neutral', section: 'also', action: 'stub', route: 'invoices' })
+  }
+  if (isOwnerLike(role)) {
+    also.push({ id: 'team', label: 'Add team member', hint: 'Name, role, and a login.', tone: 'neutral', section: 'also', action: 'stub', route: 'team' })
+  }
+  return { primary, also }
+}
+
 export const SAMPLE_JOBS: Job[] = [
   {
     id: 'hale',
@@ -253,7 +327,7 @@ export const SAMPLE_JOBS: Job[] = [
     step: 'request',
     estimate: 6250,
     address: '15 Willow Ave',
-    note: 'Inbound request — own or write',
+    note: 'Inbound request',
     crew: '',
     day: '',
     slot: '',
@@ -269,7 +343,7 @@ export const SAMPLE_JOBS: Job[] = [
     step: 'create',
     estimate: 8400,
     address: '214 Oak Lane',
-    note: 'Draft — add lines, then send',
+    note: 'Draft priced',
     crew: '',
     day: '',
     slot: '',
@@ -285,7 +359,7 @@ export const SAMPLE_JOBS: Job[] = [
     step: 'awaiting',
     estimate: 21750,
     address: '88 Cedar Court',
-    note: 'Sent — waiting on e-sign + deposit',
+    note: 'Sent — waiting on deposit',
     crew: '',
     day: '',
     slot: '',
@@ -301,7 +375,7 @@ export const SAMPLE_JOBS: Job[] = [
     step: 'ready',
     estimate: 3180,
     address: '402 Maple Drive',
-    note: 'Signed + deposit in — office books this job',
+    note: 'Signed + deposit in',
     crew: '',
     day: '',
     slot: '',
@@ -317,7 +391,7 @@ export const SAMPLE_JOBS: Job[] = [
     step: 'start',
     estimate: 4960,
     address: '9 Birch Street',
-    note: 'Luis + Ana · today 8:00–12:00',
+    note: 'Luis + Ana · 8:00–12:00',
     crew: 'Luis + Ana',
     day: 'Today',
     slot: '8:00–12:00',
@@ -341,6 +415,22 @@ export const SAMPLE_JOBS: Job[] = [
     signed: false,
     depositPaid: true,
   },
+  {
+    id: 'kim',
+    customerName: 'Kim Alvarez',
+    title: 'Controller fault',
+    kind: 'inspection',
+    step: 'start',
+    estimate: 180,
+    address: '41 Ridge Way',
+    note: 'Warranty look',
+    crew: 'Ellis',
+    day: 'Today',
+    slot: '3:00–4:00',
+    assignee: 'ellis',
+    signed: false,
+    depositPaid: false,
+  },
 ]
 
 export function seedAlerts(jobs: Job[]): Alert[] {
@@ -355,6 +445,7 @@ export function seedAlerts(jobs: Job[]): Alert[] {
       kind: 'assignment',
       jobId: 'june',
       unread: true,
+      time: '12m',
     },
     {
       id: 'ping-signed-patel',
@@ -363,6 +454,7 @@ export function seedAlerts(jobs: Job[]): Alert[] {
       kind: 'signed',
       jobId: 'patel',
       unread: true,
+      time: '1h',
     },
     {
       id: 'ping-shout',
@@ -370,6 +462,7 @@ export function seedAlerts(jobs: Job[]): Alert[] {
       detail: 'Crew rolling at 8 — West Park after lunch',
       kind: 'shout',
       unread: true,
+      time: '2h',
     },
     {
       id: 'ready-patel',
@@ -378,14 +471,16 @@ export function seedAlerts(jobs: Job[]): Alert[] {
       kind: 'ready',
       jobId: 'patel',
       unread: true,
+      time: '3h',
     },
     {
       id: 'await-rivera',
-      title: 'Estimate sent — awaiting deposit',
+      title: 'Estimate sent',
       detail: rivera ? `${rivera.customerName} · ${rivera.title}` : 'Awaiting',
       kind: 'estimate',
       jobId: 'rivera',
       unread: true,
+      time: 'Yesterday',
     },
   ]
 }
@@ -395,7 +490,8 @@ export type HomeWidget = {
   label: string
   count: number
   hint: string
-  tone: keyof typeof KIND_HEX
+  tone: DisplayKind
+  featured?: boolean
 }
 
 export function countBy(jobs: Job[], pred: (job: Job) => boolean) {
@@ -422,78 +518,114 @@ export function isToday(job: Job) {
   return job.day === 'Today'
 }
 
-export function homeWidgets(jobs: Job[], lens: HomeLens): HomeWidget[] {
+export function homeNextActions(jobs: Job[], lens: HomeLens): HomeWidget[] {
   if (lens === 'sales') {
     return [
       { id: 'leads', label: 'Leads', count: countBy(jobs, isLead), hint: 'Own or write', tone: 'estimate' },
-      { id: 'draft', label: 'Estimates', count: countBy(jobs, isDraft), hint: 'Draft / send', tone: 'estimate' },
+      { id: 'draft', label: 'Estimates', count: countBy(jobs, isDraft), hint: 'Draft / send', tone: 'estimate', featured: true },
       { id: 'awaiting', label: 'Awaiting deposit', count: countBy(jobs, isAwaiting), hint: 'Sent — waiting on deposit', tone: 'estimate' },
     ]
   }
   if (lens === 'stops') {
-    const mine = jobs.filter((job) => job.assignee === 'finley' || (isToday(job) && job.kind === 'service'))
+    const mine = jobs.filter((job) => job.assignee === 'finley' || (isToday(job) && job.kind !== 'estimate'))
     return [
-      { id: 'next', label: 'Next job', count: mine.filter((job) => job.step === 'progress' || job.step === 'start').length ? 1 : 0, hint: 'On your book', tone: 'service' },
+      {
+        id: 'next',
+        label: 'Next job',
+        count: mine.some((job) => job.step === 'progress' || job.step === 'start') ? 1 : 0,
+        hint: 'On your book',
+        tone: 'service',
+        featured: true,
+      },
       { id: 'remaining', label: 'Remaining today', count: mine.filter(isToday).length, hint: 'Stops left', tone: 'service' },
     ]
   }
   if (lens === 'schedule') {
     return [
-      { id: 'board', label: "Today's jobs", count: countBy(jobs, isToday), hint: 'On the day board', tone: 'service' },
+      { id: 'board', label: "Today's jobs", count: countBy(jobs, isToday), hint: 'On the day board', tone: 'service', featured: true },
       { id: 'handoff', label: 'Ready to schedule', count: countBy(jobs, isHandoff), hint: 'Committed — book a crew', tone: 'job' },
     ]
   }
   if (lens === 'crew') {
     return [
-      { id: 'start', label: "Today's jobs", count: countBy(jobs, (job) => isToday(job) && (job.step === 'start' || job.step === 'progress')), hint: 'Hold to start', tone: 'service' },
+      {
+        id: 'start',
+        label: "Today's jobs",
+        count: countBy(jobs, (job) => isToday(job) && (job.step === 'start' || job.step === 'progress')),
+        hint: 'Hold to start',
+        tone: 'service',
+        featured: true,
+      },
       { id: 'handoff', label: 'Ready to schedule', count: countBy(jobs, isHandoff), hint: 'Office / foreman book these', tone: 'job' },
     ]
   }
   return [
-    { id: 'today', label: "Today's jobs", count: countBy(jobs, isToday), hint: 'On the book', tone: 'service' },
+    { id: 'today', label: "Today's jobs", count: countBy(jobs, isToday), hint: 'On the book', tone: 'service', featured: true },
     { id: 'handoff', label: 'Ready to schedule', count: countBy(jobs, isHandoff), hint: 'Won jobs waiting on a slot', tone: 'job' },
   ]
 }
 
+export const homeWidgets = homeNextActions
+
 export function jobsForLens(jobs: Job[], lens: HomeLens, tab: Tab): Job[] {
   if (tab === 'jobs') return jobs
   if (lens === 'sales') return jobs.filter((job) => job.kind === 'estimate' && !isFieldPhase(job))
-  if (lens === 'stops') return jobs.filter((job) => job.assignee === 'finley' || (isToday(job) && job.kind === 'service'))
+  if (lens === 'stops') return jobs.filter((job) => job.assignee === 'finley' || (isToday(job) && job.kind !== 'estimate'))
   if (lens === 'schedule') return jobs.filter((job) => isToday(job) || isHandoff(job))
   if (lens === 'crew') return jobs.filter((job) => isToday(job) || isHandoff(job) || job.step === 'progress')
   return jobs.filter((job) => isToday(job) || isHandoff(job) || job.kind === 'estimate')
+}
+
+export function featuredJob(jobs: Job[], lens: HomeLens, role: StaffRole): Job | null {
+  const list = jobsForLens(jobs, lens, 'home')
+  if (lens === 'sales') {
+    return list.find(isDraft) ?? list.find(isAwaiting) ?? list.find(isLead) ?? list[0] ?? null
+  }
+  if (lens === 'stops') {
+    return list.find((job) => job.step === 'progress') ?? list.find((job) => job.step === 'start') ?? list[0] ?? null
+  }
+  const actionable = list.find((job) => !jobCta(job, role).disabled && job.step !== 'complete')
+  return actionable ?? list[0] ?? null
 }
 
 export function deriveKpis(jobs: Job[]) {
   const pipeline = jobs.filter((job) => job.kind === 'estimate' && !isFieldPhase(job)).reduce((sum, job) => sum + job.estimate, 0)
   const won = jobs.filter((job) => isFieldPhase(job) || job.step === 'ready').reduce((sum, job) => sum + job.estimate, 0)
   return [
-    { id: 'pipe', label: 'Open pipeline', value: compactMoney(pipeline), accent: KIND_FILL.estimate },
-    { id: 'won', label: 'Won / booked', value: compactMoney(won), accent: KIND_FILL.job },
-    { id: 'booked', label: 'Scheduled', value: String(countBy(jobs, (job) => job.step === 'start' || job.step === 'progress')), accent: KIND_FILL.service },
-    { id: 'ready', label: 'Ready queue', value: String(countBy(jobs, isHandoff)), accent: KIND_FILL.inspection },
+    { id: 'pipe', label: 'Pipeline', value: compactMoney(pipeline), accent: KIND_FILL.estimate, hex: KIND_HEX.estimate },
+    { id: 'won', label: 'Won', value: compactMoney(won), accent: KIND_FILL.job, hex: KIND_HEX.job },
+    { id: 'ready', label: 'To schedule', value: String(countBy(jobs, isHandoff)), accent: KIND_FILL.inspection, hex: KIND_HEX.inspection },
   ]
+}
+
+export type JobFilter = 'all' | DisplayKind
+
+export const JOB_FILTERS: { id: JobFilter; label: string }[] = [
+  { id: 'all', label: 'All' },
+  { id: 'estimate', label: 'Estimate' },
+  { id: 'job', label: 'Job' },
+  { id: 'service', label: 'Service' },
+  { id: 'inspection', label: 'Inspection' },
+]
+
+export function filterJobs(jobs: Job[], filter: JobFilter) {
+  if (filter === 'all') return jobs
+  return jobs.filter((job) => displayKind(job) === filter)
 }
 
 export function sendEstimate(job: Job): Job {
   if (job.kind !== 'estimate' || (job.step !== 'request' && job.step !== 'create')) return job
-  return { ...job, step: 'awaiting', note: 'Estimate sent — e-sign and deposit' }
+  return { ...job, step: 'awaiting', note: 'Estimate sent' }
 }
 
 export function collectDeposit(job: Job): Job {
   if (job.kind !== 'estimate' || job.step !== 'awaiting') return job
-  return {
-    ...job,
-    step: 'ready',
-    signed: true,
-    depositPaid: true,
-    note: 'Signed + deposit in — office books this job',
-  }
+  return { ...job, step: 'ready', signed: true, depositPaid: true, note: 'Deposit paid' }
 }
 
-export function writeEstimate(job: Job): Job {
+export function ownLead(job: Job, seatId: string): Job {
   if (job.kind !== 'estimate' || job.step !== 'request') return job
-  return { ...job, step: 'create', note: 'Draft — add lines, then send' }
+  return { ...job, step: 'create', assignee: seatId, note: 'Owned — write next' }
 }
 
 export function scheduleInstall(job: Job, crew = 'Luis + Ana'): Job {
@@ -514,9 +646,9 @@ export function startJob(job: Job): Job {
   return { ...job, step: 'progress', note: `${job.crew || 'Crew'} rolling` }
 }
 
-export function checkOff(job: Job): Job {
+export function completeJob(job: Job): Job {
   if (job.step !== 'progress' && job.step !== 'start') return job
-  return { ...job, step: 'workDone', note: 'Crew checked the work off' }
+  return { ...job, step: 'workDone', note: 'Work complete' }
 }
 
 export function closeJob(job: Job): Job {
@@ -524,19 +656,36 @@ export function closeJob(job: Job): Job {
   return { ...job, step: 'complete', note: 'Closed' }
 }
 
-export function createJob(kind: Kind, index: number, role: StaffRole): Job {
-  const defaults = intakeDefaults(role)
-  const useKind = kind
-  if (useKind === 'estimate') {
+export function createFromLane(action: CreateLane['action'], index: number, role: StaffRole): Job | null {
+  if (action === 'stub') return null
+  if (action === 'lead') {
+    return {
+      id: `lead-${index}`,
+      customerName: `New lead #${index}`,
+      title: 'Site visit / quote',
+      kind: 'estimate',
+      step: 'request',
+      estimate: 0,
+      address: 'On-site',
+      note: 'Created from +',
+      crew: '',
+      day: '',
+      slot: '',
+      assignee: seatByRole(role).id,
+      signed: false,
+      depositPaid: false,
+    }
+  }
+  if (action === 'estimate') {
     return {
       id: `est-${index}`,
-      customerName: `New lead #${index}`,
+      customerName: `New estimate #${index}`,
       title: 'Site visit / quote',
       kind: 'estimate',
       step: 'create',
       estimate: 2500,
       address: 'On-site',
-      note: 'Created from + · Estimate write-up',
+      note: 'Draft from +',
       crew: '',
       day: '',
       slot: '',
@@ -545,7 +694,25 @@ export function createJob(kind: Kind, index: number, role: StaffRole): Job {
       depositPaid: false,
     }
   }
-  const later = defaults.timing === 'later'
+  if (action === 'inspection') {
+    return {
+      id: `insp-${index}`,
+      customerName: `Inspection #${index}`,
+      title: 'Issue / warranty look',
+      kind: 'inspection',
+      step: 'schedule',
+      estimate: 180,
+      address: 'On-site',
+      note: 'Unscheduled look',
+      crew: '',
+      day: '',
+      slot: '',
+      assignee: 'ellis',
+      signed: false,
+      depositPaid: false,
+    }
+  }
+  const later = intakeDefaults(role).timing === 'later'
   return {
     id: `svc-${index}`,
     customerName: `Service #${index}`,
@@ -554,7 +721,7 @@ export function createJob(kind: Kind, index: number, role: StaffRole): Job {
     step: later ? 'schedule' : 'start',
     estimate: 1800,
     address: 'On-site',
-    note: later ? 'Unscheduled — office queue' : 'Booked for today',
+    note: later ? 'Unscheduled' : 'Booked for today',
     crew: later ? '' : 'Luis + Ana',
     day: later ? '' : 'Today',
     slot: later ? '' : '3:00–5:00',
@@ -564,23 +731,35 @@ export function createJob(kind: Kind, index: number, role: StaffRole): Job {
   }
 }
 
+export function createdToast(action: CreateLane['action']) {
+  if (action === 'lead') return 'Lead created'
+  if (action === 'estimate') return 'Estimate created'
+  if (action === 'inspection') return 'Inspection created'
+  if (action === 'service') return 'Service created'
+  return 'Saved'
+}
+
 export function applyPrimary(job: Job, role: StaffRole): { job: Job; toast: string; alert?: Alert } {
+  const cta = jobCta(job, role)
+  if (cta.disabled) return { job, toast: cta.reason || cta.primary }
+
   if (job.kind === 'estimate' && job.step === 'request') {
-    const next = writeEstimate(job)
-    return { job: next, toast: `Draft open · ${next.customerName}` }
+    const next = ownLead(job, seatByRole(role).id)
+    return { job: next, toast: 'Lead owned' }
   }
   if (job.kind === 'estimate' && job.step === 'create') {
     const next = sendEstimate(job)
     return {
       job: next,
-      toast: `Estimate sent · ${next.customerName}`,
+      toast: 'Estimate sent',
       alert: {
         id: `await-${next.id}`,
-        title: 'Estimate sent — awaiting deposit',
+        title: 'Estimate sent',
         detail: `${next.customerName} · ${next.title}`,
         kind: 'estimate',
         jobId: next.id,
         unread: true,
+        time: 'now',
       },
     }
   }
@@ -588,7 +767,7 @@ export function applyPrimary(job: Job, role: StaffRole): { job: Job; toast: stri
     const next = collectDeposit(job)
     return {
       job: next,
-      toast: `Signed + deposit · ${next.customerName}`,
+      toast: 'Deposit paid',
       alert: {
         id: `signed-${next.id}`,
         title: 'Estimate signed',
@@ -596,6 +775,7 @@ export function applyPrimary(job: Job, role: StaffRole): { job: Job; toast: stri
         kind: 'signed',
         jobId: next.id,
         unread: true,
+        time: 'now',
       },
     }
   }
@@ -603,7 +783,7 @@ export function applyPrimary(job: Job, role: StaffRole): { job: Job; toast: stri
     const next = scheduleInstall(job)
     return {
       job: next,
-      toast: `Crew booked · ${next.customerName} ${next.slot}`,
+      toast: 'Scheduled',
       alert: {
         id: `assign-${next.id}`,
         title: 'You were put on a visit',
@@ -611,22 +791,23 @@ export function applyPrimary(job: Job, role: StaffRole): { job: Job; toast: stri
         kind: 'assignment',
         jobId: next.id,
         unread: true,
+        time: 'now',
       },
     }
   }
-  if (job.step === 'start' && (role === 'foreman' || role === 'worker' || isOwnerLike(role))) {
+  if (job.step === 'start') {
     const next = startJob(job)
-    return { job: next, toast: `Started · ${next.customerName}` }
+    return { job: next, toast: 'Started' }
   }
   if (job.step === 'progress') {
-    const next = checkOff(job)
-    return { job: next, toast: `Checked off · ${next.customerName}` }
+    const next = completeJob(job)
+    return { job: next, toast: 'Done' }
   }
   if (job.step === 'workDone') {
     const next = closeJob(job)
-    return { job: next, toast: `Closed · ${next.customerName}` }
+    return { job: next, toast: 'Closed' }
   }
-  return { job, toast: `${job.customerName} · ${flowLabel(job)}` }
+  return { job, toast: flowLabel(job) }
 }
 
 export function tabByIndex(index: number): Tab {
@@ -639,4 +820,75 @@ export function tabIndex(tab: Tab) {
 
 export function seatByRole(role: StaffRole) {
   return SEATS.find((seat) => seat.role === role) ?? SEATS[0]
+}
+
+export function initials(name: string) {
+  return name
+    .split(' ')
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
+}
+
+export const STORE_KEY = 'odinops-phone-v2'
+
+export type Persisted = {
+  jobs: Job[]
+  alerts: Alert[]
+  role: StaffRole
+  tab: Tab
+  selectedId: string
+  darkMode: boolean
+}
+
+export function loadPersisted(): Partial<Persisted> | null {
+  try {
+    const raw = localStorage.getItem(STORE_KEY)
+    if (!raw) return null
+    return JSON.parse(raw) as Persisted
+  } catch {
+    return null
+  }
+}
+
+export function savePersisted(state: Persisted) {
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify(state))
+  } catch {
+    /* ignore quota */
+  }
+}
+
+export function parseDeepLink(search: string) {
+  const params = new URLSearchParams(search)
+  const role = STAFF_ROLES.find((item) => item === params.get('role'))
+  const tab = DOCK.find((item) => item.id === params.get('tab'))?.id
+  const job = params.get('job') || undefined
+  const fallback = params.has('fallback')
+  return { role, tab, job, fallback }
+}
+
+export function writeDeepLink(input: { role: StaffRole; tab: Tab; job: string; fallback: boolean }) {
+  const params = new URLSearchParams()
+  params.set('role', input.role)
+  params.set('tab', input.tab)
+  if (input.job) params.set('job', input.job)
+  if (input.fallback) params.set('fallback', '1')
+  const next = `${window.location.pathname}?${params.toString()}`
+  window.history.replaceState(null, '', next)
+}
+
+export function emptyCopy(lens: HomeLens, tab: Tab) {
+  if (tab === 'alerts') return { title: 'You’re caught up', body: 'Assignment, signed, and shout pings land here.' }
+  if (tab === 'jobs') return { title: 'No jobs in this filter', body: 'Create a lead, estimate, or service.' }
+  if (lens === 'sales') return { title: 'Nothing to send', body: 'New leads and drafts show up here.' }
+  if (lens === 'stops') return { title: 'No stops today', body: 'Office will assign the next visit.' }
+  return { title: 'Queue is clear', body: 'When a job is ready, it lands on this lens.' }
+}
+
+export function alertTone(kind: AlertKind) {
+  if (kind === 'signed' || kind === 'estimate') return KIND_HEX.estimate
+  if (kind === 'assignment') return KIND_HEX.service
+  if (kind === 'ready') return KIND_HEX.job
+  return '#2EEBFA'
 }

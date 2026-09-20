@@ -55,7 +55,7 @@
                             <Fill name="F"><SolidColor colorValue="FF00E5FF" name="C" id="70:47"/></Fill>
                             <TextStyleAxis tag="2003265652" axisValue="550" name="Weight"/>
                         </TextStylePaint>
-                        <TextValueRun styleId="70:46" text="Sales lead · Drew Patel" name="Run">
+                        <TextValueRun styleId="70:46" text="Acme · Drew" name="Run">
                             <DataBindContext sourcePathIds="50:1-50:3" propertyKey="268"/>
                         </TextValueRun>
                     </Text>

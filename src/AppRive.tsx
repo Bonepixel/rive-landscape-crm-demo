@@ -11,17 +11,20 @@ import {
 } from '@rive-app/react-webgl2'
 import {
   DOCK,
+  KIND_FILL,
   MORE_NAV,
-  ROLE_LABEL,
+  ORG,
   SEATS,
+  createLanes,
+  featuredJob,
   flowLabel,
+  HOME_DATE_LINE,
   homeLens,
   homeSubtitle,
   homeTitle,
   jobCta,
   kindArgb,
   kindLabel,
-  kindNote,
   money,
   tabIndex,
   visibleMoreNav,
@@ -185,17 +188,20 @@ export function AppRive({
     if (!rive || !vmi) return
 
     const lens = homeLens(role)
-    const selected = allJobs.find((job) => job.id === selectedId) ?? allJobs[0]
+    const selected = tab === 'home'
+      ? (featuredJob(allJobs, lens, role) ?? allJobs.find((job) => job.id === selectedId) ?? allJobs[0])
+      : (allJobs.find((job) => job.id === selectedId) ?? allJobs[0])
     const seat = SEATS.find((item) => item.role === role)
     const cta = selected ? jobCta(selected, role) : null
     const selectedIndexValue = Math.max(0, listJobs.findIndex((job) => job.id === selectedId))
+    const lanes = createLanes(role)
 
-    writeString(vmi, 'businessName', 'OdinOps')
-    writeString(vmi, 'subtitle', `${ROLE_LABEL[role]} · ${seat?.name ?? ''}`)
+    writeString(vmi, 'businessName', seat?.name ?? 'OdinOps')
+    writeString(vmi, 'subtitle', `${ORG} · ${seat?.name.split(' ')[0] ?? ''}`)
     writeString(vmi, 'toast', toast)
-    writeString(vmi, 'panelTitle', tab === 'alerts' ? 'Alerts' : tab === 'create' ? 'Create' : tab === 'more' ? 'More' : homeTitle(lens))
-    writeString(vmi, 'panelHint', tab === 'home' ? homeSubtitle(lens) : `/${tab}`)
-    writeString(vmi, 'pipelineValue', `${lens} · ${widgets.map((widget) => `${widget.label} ${widget.count}`).join(' · ')}`)
+    writeString(vmi, 'panelTitle', tab === 'alerts' ? 'Alerts' : tab === 'create' ? 'What do you want?' : tab === 'more' ? 'More' : homeTitle(lens))
+    writeString(vmi, 'panelHint', tab === 'home' ? HOME_DATE_LINE : tab === 'create' ? 'Estimate sells. Service finishes.' : `/${tab}`)
+    writeString(vmi, 'pipelineValue', widgets.map((widget) => `${widget.label} ${widget.count}`).join(' · '))
     writeBool(vmi, 'darkMode', darkMode)
     writeNumber(vmi, 'roleIndex', tabIndex(tab))
     writeNumber(vmi, 'selectedIndex', tab === 'more' || tab === 'alerts' || tab === 'create' ? -1 : selectedIndexValue)
@@ -211,9 +217,9 @@ export function AppRive({
       writeString(home, 'subtitle', homeSubtitle(lens))
     }
 
-    writeString(vmi, 'primaryBtn/label', tab === 'create' ? 'New estimate' : tab === 'more' && moreRoute ? 'Open jobs' : (cta?.primary ?? 'Open'))
-    writeBool(vmi, 'primaryBtn/primary', true)
-    writeString(vmi, 'secondaryBtn/label', tab === 'create' ? 'New service' : tab === 'more' && moreRoute ? 'Back to More' : (cta?.secondary ?? 'Notes'))
+    writeString(vmi, 'primaryBtn/label', cta?.disabled ? cta.reason || cta.primary : (cta?.primary ?? 'Open'))
+    writeBool(vmi, 'primaryBtn/primary', !cta?.disabled)
+    writeString(vmi, 'secondaryBtn/label', '···')
     writeBool(vmi, 'secondaryBtn/primary', false)
 
     NAV.forEach((path, index) => {
@@ -224,9 +230,9 @@ export function AppRive({
 
     const moreItem = moreRoute ? MORE_NAV.find((item) => item.route === moreRoute) : null
     if (tab === 'create') {
-      writeString(vmi, 'heroName', 'Create')
-      writeString(vmi, 'heroJob', 'Estimate · Site visit / quote')
-      writeString(vmi, 'heroMeta', 'Service · Install / service call')
+      writeString(vmi, 'heroName', 'What do you want?')
+      writeString(vmi, 'heroJob', 'Lead · Estimate · Service · Inspection')
+      writeString(vmi, 'heroMeta', 'Also · invoice, team')
       writeString(vmi, 'heroNext', 'Estimate sells and hands off. Service finishes the job.')
       writeString(vmi, 'heroChip', 'Create')
       writeColor(vmi, 'heroChipColor', 0xff2eebfa)
@@ -241,7 +247,7 @@ export function AppRive({
       writeString(vmi, 'heroName', selected.customerName)
       writeString(vmi, 'heroJob', `${kindLabel(selected)} · ${selected.title} · ${money(selected.estimate)}`)
       writeString(vmi, 'heroMeta', `${selected.address}${selected.crew ? ` · ${selected.crew}` : ''}`)
-      writeString(vmi, 'heroNext', cta?.attention ?? kindNote(selected))
+      writeString(vmi, 'heroNext', cta?.attention ?? '')
       writeString(vmi, 'heroChip', flowLabel(selected))
       writeColor(vmi, 'heroChipColor', kindArgb(selected))
     }
@@ -253,56 +259,66 @@ export function AppRive({
       writeString(quote, 'step', flowLabel(selected))
     }
 
+    const createRows = tab === 'create' ? [...lanes.primary, ...lanes.also] : []
     const rows = tab === 'alerts'
       ? alerts.map((alert) => ({
           id: alert.id,
           customerName: alert.title,
           title: alert.detail,
           estimate: 0,
-          step: 'request' as const,
-          kind: 'estimate' as const,
-          address: '',
-          note: '',
-          crew: '',
-          day: '',
-          slot: '',
-          assignee: '',
-          signed: false,
-          depositPaid: false,
+          status: alert.time,
+          color: 0xff2eebfa,
+          selected: false,
         }))
       : tab === 'more'
         ? moreItems.map((item) => ({
             id: item.route,
             customerName: item.label,
-            title: `${item.href} · ${item.hint}`,
+            title: item.hint,
             estimate: 0,
-            step: 'request' as const,
-            kind: 'estimate' as const,
-            address: '',
-            note: '',
-            crew: '',
-            day: '',
-            slot: '',
-            assignee: '',
-            signed: false,
-            depositPaid: false,
+            status: item.href,
+            color: 0xff2eebfa,
+            selected: false,
           }))
-        : listJobs
+        : tab === 'create'
+          ? createRows.map((lane) => ({
+              id: lane.id,
+              customerName: lane.label,
+              title: lane.hint,
+              estimate: 0,
+              status: lane.section === 'also' ? 'Also' : 'Create',
+              color: KIND_FILL[lane.tone === 'lead' || lane.tone === 'book' || lane.tone === 'neutral' ? 'inspection' : lane.tone],
+              selected: false,
+            }))
+          : listJobs.map((job) => ({
+              id: job.id,
+              customerName: job.customerName,
+              title: job.title,
+              estimate: job.estimate,
+              status: flowLabel(job),
+              color: kindArgb(job),
+              selected: job.id === selectedId,
+            }))
 
     syncList(rive, vmi, 'jobs', 'Job', rows.length, (instance, index) => {
       const job = rows[index]
       writeString(instance, 'customerName', job.customerName)
-      writeString(instance, 'jobType', 'title' in job ? job.title : '')
+      writeString(instance, 'jobType', job.title)
       writeString(instance, 'estimate', job.estimate ? money(job.estimate) : '')
-      writeString(instance, 'status', 'step' in job ? flowLabel(job as Job) : '')
-      writeString(instance, 'address', job.address)
-      writeBool(instance, 'selected', job.id === selectedId)
-      writeColor(instance, 'chipColor', 'kind' in job ? kindArgb(job as Job) : 0xff2eebfa)
+      writeString(instance, 'status', job.status)
+      writeBool(instance, 'selected', job.selected)
+      writeColor(instance, 'chipColor', job.color)
     })
 
-    const showKpis = tab === 'home' && lens === 'pulse'
-    syncList(rive, vmi, 'kpis', 'KpiTile', showKpis ? kpis.length : 0, (instance, index) => {
-      const tile = kpis[index]
+    const tiles = tab === 'home'
+      ? (lens === 'pulse' ? kpis : widgets.map((widget) => ({
+          label: widget.label,
+          value: String(widget.count),
+          accent: KIND_FILL[widget.tone],
+        })))
+      : []
+    syncList(rive, vmi, 'kpis', 'KpiTile', tiles.length, (instance, index) => {
+      const tile = tiles[index]
       writeString(instance, 'label', tile.label)
       writeString(instance, 'value', tile.value)
       writeColor(instance, 'accent', tile.accent)

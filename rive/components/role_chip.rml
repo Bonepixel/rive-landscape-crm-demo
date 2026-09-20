@@ -33,7 +33,7 @@
         </LinearAnimation>
         <LinearAnimation duration="1" name="ChipOn" id="61:4">
             <KeyedObject objectId="61:12">
-                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF00E5FF" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold"/></KeyedProperty>
             </KeyedObject>
             <KeyedObject objectId="61:15">
                 <KeyedProperty propertyKey="37"><KeyFrameColor value="FF070612" interpolationType="hold"/></KeyedProperty>

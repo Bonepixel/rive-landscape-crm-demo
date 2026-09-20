@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 import { AppFallback } from './AppFallback'
 import { AppRive } from './AppRive'
@@ -7,16 +7,23 @@ import {
   SAMPLE_JOBS,
   SEATS,
   applyPrimary,
-  createJob,
+  createFromLane,
+  createdToast,
   deriveKpis,
+  featuredJob,
   groupedMoreNav,
   homeLens,
-  homeWidgets,
+  homeNextActions,
   jobCta,
   jobsForLens,
+  loadPersisted,
+  parseDeepLink,
+  savePersisted,
   seedAlerts,
   tabByIndex,
+  writeDeepLink,
   type Alert,
+  type CreateLane,
   type Job,
   type StaffRole,
   type Tab,
@@ -30,61 +37,102 @@ function supportsWebGL2(): boolean {
   }
 }
 
-function forceFallback(): boolean {
-  return new URLSearchParams(window.location.search).has('fallback')
-}
-
 function prefersDark(): boolean {
   return !window.matchMedia('(prefers-color-scheme: light)').matches
 }
 
+function boot() {
+  const link = parseDeepLink(window.location.search)
+  const stored = loadPersisted()
+  const role = link.role ?? stored?.role ?? 'sales'
+  const tab = link.tab ?? stored?.tab ?? 'home'
+  const jobs = stored?.jobs?.length ? stored.jobs : SAMPLE_JOBS
+  const alerts = stored?.alerts?.length ? stored.alerts : seedAlerts(jobs)
+  const selectedId = link.job ?? stored?.selectedId ?? featuredJob(jobs, homeLens(role), role)?.id ?? jobs[0].id
+  return {
+    jobs,
+    alerts,
+    role,
+    tab,
+    selectedId,
+    darkMode: stored?.darkMode ?? prefersDark(),
+    fallback: link.fallback || !supportsWebGL2(),
+  }
+}
+
 export default function App() {
-  const [jobs, setJobs] = useState<Job[]>(SAMPLE_JOBS)
-  const [alerts, setAlerts] = useState<Alert[]>(() => seedAlerts(SAMPLE_JOBS))
-  const [selectedId, setSelectedId] = useState(SAMPLE_JOBS[1].id)
-  const [role, setRole] = useState<StaffRole>('sales')
-  const [tab, setTab] = useState<Tab>('home')
+  const initial = useMemo(() => boot(), [])
+  const [jobs, setJobs] = useState<Job[]>(initial.jobs)
+  const [alerts, setAlerts] = useState<Alert[]>(initial.alerts)
+  const [selectedId, setSelectedId] = useState(initial.selectedId)
+  const [role, setRole] = useState<StaffRole>(initial.role)
+  const [tab, setTab] = useState<Tab>(initial.tab)
   const [moreRoute, setMoreRoute] = useState<string | null>(null)
-  const [toast, setToast] = useState('Sales home — write Maya, then send')
-  const [darkMode, setDarkMode] = useState(prefersDark)
+  const [toast, setToast] = useState('')
+  const [canUndo, setCanUndo] = useState(false)
+  const [darkMode, setDarkMode] = useState(initial.darkMode)
   const [burst, setBurst] = useState(0)
+  const [sheetOpen, setSheetOpen] = useState(false)
   const [riveReady, setRiveReady] = useState(false)
-  const [riveFailed, setRiveFailed] = useState(() => !supportsWebGL2() || forceFallback())
+  const [riveFailed, setRiveFailed] = useState(initial.fallback)
+  const undo = useRef<{ jobs: Job[]; alerts: Alert[] } | null>(null)
+  const toastTimer = useRef(0)
 
   const selected = useMemo(
     () => jobs.find((job) => job.id === selectedId) ?? jobs[0],
     [jobs, selectedId],
   )
 
-  const flash = useCallback((message: string) => {
+  useEffect(() => {
+    savePersisted({ jobs, alerts, role, tab, selectedId, darkMode })
+    writeDeepLink({ role, tab, job: selectedId, fallback: riveFailed })
+  }, [jobs, alerts, role, tab, selectedId, darkMode, riveFailed])
+
+  const flash = useCallback((message: string, undoable = false) => {
     setToast(message)
+    setCanUndo(undoable)
     setBurst((value) => value + 1)
+    window.clearTimeout(toastTimer.current)
+    toastTimer.current = window.setTimeout(() => {
+      setToast('')
+      setCanUndo(false)
+    }, 4200)
   }, [])
 
+  const snapshot = useCallback(() => {
+    undo.current = { jobs, alerts }
+  }, [jobs, alerts])
+
+  const onUndo = useCallback(() => {
+    if (!undo.current) return
+    setJobs(undo.current.jobs)
+    setAlerts(undo.current.alerts)
+    undo.current = null
+    flash('Undone')
+  }, [flash])
+
   const onSelect = useCallback((id: string) => {
-    const job = jobs.find((item) => item.id === id)
-    if (!job) return
-    setSelectedId(id)
-    setToast(`${job.customerName} · ${job.title}`)
+    if (jobs.some((item) => item.id === id)) setSelectedId(id)
   }, [jobs])
 
   const onSelectJobIndex = useCallback((index: number) => {
-    const list = jobsForLens(jobs, homeLens(role), tab === 'alerts' ? 'jobs' : tab)
-    if (list[index]) onSelect(list[index].id)
+    const list = tab === 'home' ? jobsForLens(jobs, homeLens(role), 'home') : jobs
+    if (list[index]) {
+      onSelect(list[index].id)
+      setSheetOpen(true)
+    }
   }, [jobs, role, tab, onSelect])
 
   const onRole = useCallback((next: StaffRole) => {
     setRole(next)
-    const seat = SEATS.find((item) => item.role === next)
     const lens = homeLens(next)
-    const visible = jobsForLens(jobs, lens, 'home')
-    if (visible.length && !visible.some((job) => job.id === selectedId)) {
-      setSelectedId(visible[0].id)
-    }
+    const featured = featuredJob(jobs, lens, next)
+    if (featured) setSelectedId(featured.id)
     setTab('home')
     setMoreRoute(null)
-    setToast(`Demo role · ${seat?.name} · ${ROLE_LABEL[next]}`)
-  }, [jobs, selectedId])
+    setSheetOpen(false)
+    flash(`${SEATS.find((seat) => seat.role === next)?.name} · ${ROLE_LABEL[next]}`)
+  }, [jobs, flash])
 
   const onTab = useCallback((next: Tab) => {
     if (next === 'more' && tab === 'more' && moreRoute) {
@@ -93,66 +141,57 @@ export default function App() {
     }
     setTab(next)
     if (next !== 'more') setMoreRoute(null)
+    setSheetOpen(false)
   }, [tab, moreRoute])
 
-  const onTabIndex = useCallback((index: number) => {
-    onTab(tabByIndex(index))
-  }, [onTab])
-
-  const onCreate = useCallback((kind: 'estimate' | 'service') => {
-    const job = createJob(kind, jobs.length + 1, role)
+  const onCreate = useCallback((lane: CreateLane) => {
+    if (lane.action === 'stub') {
+      if (lane.route === 'jobs') {
+        setTab('jobs')
+        return
+      }
+      setTab('more')
+      setMoreRoute(lane.route ?? null)
+      return
+    }
+    snapshot()
+    const job = createFromLane(lane.action, jobs.length + 1, role)
+    if (!job) return
     setJobs((current) => [job, ...current])
     setSelectedId(job.id)
     setTab('jobs')
-    flash(`Created ${kind} · ${job.customerName}`)
-  }, [jobs.length, role, flash])
+    setSheetOpen(true)
+    flash(createdToast(lane.action), true)
+  }, [jobs.length, role, flash, snapshot])
 
   const onPrimary = useCallback(() => {
-    if (tab === 'create') {
-      onCreate('estimate')
+    const target = tab === 'home' && !sheetOpen
+      ? featuredJob(jobs, homeLens(role), role) ?? selected
+      : selected
+    if (!target) return
+    const cta = jobCta(target, role)
+    if (cta.disabled) {
+      flash(cta.reason)
       return
     }
-    if (tab === 'more') {
-      setMoreRoute(null)
-      setTab('jobs')
-      return
-    }
-    if (!selected) return
-    const result = applyPrimary(selected, role)
+    snapshot()
+    const result = applyPrimary(target, role)
     setJobs((current) => current.map((job) => (job.id === result.job.id ? result.job : job)))
+    setSelectedId(result.job.id)
     if (result.alert) {
       setAlerts((current) => [result.alert!, ...current.filter((item) => item.id !== result.alert!.id)])
     }
-    flash(result.toast)
-  }, [selected, role, flash, tab, onCreate])
+    flash(result.toast, true)
+  }, [selected, role, flash, snapshot, tab, sheetOpen, jobs])
 
-  const onSecondary = useCallback(() => {
-    if (tab === 'create') {
-      onCreate('service')
-      return
-    }
-    if (tab === 'more' && moreRoute) {
-      setMoreRoute(null)
-      return
-    }
+  const onOverflow = useCallback((action: string) => {
     if (!selected) return
-    const cta = jobCta(selected, role)
-    if (selected.step === 'progress') {
-      const alert: Alert = {
-        id: `shout-${selected.id}`,
-        title: 'Office shout',
-        detail: `${selected.customerName} · need help on site`,
-        kind: 'shout',
-        jobId: selected.id,
-        unread: true,
-      }
-      setAlerts((current) => [alert, ...current.filter((item) => item.id !== alert.id)])
-      setTab('alerts')
-      flash(`Shout sent · ${selected.customerName}`)
-      return
+    snapshot()
+    if (action === 'Note') {
+      setJobs((current) => current.map((job) => (job.id === selected.id ? { ...job, note: 'Note saved' } : job)))
     }
-    flash(cta.secondary)
-  }, [tab, moreRoute, selected, role, onCreate, flash])
+    flash(action, true)
+  }, [selected, flash, snapshot])
 
   const onSelectMoreIndex = useCallback((index: number) => {
     const groups = groupedMoreNav(role).flatMap((group) => group.items)
@@ -169,31 +208,14 @@ export default function App() {
   const showRive = !riveFailed
   const list = jobsForLens(jobs, homeLens(role), tab === 'home' || tab === 'jobs' ? tab : 'jobs')
   const kpis = deriveKpis(jobs)
-  const widgets = homeWidgets(jobs, homeLens(role))
+  const widgets = homeNextActions(jobs, homeLens(role))
 
   return (
     <div className={`app ${darkMode ? 'dark' : 'light'}`}>
       <div className="shell">
         <div className="status">
           <span>OdinOps</span>
-          <span className="status-actions">
-            <select
-              className="seat-select"
-              aria-label="Demo role"
-              value={role}
-              onChange={(event) => onRole(event.target.value as StaffRole)}
-            >
-              {SEATS.map((seat) => (
-                <option key={seat.id} value={seat.role}>
-                  {seat.name} · {ROLE_LABEL[seat.role]}
-                </option>
-              ))}
-            </select>
-            <button type="button" className="theme-toggle" onClick={() => setDarkMode((value) => !value)}>
-              {darkMode ? 'Light' : 'Dark'}
-            </button>
-            <span>{riveReady ? 'Rive WebGL2' : riveFailed ? 'HTML fallback' : 'Loading Rive…'}</span>
-          </span>
+          <span>{riveReady ? 'Rive' : riveFailed ? 'Live shell' : 'Loading…'}</span>
         </div>
         <div className="phone">
           {showRive && (
@@ -214,9 +236,9 @@ export default function App() {
               onError={() => setRiveFailed(true)}
               onSelectJobIndex={onSelectJobIndex}
               onSelectMoreIndex={onSelectMoreIndex}
-              onTabIndex={onTabIndex}
+              onTabIndex={(index) => onTab(tabByIndex(index))}
               onPrimary={onPrimary}
-              onSecondary={onSecondary}
+              onSecondary={() => undefined}
             />
           )}
           {riveFailed && (
@@ -228,15 +250,21 @@ export default function App() {
               tab={tab}
               moreRoute={moreRoute}
               toast={toast}
+              canUndo={canUndo}
               darkMode={darkMode}
+              sheetOpen={sheetOpen}
+              burst={burst > 0}
               onSelect={onSelect}
               onTab={onTab}
               onRole={onRole}
               onPrimary={onPrimary}
-              onSecondary={onSecondary}
+              onOverflow={onOverflow}
               onCreate={onCreate}
               onMore={setMoreRoute}
               onAck={onAck}
+              onUndo={onUndo}
+              onTheme={() => setDarkMode((value) => !value)}
+              onOpenSheet={setSheetOpen}
             />
           )}
           {showRive && !riveReady && !riveFailed && <div className="loading">Loading OdinOps…</div>}

@@ -2,13 +2,16 @@
   color-scheme: dark;
   --void: #0b0a14;
   --card: #15122c;
-  --navy: #1e1b4b;
-  --violet: #6d28d9;
-  --violet-soft: #a78bfa;
+  --violet: #6b3dff;
   --cyan: #2eebfa;
-  --cyan-soft: #22d3ee;
   --gold: #d4af37;
-  --paper: #f8fafc;
+  --teal: #2dd4bf;
+  --orange: #fb923c;
+  --inspection: #a78bfa;
+  --idle: #71717a;
+  --tab-idle: #a1a1aa;
+  --paper: #f4f4f5;
+  --dock: 3.5rem;
 }
 
 * {

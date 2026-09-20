@@ -33,7 +33,7 @@
         </LinearAnimation>
         <LinearAnimation duration="1" name="BtnPrimary" id="63:4">
             <KeyedObject objectId="63:12">
-                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF00E5FF" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold"/></KeyedProperty>
             </KeyedObject>
             <KeyedObject objectId="63:15">
                 <KeyedProperty propertyKey="37"><KeyFrameColor value="FF070612" interpolationType="hold"/></KeyedProperty>
