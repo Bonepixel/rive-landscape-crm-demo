@@ -93,6 +93,10 @@ type Props = {
   toast: string
   darkMode: boolean
   burst: number
+  booting: boolean
+  empty: { title: string; body: string } | null
+  confetti: number
+  alertSpark: number
   onReady: () => void
   onError: () => void
   onSelectJobIndex: (index: number) => void
@@ -115,6 +119,10 @@ export function AppRive({
   toast,
   darkMode,
   burst,
+  booting,
+  empty,
+  confetti,
+  alertSpark,
   onReady,
   onError,
   onSelectJobIndex,
@@ -184,6 +192,20 @@ export function AppRive({
     }
   }, [burst, vmi])
 
+  const lastConfetti = useRef(0)
+  useEffect(() => {
+    if (!vmi || confetti === 0 || confetti === lastConfetti.current) return
+    lastConfetti.current = confetti
+    vmi.trigger('fireConfetti')?.trigger()
+  }, [confetti, vmi])
+
+  const lastAlert = useRef(0)
+  useEffect(() => {
+    if (!vmi || alertSpark === 0 || alertSpark === lastAlert.current) return
+    lastAlert.current = alertSpark
+    vmi.trigger('fireAlertSpark')?.trigger()
+  }, [alertSpark, vmi])
+
   useEffect(() => {
     if (!rive || !vmi) return
 
@@ -196,13 +218,18 @@ export function AppRive({
     const selectedIndexValue = Math.max(0, listJobs.findIndex((job) => job.id === selectedId))
     const lanes = createLanes(role)
 
-    writeString(vmi, 'businessName', seat?.name ?? 'OdinOps')
+    writeString(vmi, 'businessName', 'OdinOps')
     writeString(vmi, 'subtitle', `${ORG} · ${seat?.name.split(' ')[0] ?? ''}`)
     writeString(vmi, 'toast', toast)
     writeString(vmi, 'panelTitle', tab === 'alerts' ? 'Alerts' : tab === 'create' ? 'What do you want?' : tab === 'more' ? 'More' : homeTitle(lens))
     writeString(vmi, 'panelHint', tab === 'home' ? HOME_DATE_LINE : tab === 'create' ? 'Estimate sells. Service finishes.' : `/${tab}`)
     writeString(vmi, 'pipelineValue', widgets.map((widget) => `${widget.label} ${widget.count}`).join(' · '))
     writeBool(vmi, 'darkMode', darkMode)
+    writeBool(vmi, 'booting', booting)
+    writeBool(vmi, 'toastOn', Boolean(toast))
+    writeBool(vmi, 'emptyVisible', Boolean(empty))
+    writeString(vmi, 'emptyTitle', empty?.title ?? '')
+    writeString(vmi, 'emptyHint', empty?.body ?? '')
     writeNumber(vmi, 'roleIndex', tabIndex(tab))
     writeNumber(vmi, 'selectedIndex', tab === 'more' || tab === 'alerts' || tab === 'create' ? -1 : selectedIndexValue)
 
@@ -298,6 +325,7 @@ export function AppRive({
               status: flowLabel(job),
               color: kindArgb(job),
               selected: job.id === selectedId,
+              dimmed: job.step === 'complete',
             }))
 
     syncList(rive, vmi, 'jobs', 'Job', rows.length, (instance, index) => {
@@ -308,6 +336,7 @@ export function AppRive({
       writeString(instance, 'status', job.status)
       writeBool(instance, 'selected', job.selected)
       writeColor(instance, 'chipColor', job.color)
+      writeBool(instance, 'dimmed', 'dimmed' in job && Boolean(job.dimmed))
     })
 
     const tiles = tab === 'home'
@@ -340,6 +369,8 @@ export function AppRive({
     moreRoute,
     toast,
     darkMode,
+    booting,
+    empty,
     listJobs,
     moreItems,
   ])

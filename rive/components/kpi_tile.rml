@@ -1,6 +1,6 @@
 <Rive version="1" kind="fragment">
     <Artboard isComponent="true" defaultStateMachineId="62:5" viewModelId="42:1" viewModelInstanceId="42:20"
-              clip="true" x="420" y="140" width="358" height="68" styleId="62:2" name="KpiTile" id="62:1">
+              clip="false" x="420" y="140" width="358" height="68" styleId="62:2" name="KpiTile" id="62:1">
         <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed" name="Kpi Style" id="62:2"/>
         <Fill name="Clear"><SolidColor colorValue="00000000" name="C"/></Fill>
 
@@ -11,8 +11,17 @@
                                   paddingRight="14" paddingRightUnitsValue="points"
                                   gapHorizontal="12" gapHorizontalUnitsValue="points"
                                   cornerRadiusTL="16" name="Tile Style" id="62:11"/>
-            <Fill name="TileFill"><SolidColor colorValue="FF1E1548" name="C"/></Fill>
-            <Stroke thickness="1.5" name="TileEdge">
+            <Fill name="TileFill">
+                <LinearGradient startX="0" startY="0" endX="60" endY="68" name="TileKey">
+                    <GradientStop colorValue="FF221C42" position="0"/>
+                    <GradientStop colorValue="FF15122C" position="1"/>
+                </LinearGradient>
+            </Fill>
+            <Stroke thickness="3" name="TileFeather">
+                <SolidColor colorValue="16FFFFFF" name="C"/>
+                <Feather strength="6" offsetX="-2" offsetY="-3" name="TopLight"/>
+            </Stroke>
+            <Stroke thickness="1.15" name="TileEdge">
                 <SolidColor colorValue="0000E5FF" name="C" id="62:14"/>
             </Stroke>
             <LayoutComponent width="10" height="40" styleId="62:21" name="Accent" id="62:20">
@@ -23,6 +32,12 @@
                         <DataBindContext sourcePathIds="42:1-42:4" propertyKey="37"/>
                     </SolidColor>
                 </Fill>
+                <Stroke thickness="5" name="AccentGlow">
+                    <SolidColor colorValue="552EEBFA" name="C">
+                        <DataBindContext sourcePathIds="42:1-42:4" propertyKey="37"/>
+                    </SolidColor>
+                    <Feather strength="7" name="AccentFeather"/>
+                </Stroke>
             </LayoutComponent>
             <LayoutComponent width="0" height="0" styleId="62:31" name="Copy" id="62:30">
                 <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="hug"
@@ -57,33 +72,33 @@
                 <KeyedProperty propertyKey="17"><KeyFrameDouble value="1" interpolationType="hold"/></KeyedProperty>
             </KeyedObject>
             <KeyedObject objectId="62:14">
-                <KeyedProperty propertyKey="37"><KeyFrameColor value="0000E5FF" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="14FFFFFF" interpolationType="hold"/></KeyedProperty>
             </KeyedObject>
         </LinearAnimation>
         <LinearAnimation duration="18" name="KpiTick" id="62:4">
             <KeyedObject objectId="62:10">
                 <KeyedProperty propertyKey="16">
                     <KeyFrameDouble value="1" interpolationType="cubic" frame="0"/>
-                    <KeyFrameDouble value="1.06" interpolationType="cubic" frame="7"/>
+                    <KeyFrameDouble value="1.04" interpolationType="cubic" frame="7"/>
                     <KeyFrameDouble value="1" interpolationType="cubic" frame="18"/>
                 </KeyedProperty>
                 <KeyedProperty propertyKey="17">
                     <KeyFrameDouble value="1" interpolationType="cubic" frame="0"/>
-                    <KeyFrameDouble value="1.06" interpolationType="cubic" frame="7"/>
+                    <KeyFrameDouble value="1.04" interpolationType="cubic" frame="7"/>
                     <KeyFrameDouble value="1" interpolationType="cubic" frame="18"/>
                 </KeyedProperty>
             </KeyedObject>
             <KeyedObject objectId="62:14">
                 <KeyedProperty propertyKey="37">
-                    <KeyFrameColor value="0000E5FF" interpolationType="cubic" frame="0"/>
-                    <KeyFrameColor value="FF00E5FF" interpolationType="cubic" frame="7"/>
-                    <KeyFrameColor value="0000E5FF" interpolationType="cubic" frame="18"/>
+                    <KeyFrameColor value="14FFFFFF" interpolationType="cubic" frame="0"/>
+                    <KeyFrameColor value="FF2EEBFA" interpolationType="cubic" frame="7"/>
+                    <KeyFrameColor value="14FFFFFF" interpolationType="cubic" frame="18"/>
                 </KeyedProperty>
             </KeyedObject>
         </LinearAnimation>
         <LinearAnimation duration="1" name="KpiOn" id="62:6">
             <KeyedObject objectId="62:14">
-                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF00E5FF" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold"/></KeyedProperty>
             </KeyedObject>
         </LinearAnimation>
 

@@ -20,7 +20,7 @@ Deep link: `?role=sales&tab=home&job=maya`
 | More | drawer |
 | More items | `/invoices` `/customers` `/catalog` `/book` `/forms` `/reports` `/team` `/crews` `/sales` `/settings` |
 
-Dock is always **Home · Jobs · Create · Alerts · More**. Demo seat lives at the bottom of More.
+Dock is always **Home · Jobs · Create · Alerts · More**. Account switcher is **Switch account** at the bottom of More — visually quiet, no demo chrome.
 
 ## Role × home
 
@@ -61,7 +61,7 @@ Chooser page: **What do you want?** Role-filtered lanes — Lead / Estimate / Se
 5. Create: four primary lanes, not two fat tiles.
 6. Jobs: SegTabs All / Estimate / Job / Service / Inspection. Kind pins gold / teal / orange / violet.
 7. Alerts: unread cyan dock dot. Tap marks read.
-8. More → Demo seat. Reload: localStorage keeps jobs. `?role=worker&tab=home` deep-links.
+8. More → Switch account. Reload: localStorage keeps jobs. `?role=worker&tab=home` deep-links.
 
 ## Brand (FrozenV1)
 
@@ -69,10 +69,15 @@ void `#0B0A14` · card `#15122C` · cyan `#2EEBFA` · violet `#6B3DFF` · idle z
 Estimate gold `#D4AF37` · Job teal `#2DD4BF` · Service orange `#FB923C` · Inspection violet `#A78BFA`  
 Flat dock `3.5rem` + safe area. No raised Create FAB.
 
-## Rive
+## Rive · production craft
 
-Components: DockItem (cyan glow), JobRow, KpiTile / HomeWidget bind, PrimaryButton (breathe + burst), StatusPill, KindPin color on rows.  
-VMs: Session, Home, Job, Quote, Alert, Kpis. React store is source of truth. No Luau.
+Rive owns the pixels (WebGL2). React is store + data binding + routing. `?fallback=1` keeps the HTML shell.
+
+**Particle / light path: pure RML + Feather + state machines.** No Luau, no unsigned WGSL — web runtimes reject those. No `rive publish` / signing step. Particles are 16 / 12 / 6 / 5 feathered ellipses (CTA burst, deposit/close confetti, ambient dust, dock alert spark) driven by solos-free SM layers.
+
+Atmosphere: void `#0B0A14`, violet hero bloom, vignette, cyan iris breathe on the raven mark. Cards use top-left key light + feathered highlight. Press scale 0.97. Dock active springs 2px with cyan feather glow.
+
+Splash is a Rive overlay (`booting`) plus a short HTML shimmer until the `.riv` binds. Empty states are illustrated in-file. Vibration API fires 12ms on primary success.
 
 ## Local
 

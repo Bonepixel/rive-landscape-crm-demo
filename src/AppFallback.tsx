@@ -387,7 +387,7 @@ export function AppFallback({
                 {darkMode ? 'Light' : 'Dark'}
               </button>
             </div>
-            <p className="section-label">Demo seat</p>
+            <p className="section-label">Switch account</p>
             <button type="button" className="lane" onClick={() => setSeatsOpen((value) => !value)}>
               <span className="avatar">{initials(seat.name)}</span>
               <span className="copy">

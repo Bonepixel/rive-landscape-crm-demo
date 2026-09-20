@@ -10,6 +10,7 @@ import {
   createFromLane,
   createdToast,
   deriveKpis,
+  emptyCopy,
   featuredJob,
   groupedMoreNav,
   homeLens,
@@ -75,8 +76,12 @@ export default function App() {
   const [sheetOpen, setSheetOpen] = useState(false)
   const [riveReady, setRiveReady] = useState(false)
   const [riveFailed, setRiveFailed] = useState(initial.fallback)
+  const [booting, setBooting] = useState(true)
+  const [confetti, setConfetti] = useState(0)
+  const [alertSpark, setAlertSpark] = useState(0)
   const undo = useRef<{ jobs: Job[]; alerts: Alert[] } | null>(null)
   const toastTimer = useRef(0)
+  const alertCount = useRef(initial.alerts.length)
 
   const selected = useMemo(
     () => jobs.find((job) => job.id === selectedId) ?? jobs[0],
@@ -92,6 +97,9 @@ export default function App() {
     setToast(message)
     setCanUndo(undoable)
     setBurst((value) => value + 1)
+    if (message === 'Deposit paid' || message === 'Closed') {
+      setConfetti((value) => value + 1)
+    }
     window.clearTimeout(toastTimer.current)
     toastTimer.current = window.setTimeout(() => {
       setToast('')
@@ -181,6 +189,9 @@ export default function App() {
     if (result.alert) {
       setAlerts((current) => [result.alert!, ...current.filter((item) => item.id !== result.alert!.id)])
     }
+    if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+      navigator.vibrate(12)
+    }
     flash(result.toast, true)
   }, [selected, role, flash, snapshot, tab, sheetOpen, jobs])
 
@@ -205,10 +216,26 @@ export default function App() {
     setAlerts((current) => current.map((alert) => (alert.id === id ? { ...alert, unread: false } : alert)))
   }, [])
 
+  useEffect(() => {
+    if (alerts.length > alertCount.current) setAlertSpark((value) => value + 1)
+    alertCount.current = alerts.length
+  }, [alerts.length])
+
+  useEffect(() => {
+    if (!riveReady) return
+    const timer = window.setTimeout(() => setBooting(false), 900)
+    return () => window.clearTimeout(timer)
+  }, [riveReady])
+
   const showRive = !riveFailed
   const list = jobsForLens(jobs, homeLens(role), tab === 'home' || tab === 'jobs' ? tab : 'jobs')
   const kpis = deriveKpis(jobs)
   const widgets = homeNextActions(jobs, homeLens(role))
+  const empty = (
+    (tab === 'home' && list.length === 0)
+    || (tab === 'jobs' && list.length === 0)
+    || (tab === 'alerts' && alerts.length === 0)
+  ) ? emptyCopy(homeLens(role), tab) : null
 
   return (
     <div className={`app ${darkMode ? 'dark' : 'light'}`}>
@@ -232,6 +259,10 @@ export default function App() {
               toast={toast}
               darkMode={darkMode}
               burst={burst}
+              booting={booting}
+              empty={empty}
+              confetti={confetti}
+              alertSpark={alertSpark}
               onReady={() => setRiveReady(true)}
               onError={() => setRiveFailed(true)}
               onSelectJobIndex={onSelectJobIndex}
@@ -267,7 +298,13 @@ export default function App() {
               onOpenSheet={setSheetOpen}
             />
           )}
-          {showRive && !riveReady && !riveFailed && <div className="loading">Loading OdinOps…</div>}
+          {showRive && !riveReady && !riveFailed && (
+            <div className="boot">
+              <img className="boot-mark" src={`${import.meta.env.BASE_URL}brand/odinops-mark.png`} alt="" />
+              <span>OdinOps</span>
+              <i className="boot-shimmer" />
+            </div>
+          )}
         </div>
       </div>
     </div>
