@@ -162,7 +162,6 @@ export function AppRive({
 
   const vmi = rive?.viewModelInstance ?? null
   const { value: selectedIndex } = useViewModelInstanceNumber('selectedIndex', vmi)
-  const { value: nextTabIndex } = useViewModelInstanceNumber('roleIndex', vmi)
 
   useViewModelInstanceTrigger('primaryBtn/fire', vmi, {
     onTrigger: () => {
@@ -223,22 +222,8 @@ export function AppRive({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIndex])
 
-  const lastHeardTab = useRef<number | null>(null)
-  useEffect(() => {
-    if (nextTabIndex == null || Number.isNaN(nextTabIndex)) return
-    const index = Math.round(nextTabIndex)
-    if (lastHeardTab.current === null) {
-      lastHeardTab.current = index
-      return
-    }
-    if (lastHeardTab.current === index) return
-    lastHeardTab.current = index
-    if (DOCK[index] && DOCK[index].id !== tab) {
-      ignoreWriteUntil.current = performance.now() + 280
-      onDebug(`tab=${DOCK[index].id} (rive)`)
-      onTab(DOCK[index].id)
-    }
-  }, [nextTabIndex, tab, onTab, onDebug])
+  // Do not subscribe roleIndex → onTab. Nested dock clicks are flaky on
+  // WebGL2, and the stale VM value snaps HTML dock taps back to Home.
 
   const lastRole = useRef<StaffRole | null>(null)
   useEffect(() => {
@@ -464,7 +449,6 @@ export function AppRive({
         debug={debug}
         onTab={(next) => {
           ignoreWriteUntil.current = performance.now() + 800
-          lastHeardTab.current = tabIndex(next)
           onDebug(`tab=${next}`)
           onTab(next)
         }}
