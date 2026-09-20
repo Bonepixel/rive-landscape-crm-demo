@@ -60,22 +60,10 @@
   height: 100%;
 }
 
-.hit-layer,
-.hit-frame {
+.hit-layer {
   position: absolute;
   inset: 0;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.hit-frame {
-  inset: auto;
-  overflow: hidden;
-}
-
-.hit-artboard {
-  position: relative;
-  transform-origin: top left;
+  z-index: 20;
   pointer-events: none;
 }
 
@@ -86,6 +74,10 @@
 }
 
 .hit-list {
+  left: 4%;
+  right: 4%;
+  top: 17%;
+  height: 46%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -118,6 +110,11 @@
 }
 
 .hit-actions {
+  left: 4%;
+  right: 4%;
+  bottom: 11%;
+  height: 8%;
+  min-height: 48px;
   display: flex;
   gap: 8px;
   pointer-events: auto;
@@ -130,6 +127,11 @@
 }
 
 .hit-dock {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 11%;
+  min-height: 56px;
   display: flex;
   pointer-events: auto;
 }

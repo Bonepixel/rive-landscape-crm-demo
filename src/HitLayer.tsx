@@ -8,30 +8,6 @@ export type BridgeRow =
   | { type: 'more'; id: string; label: string }
   | { type: 'seat'; id: string; label: string }
 
-type Frame = { left: number; top: number; width: number; height: number; scale: number }
-
-function contain(width: number, height: number, artW = 390, artH = 844): Frame {
-  const scale = Math.min(width / artW, height / artH)
-  const drawnW = artW * scale
-  const drawnH = artH * scale
-  return {
-    left: (width - drawnW) / 2,
-    top: (height - drawnH) / 2,
-    width: drawnW,
-    height: drawnH,
-    scale,
-  }
-}
-
-function box(frame: Frame, x: number, y: number, w: number, h: number) {
-  return {
-    left: x * frame.scale,
-    top: y * frame.scale,
-    width: w * frame.scale,
-    height: h * frame.scale,
-  }
-}
-
 type Props = {
   tab: Tab
   rows: BridgeRow[]
@@ -41,6 +17,10 @@ type Props = {
   onPrimary: () => void
   onSecondary: () => void
   onRow: (row: BridgeRow) => void
+}
+
+function usable(rect: DOMRect | undefined) {
+  return Boolean(rect && rect.width >= 32 && rect.height >= 64)
 }
 
 export function HitLayer({
@@ -54,38 +34,40 @@ export function HitLayer({
   onRow,
 }: Props) {
   const host = useRef<HTMLDivElement>(null)
-  const [frame, setFrame] = useState<Frame | null>(null)
+  const [ready, setReady] = useState(false)
 
   useEffect(() => {
     const node = host.current
     if (!node) return
     const parent = node.parentElement
     if (!parent) return
+
+    let raf = 0
     const update = () => {
       const canvas = parent.querySelector('canvas')
-      const box = (canvas ?? parent).getBoundingClientRect()
-      setFrame(contain(box.width, box.height))
+      const canvasBox = canvas?.getBoundingClientRect()
+      const parentBox = parent.getBoundingClientRect()
+      setReady(usable(parentBox) || usable(canvasBox))
     }
+
     update()
+    raf = requestAnimationFrame(update)
     const observer = new ResizeObserver(update)
     observer.observe(parent)
     if (parent.querySelector('canvas')) observer.observe(parent.querySelector('canvas') as Element)
-    return () => observer.disconnect()
+    const timer = window.setInterval(update, 400)
+    return () => {
+      cancelAnimationFrame(raf)
+      observer.disconnect()
+      window.clearInterval(timer)
+    }
   }, [])
 
   return (
-    <div ref={host} className={`hit-layer ${debug ? 'debug' : ''}`} data-testid="hit-layer">
-      {frame && (
-        <div
-          className="hit-frame"
-          style={{
-            left: frame.left,
-            top: frame.top,
-            width: frame.width,
-            height: frame.height,
-          }}
-        >
-          <div className={`hit-list ${rows.length ? 'live' : 'idle'}`} role="list" style={box(frame, 16, 158, 358, 380)}>
+    <div ref={host} className={`hit-layer ${debug ? 'debug' : ''} ${ready ? 'ready' : ''}`} data-testid="hit-layer">
+      {ready && (
+        <>
+          <div className={`hit-list ${rows.length ? 'live' : 'idle'}`} role="list">
             {rows.map((row) => (
               <button
                 key={`${row.type}-${row.id}`}
@@ -93,19 +75,27 @@ export function HitLayer({
                 className="hit-row"
                 aria-label={row.label}
                 data-bridge={`${row.type}:${row.id}`}
-                onClick={() => onRow(row)}
+                onClick={(event) => {
+                  event.preventDefault()
+                  event.stopPropagation()
+                  onRow(row)
+                }}
               >
                 {debug ? row.label : ''}
               </button>
             ))}
           </div>
-          <div className="hit-actions" style={box(frame, 16, 668, 358, 52)}>
+          <div className="hit-actions">
             <button
               type="button"
               className="hit-cta"
               data-testid="hit-primary"
               aria-label={primaryLabel}
-              onClick={onPrimary}
+              onClick={(event) => {
+                event.preventDefault()
+                event.stopPropagation()
+                onPrimary()
+              }}
             >
               {debug ? primaryLabel : ''}
             </button>
@@ -114,12 +104,16 @@ export function HitLayer({
               className="hit-cta"
               data-testid="hit-secondary"
               aria-label="More actions"
-              onClick={onSecondary}
+              onClick={(event) => {
+                event.preventDefault()
+                event.stopPropagation()
+                onSecondary()
+              }}
             >
               {debug ? '···' : ''}
             </button>
           </div>
-          <nav className="hit-dock" aria-label="Primary" style={box(frame, 4, 768, 382, 72)}>
+          <nav className="hit-dock" aria-label="Primary">
             {DOCK.map((item) => (
               <button
                 key={item.id}
@@ -128,13 +122,17 @@ export function HitLayer({
                 aria-label={item.label}
                 aria-current={item.id === tab ? 'page' : undefined}
                 data-tab={item.id}
-                onClick={() => onTab(item.id)}
+                onClick={(event) => {
+                  event.preventDefault()
+                  event.stopPropagation()
+                  onTab(item.id)
+                }}
               >
                 {debug ? item.label : ''}
               </button>
             ))}
           </nav>
-        </div>
+        </>
       )}
     </div>
   )
