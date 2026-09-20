@@ -1,0 +1,532 @@
+<Rive version="1" kind="fragment">
+    <FontAsset file="Inter.ttf" name="Inter" id="10:1"/>
+
+    <ComponentAsset artboardId="60:1" name="JobCard" id="10:2"/>
+    <ComponentAsset artboardId="61:1" name="DockItem" id="10:3"/>
+    <ComponentAsset artboardId="62:1" name="KpiTile" id="10:4"/>
+    <ComponentAsset artboardId="63:1" name="ActionButton" id="10:5"/>
+    <ComponentAsset artboardId="64:1" name="StatusPill" id="10:6"/>
+    <ComponentAsset artboardId="65:1" name="DaySlot" id="10:7"/>
+    <ImageAsset file="brand/odinops-mark.png" name="LogoMark" id="10:8"/>
+
+    <DataConverterToString decimals="0" round="true" name="ToString" id="30:1"/>
+
+    <DataEnumCustom name="Role" id="20:1">
+        <DataEnumValue key="owner" value="Owner" id="20:2"/>
+        <DataEnumValue key="admin" value="Admin" id="20:3"/>
+        <DataEnumValue key="scheduling" value="Office" id="20:4"/>
+        <DataEnumValue key="sales" value="Sales lead" id="20:5"/>
+        <DataEnumValue key="foreman" value="Foreman" id="20:6"/>
+        <DataEnumValue key="worker" value="Worker" id="20:7"/>
+    </DataEnumCustom>
+
+    <DataEnumCustom name="JobStage" id="20:10">
+        <DataEnumValue key="request" value="Lead" id="20:11"/>
+        <DataEnumValue key="create" value="Draft" id="20:12"/>
+        <DataEnumValue key="awaiting" value="Awaiting deposit" id="20:13"/>
+        <DataEnumValue key="ready" value="Ready to schedule" id="20:14"/>
+        <DataEnumValue key="schedule" value="Unscheduled" id="20:15"/>
+        <DataEnumValue key="start" value="Scheduled" id="20:16"/>
+        <DataEnumValue key="progress" value="In progress" id="20:17"/>
+        <DataEnumValue key="workDone" value="Done" id="20:18"/>
+        <DataEnumValue key="complete" value="Closed" id="20:19"/>
+    </DataEnumCustom>
+
+    <ViewModel defaultInstanceId="40:20" name="Job" id="40:1">
+        <ViewModelPropertyString componentProps="1" name="customerName" id="40:2"/>
+        <ViewModelPropertyString componentProps="1" name="jobType" id="40:3"/>
+        <ViewModelPropertyString componentProps="1" name="estimate" id="40:4"/>
+        <ViewModelPropertyString componentProps="1" name="status" id="40:5"/>
+        <ViewModelPropertyBoolean componentProps="1" name="selected" id="40:6"/>
+        <ViewModelPropertyString componentProps="1" name="address" id="40:7"/>
+        <ViewModelPropertyColor componentProps="1" name="chipColor" id="40:8"/>
+        <ViewModelPropertySymbolListIndex symbolTypeValue="itemIndex" name="index" id="40:9"/>
+        <ViewModelPropertyBoolean componentProps="1" name="pressed" id="40:10"/>
+        <ViewModelPropertyBoolean componentProps="1" name="dimmed" id="40:11"/>
+
+        <ViewModelInstance exports="true" name="Default" id="40:20">
+            <ViewModelInstanceString propertyValue="Customer" viewModelPropertyId="40:2"/>
+            <ViewModelInstanceString propertyValue="Job" viewModelPropertyId="40:3"/>
+            <ViewModelInstanceString propertyValue="$0" viewModelPropertyId="40:4"/>
+            <ViewModelInstanceString propertyValue="New" viewModelPropertyId="40:5"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:6"/>
+            <ViewModelInstanceString propertyValue="Address" viewModelPropertyId="40:7"/>
+            <ViewModelInstanceColor propertyValue="FF00D4E8" viewModelPropertyId="40:8"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="40:9"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:10"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:11"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Maya" id="40:21">
+            <ViewModelInstanceString propertyValue="Maya Chen" viewModelPropertyId="40:2"/>
+            <ViewModelInstanceString propertyValue="Lawn install" viewModelPropertyId="40:3"/>
+            <ViewModelInstanceString propertyValue="$8,400" viewModelPropertyId="40:4"/>
+            <ViewModelInstanceString propertyValue="Draft" viewModelPropertyId="40:5"/>
+            <ViewModelInstanceBoolean propertyValue="true" viewModelPropertyId="40:6"/>
+            <ViewModelInstanceString propertyValue="214 Oak Lane" viewModelPropertyId="40:7"/>
+            <ViewModelInstanceColor propertyValue="FF7B5CFF" viewModelPropertyId="40:8"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="40:9"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:10"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:11"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Hale" id="40:22">
+            <ViewModelInstanceString propertyValue="Tom Hale" viewModelPropertyId="40:2"/>
+            <ViewModelInstanceString propertyValue="Irrigation retrofit" viewModelPropertyId="40:3"/>
+            <ViewModelInstanceString propertyValue="$6,250" viewModelPropertyId="40:4"/>
+            <ViewModelInstanceString propertyValue="Lead" viewModelPropertyId="40:5"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:6"/>
+            <ViewModelInstanceString propertyValue="15 Willow Ave" viewModelPropertyId="40:7"/>
+            <ViewModelInstanceColor propertyValue="FF00D4E8" viewModelPropertyId="40:8"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="40:9"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:10"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:11"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Rivera" id="40:23">
+            <ViewModelInstanceString propertyValue="Rivera Family" viewModelPropertyId="40:2"/>
+            <ViewModelInstanceString propertyValue="Hardscape patio" viewModelPropertyId="40:3"/>
+            <ViewModelInstanceString propertyValue="$21,750" viewModelPropertyId="40:4"/>
+            <ViewModelInstanceString propertyValue="Awaiting deposit" viewModelPropertyId="40:5"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:6"/>
+            <ViewModelInstanceString propertyValue="88 Cedar Court" viewModelPropertyId="40:7"/>
+            <ViewModelInstanceColor propertyValue="FFFF3D8A" viewModelPropertyId="40:8"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="40:9"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:10"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:11"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Patel" id="40:24">
+            <ViewModelInstanceString propertyValue="Patel Residence" viewModelPropertyId="40:2"/>
+            <ViewModelInstanceString propertyValue="Tree cleanup" viewModelPropertyId="40:3"/>
+            <ViewModelInstanceString propertyValue="$3,180" viewModelPropertyId="40:4"/>
+            <ViewModelInstanceString propertyValue="Ready to schedule" viewModelPropertyId="40:5"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:6"/>
+            <ViewModelInstanceString propertyValue="402 Maple Drive" viewModelPropertyId="40:7"/>
+            <ViewModelInstanceColor propertyValue="FFC6FF4D" viewModelPropertyId="40:8"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="40:9"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:10"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:11"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="June" id="40:25">
+            <ViewModelInstanceString propertyValue="June Okonkwo" viewModelPropertyId="40:2"/>
+            <ViewModelInstanceString propertyValue="Garden beds + mulch" viewModelPropertyId="40:3"/>
+            <ViewModelInstanceString propertyValue="$4,960" viewModelPropertyId="40:4"/>
+            <ViewModelInstanceString propertyValue="Scheduled" viewModelPropertyId="40:5"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:6"/>
+            <ViewModelInstanceString propertyValue="9 Birch Street" viewModelPropertyId="40:7"/>
+            <ViewModelInstanceColor propertyValue="FF6E4AFF" viewModelPropertyId="40:8"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="40:9"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:10"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="40:11"/>
+        </ViewModelInstance>
+    </ViewModel>
+
+    <ViewModel defaultInstanceId="41:20" name="RoleNav" id="41:1">
+        <ViewModelPropertyString componentProps="1" name="label" id="41:2"/>
+        <ViewModelPropertyBoolean componentProps="1" name="selected" id="41:3"/>
+        <ViewModelPropertyNumber componentProps="1" name="index" id="41:4"/>
+        <ViewModelPropertyBoolean componentProps="1" name="pressed" id="41:5"/>
+        <ViewModelInstance exports="true" name="Default" id="41:20">
+            <ViewModelInstanceString propertyValue="Role" viewModelPropertyId="41:2"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="41:3"/>
+            <ViewModelInstanceNumber propertyValue="0" viewModelPropertyId="41:4"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="41:5"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Home" id="41:21">
+            <ViewModelInstanceString propertyValue="Home" viewModelPropertyId="41:2"/>
+            <ViewModelInstanceBoolean propertyValue="true" viewModelPropertyId="41:3"/>
+            <ViewModelInstanceNumber propertyValue="0" viewModelPropertyId="41:4"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="41:5"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Jobs" id="41:22">
+            <ViewModelInstanceString propertyValue="Jobs" viewModelPropertyId="41:2"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="41:3"/>
+            <ViewModelInstanceNumber propertyValue="1" viewModelPropertyId="41:4"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="41:5"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Create" id="41:23">
+            <ViewModelInstanceString propertyValue="Create" viewModelPropertyId="41:2"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="41:3"/>
+            <ViewModelInstanceNumber propertyValue="2" viewModelPropertyId="41:4"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="41:5"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Alerts" id="41:24">
+            <ViewModelInstanceString propertyValue="Alerts" viewModelPropertyId="41:2"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="41:3"/>
+            <ViewModelInstanceNumber propertyValue="3" viewModelPropertyId="41:4"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="41:5"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="More" id="41:25">
+            <ViewModelInstanceString propertyValue="More" viewModelPropertyId="41:2"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="41:3"/>
+            <ViewModelInstanceNumber propertyValue="4" viewModelPropertyId="41:4"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="41:5"/>
+        </ViewModelInstance>
+    </ViewModel>
+
+    <ViewModel defaultInstanceId="42:20" name="KpiTile" id="42:1">
+        <ViewModelPropertyString componentProps="1" name="label" id="42:2"/>
+        <ViewModelPropertyString componentProps="1" name="value" id="42:3"/>
+        <ViewModelPropertyColor componentProps="1" name="accent" id="42:4"/>
+        <ViewModelPropertyBoolean componentProps="1" name="selected" id="42:5"/>
+        <ViewModelPropertyTrigger componentProps="1" name="tick" id="42:6"/>
+        <ViewModelPropertySymbolListIndex symbolTypeValue="itemIndex" name="index" id="42:7"/>
+        <ViewModelInstance exports="true" name="Default" id="42:20">
+            <ViewModelInstanceString propertyValue="KPI" viewModelPropertyId="42:2"/>
+            <ViewModelInstanceString propertyValue="0" viewModelPropertyId="42:3"/>
+            <ViewModelInstanceColor propertyValue="FF5B8C3E" viewModelPropertyId="42:4"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="42:5"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="42:6"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="42:7"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Open" id="42:21">
+            <ViewModelInstanceString propertyValue="Open jobs" viewModelPropertyId="42:2"/>
+            <ViewModelInstanceString propertyValue="4" viewModelPropertyId="42:3"/>
+            <ViewModelInstanceColor propertyValue="FF5B8C3E" viewModelPropertyId="42:4"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="42:5"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="42:6"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="42:7"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Won" id="42:22">
+            <ViewModelInstanceString propertyValue="Won value" viewModelPropertyId="42:2"/>
+            <ViewModelInstanceString propertyValue="$8.1k" viewModelPropertyId="42:3"/>
+            <ViewModelInstanceColor propertyValue="FF2A9D8F" viewModelPropertyId="42:4"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="42:5"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="42:6"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="42:7"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Booked" id="42:23">
+            <ViewModelInstanceString propertyValue="Scheduled" viewModelPropertyId="42:2"/>
+            <ViewModelInstanceString propertyValue="1" viewModelPropertyId="42:3"/>
+            <ViewModelInstanceColor propertyValue="FF3D7EA6" viewModelPropertyId="42:4"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="42:5"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="42:6"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="42:7"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Crew" id="42:24">
+            <ViewModelInstanceString propertyValue="Crews out" viewModelPropertyId="42:2"/>
+            <ViewModelInstanceString propertyValue="0" viewModelPropertyId="42:3"/>
+            <ViewModelInstanceColor propertyValue="FFC45C26" viewModelPropertyId="42:4"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="42:5"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="42:6"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="42:7"/>
+        </ViewModelInstance>
+    </ViewModel>
+
+    <ViewModel defaultInstanceId="43:20" name="Button" id="43:1">
+        <ViewModelPropertyString componentProps="1" name="label" id="43:2"/>
+        <ViewModelPropertyBoolean componentProps="1" name="primary" id="43:3"/>
+        <ViewModelPropertyBoolean componentProps="1" name="pressed" id="43:4"/>
+        <ViewModelPropertyTrigger componentProps="1" name="fire" id="43:5"/>
+        <ViewModelPropertyTrigger componentProps="1" name="success" id="43:6"/>
+        <ViewModelInstance exports="true" name="Default" id="43:20">
+            <ViewModelInstanceString propertyValue="Action" viewModelPropertyId="43:2"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="43:3"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="43:4"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="43:5"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="43:6"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Primary" id="43:21">
+            <ViewModelInstanceString propertyValue="New walk-in" viewModelPropertyId="43:2"/>
+            <ViewModelInstanceBoolean propertyValue="true" viewModelPropertyId="43:3"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="43:4"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="43:5"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="43:6"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Secondary" id="43:22">
+            <ViewModelInstanceString propertyValue="Send to sales" viewModelPropertyId="43:2"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="43:3"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="43:4"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="43:5"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="43:6"/>
+        </ViewModelInstance>
+    </ViewModel>
+
+    <ViewModel defaultInstanceId="44:20" name="Pill" id="44:1">
+        <ViewModelPropertyString componentProps="1" name="label" id="44:2"/>
+        <ViewModelPropertyColor componentProps="1" name="color" id="44:3"/>
+        <ViewModelPropertyTrigger componentProps="1" name="tick" id="44:4"/>
+        <ViewModelInstance exports="true" name="Default" id="44:20">
+            <ViewModelInstanceString propertyValue="Status" viewModelPropertyId="44:2"/>
+            <ViewModelInstanceColor propertyValue="FF5B8C3E" viewModelPropertyId="44:3"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="44:4"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Intake" id="44:21">
+            <ViewModelInstanceString propertyValue="1 intake" viewModelPropertyId="44:2"/>
+            <ViewModelInstanceColor propertyValue="FF6B8F71" viewModelPropertyId="44:3"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="44:4"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Sales" id="44:22">
+            <ViewModelInstanceString propertyValue="2 sales" viewModelPropertyId="44:2"/>
+            <ViewModelInstanceColor propertyValue="FFC47A3A" viewModelPropertyId="44:3"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="44:4"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Field" id="44:23">
+            <ViewModelInstanceString propertyValue="1 field" viewModelPropertyId="44:2"/>
+            <ViewModelInstanceColor propertyValue="FF3D7EA6" viewModelPropertyId="44:3"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="44:4"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Hold" id="44:24">
+            <ViewModelInstanceString propertyValue="0 hold" viewModelPropertyId="44:2"/>
+            <ViewModelInstanceColor propertyValue="FF4A7C59" viewModelPropertyId="44:3"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="44:4"/>
+        </ViewModelInstance>
+    </ViewModel>
+
+    <ViewModel defaultInstanceId="45:20" name="ScheduleDay" id="45:1">
+        <ViewModelPropertyString componentProps="1" name="day" id="45:2"/>
+        <ViewModelPropertyString componentProps="1" name="slot" id="45:3"/>
+        <ViewModelPropertyString componentProps="1" name="jobTitle" id="45:4"/>
+        <ViewModelPropertyString componentProps="1" name="crew" id="45:5"/>
+        <ViewModelPropertyBoolean componentProps="1" name="highlighted" id="45:6"/>
+        <ViewModelPropertyBoolean componentProps="1" name="selected" id="45:7"/>
+        <ViewModelPropertySymbolListIndex symbolTypeValue="itemIndex" name="index" id="45:8"/>
+        <ViewModelPropertyBoolean componentProps="1" name="pressed" id="45:9"/>
+        <ViewModelInstance exports="true" name="Default" id="45:20">
+            <ViewModelInstanceString propertyValue="Day" viewModelPropertyId="45:2"/>
+            <ViewModelInstanceString propertyValue="Slot" viewModelPropertyId="45:3"/>
+            <ViewModelInstanceString propertyValue="Open slot" viewModelPropertyId="45:4"/>
+            <ViewModelInstanceString propertyValue="Unassigned" viewModelPropertyId="45:5"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:6"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:7"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="45:8"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:9"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Mon" id="45:21">
+            <ViewModelInstanceString propertyValue="Mon" viewModelPropertyId="45:2"/>
+            <ViewModelInstanceString propertyValue="8:00–12:00" viewModelPropertyId="45:3"/>
+            <ViewModelInstanceString propertyValue="June Okonkwo · Garden beds" viewModelPropertyId="45:4"/>
+            <ViewModelInstanceString propertyValue="Luis + Ana" viewModelPropertyId="45:5"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:6"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:7"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="45:8"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:9"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Tue" id="45:22">
+            <ViewModelInstanceString propertyValue="Tue" viewModelPropertyId="45:2"/>
+            <ViewModelInstanceString propertyValue="8:00–12:00" viewModelPropertyId="45:3"/>
+            <ViewModelInstanceString propertyValue="Open slot" viewModelPropertyId="45:4"/>
+            <ViewModelInstanceString propertyValue="Unassigned" viewModelPropertyId="45:5"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:6"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:7"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="45:8"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:9"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Wed" id="45:23">
+            <ViewModelInstanceString propertyValue="Wed" viewModelPropertyId="45:2"/>
+            <ViewModelInstanceString propertyValue="12:00–4:00" viewModelPropertyId="45:3"/>
+            <ViewModelInstanceString propertyValue="Open slot" viewModelPropertyId="45:4"/>
+            <ViewModelInstanceString propertyValue="Unassigned" viewModelPropertyId="45:5"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:6"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:7"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="45:8"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:9"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Thu" id="45:24">
+            <ViewModelInstanceString propertyValue="Thu" viewModelPropertyId="45:2"/>
+            <ViewModelInstanceString propertyValue="8:00–12:00" viewModelPropertyId="45:3"/>
+            <ViewModelInstanceString propertyValue="Open slot" viewModelPropertyId="45:4"/>
+            <ViewModelInstanceString propertyValue="Unassigned" viewModelPropertyId="45:5"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:6"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:7"/>
+            <ViewModelInstanceSymbolListIndex viewModelPropertyId="45:8"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="45:9"/>
+        </ViewModelInstance>
+    </ViewModel>
+
+    <ViewModel defaultInstanceId="46:20" name="CrewMember" id="46:1">
+        <ViewModelPropertyString componentProps="1" name="name" id="46:2"/>
+        <ViewModelPropertyString componentProps="1" name="title" id="46:3"/>
+        <ViewModelPropertyBoolean componentProps="1" name="assigned" id="46:4"/>
+        <ViewModelInstance exports="true" name="Default" id="46:20">
+            <ViewModelInstanceString propertyValue="Crew" viewModelPropertyId="46:2"/>
+            <ViewModelInstanceString propertyValue="Role" viewModelPropertyId="46:3"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="46:4"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Luis" id="46:21">
+            <ViewModelInstanceString propertyValue="Luis Ortega" viewModelPropertyId="46:2"/>
+            <ViewModelInstanceString propertyValue="Crew lead" viewModelPropertyId="46:3"/>
+            <ViewModelInstanceBoolean propertyValue="true" viewModelPropertyId="46:4"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Ana" id="46:22">
+            <ViewModelInstanceString propertyValue="Ana Voss" viewModelPropertyId="46:2"/>
+            <ViewModelInstanceString propertyValue="Installer" viewModelPropertyId="46:3"/>
+            <ViewModelInstanceBoolean propertyValue="true" viewModelPropertyId="46:4"/>
+        </ViewModelInstance>
+        <ViewModelInstance exports="true" name="Drew" id="46:23">
+            <ViewModelInstanceString propertyValue="Drew Kim" viewModelPropertyId="46:2"/>
+            <ViewModelInstanceString propertyValue="Irrigation" viewModelPropertyId="46:3"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="46:4"/>
+        </ViewModelInstance>
+    </ViewModel>
+
+    <ViewModel defaultInstanceId="47:20" name="Session" id="47:1">
+        <ViewModelPropertyEnumCustom enumId="20:1" name="activeRole" id="47:2"/>
+        <ViewModelInstance exports="true" name="Default" id="47:20">
+            <ViewModelInstanceEnum propertyValue="20:2" viewModelPropertyId="47:2"/>
+        </ViewModelInstance>
+    </ViewModel>
+
+    <ViewModel defaultInstanceId="48:20" name="Pipeline" id="48:1">
+        <ViewModelPropertyString name="newCount" id="48:2"/>
+        <ViewModelPropertyString name="estimateCount" id="48:3"/>
+        <ViewModelPropertyString name="wonCount" id="48:4"/>
+        <ViewModelPropertyString name="scheduledCount" id="48:5"/>
+        <ViewModelInstance exports="true" name="Default" id="48:20">
+            <ViewModelInstanceString propertyValue="2" viewModelPropertyId="48:2"/>
+            <ViewModelInstanceString propertyValue="1" viewModelPropertyId="48:3"/>
+            <ViewModelInstanceString propertyValue="1" viewModelPropertyId="48:4"/>
+            <ViewModelInstanceString propertyValue="1" viewModelPropertyId="48:5"/>
+        </ViewModelInstance>
+    </ViewModel>
+
+    <ViewModel defaultInstanceId="49:20" name="Kpis" id="49:1">
+        <ViewModelPropertyString name="openJobs" id="49:2"/>
+        <ViewModelPropertyString name="wonValue" id="49:3"/>
+        <ViewModelPropertyString name="scheduled" id="49:4"/>
+        <ViewModelPropertyString name="crewOut" id="49:5"/>
+        <ViewModelPropertyString name="intakeToday" id="49:6"/>
+        <ViewModelInstance exports="true" name="Default" id="49:20">
+            <ViewModelInstanceString propertyValue="4" viewModelPropertyId="49:2"/>
+            <ViewModelInstanceString propertyValue="$8.1k" viewModelPropertyId="49:3"/>
+            <ViewModelInstanceString propertyValue="1" viewModelPropertyId="49:4"/>
+            <ViewModelInstanceString propertyValue="0" viewModelPropertyId="49:5"/>
+            <ViewModelInstanceString propertyValue="1" viewModelPropertyId="49:6"/>
+        </ViewModelInstance>
+    </ViewModel>
+
+    <ViewModel defaultInstanceId="51:20" name="Alert" id="51:1">
+        <ViewModelPropertyString name="title" id="51:2"/>
+        <ViewModelPropertyString name="detail" id="51:3"/>
+        <ViewModelPropertyString name="kind" id="51:4"/>
+        <ViewModelPropertyBoolean name="unread" id="51:5"/>
+        <ViewModelInstance exports="true" name="Default" id="51:20">
+            <ViewModelInstanceString propertyValue="You were put on a visit" viewModelPropertyId="51:2"/>
+            <ViewModelInstanceString propertyValue="June Okonkwo · Garden beds + mulch" viewModelPropertyId="51:3"/>
+            <ViewModelInstanceString propertyValue="assignment" viewModelPropertyId="51:4"/>
+            <ViewModelInstanceBoolean propertyValue="true" viewModelPropertyId="51:5"/>
+        </ViewModelInstance>
+    </ViewModel>
+
+    <ViewModel defaultInstanceId="52:20" name="Home" id="52:1">
+        <ViewModelPropertyString name="lens" id="52:2"/>
+        <ViewModelPropertyString name="title" id="52:3"/>
+        <ViewModelPropertyString name="subtitle" id="52:4"/>
+        <ViewModelInstance exports="true" name="Default" id="52:20">
+            <ViewModelInstanceString propertyValue="sales" viewModelPropertyId="52:2"/>
+            <ViewModelInstanceString propertyValue="Sales" viewModelPropertyId="52:3"/>
+            <ViewModelInstanceString propertyValue="Leads, estimates to write/send, awaiting deposit." viewModelPropertyId="52:4"/>
+        </ViewModelInstance>
+    </ViewModel>
+
+    <ViewModel defaultInstanceId="53:20" name="Quote" id="53:1">
+        <ViewModelPropertyString name="customerName" id="53:2"/>
+        <ViewModelPropertyString name="amount" id="53:3"/>
+        <ViewModelPropertyString name="step" id="53:4"/>
+        <ViewModelInstance exports="true" name="Default" id="53:20">
+            <ViewModelInstanceString propertyValue="Maya Chen" viewModelPropertyId="53:2"/>
+            <ViewModelInstanceString propertyValue="$8,400" viewModelPropertyId="53:3"/>
+            <ViewModelInstanceString propertyValue="Draft" viewModelPropertyId="53:4"/>
+        </ViewModelInstance>
+    </ViewModel>
+
+    <ViewModel defaultInstanceId="50:40" name="App" id="50:1">
+        <ViewModelPropertyString name="businessName" id="50:2"/>
+        <ViewModelPropertyString name="subtitle" id="50:3"/>
+        <ViewModelPropertyString name="toast" id="50:4"/>
+        <ViewModelPropertyString name="panelTitle" id="50:5"/>
+        <ViewModelPropertyString name="panelHint" id="50:6"/>
+        <ViewModelPropertyNumber name="selectedIndex" id="50:7"/>
+        <ViewModelPropertyNumber name="roleIndex" id="50:8"/>
+        <ViewModelPropertyString name="pipelineValue" id="50:9"/>
+        <ViewModelPropertyString name="heroName" id="50:10"/>
+        <ViewModelPropertyString name="heroJob" id="50:11"/>
+        <ViewModelPropertyString name="heroMeta" id="50:12"/>
+        <ViewModelPropertyString name="heroNext" id="50:13"/>
+        <ViewModelPropertyString name="heroChip" id="50:14"/>
+        <ViewModelPropertyColor name="heroChipColor" id="50:15"/>
+        <ViewModelPropertyList name="jobs" id="50:16"/>
+        <ViewModelPropertyList name="days" id="50:17"/>
+        <ViewModelPropertyList name="kpis" id="50:18"/>
+        <ViewModelPropertyList name="pills" id="50:19"/>
+        <ViewModelPropertyList name="crew" id="50:20"/>
+        <ViewModelPropertyViewModel viewModelReferenceId="47:1" name="session" id="50:21"/>
+        <ViewModelPropertyViewModel viewModelReferenceId="48:1" name="pipeline" id="50:22"/>
+        <ViewModelPropertyViewModel viewModelReferenceId="49:1" name="kpisModel" id="50:23"/>
+        <ViewModelPropertyViewModel viewModelReferenceId="43:1" name="primaryBtn" id="50:24"/>
+        <ViewModelPropertyViewModel viewModelReferenceId="43:1" name="secondaryBtn" id="50:25"/>
+        <ViewModelPropertyTrigger name="fireSuccess" id="50:28"/>
+        <ViewModelPropertyTrigger name="roleSwitch" id="50:29"/>
+        <ViewModelPropertyNumber name="dayIndex" id="50:36"/>
+        <ViewModelPropertyViewModel viewModelReferenceId="41:1" name="navIntake" id="50:41"/>
+        <ViewModelPropertyViewModel viewModelReferenceId="41:1" name="navSales" id="50:42"/>
+        <ViewModelPropertyViewModel viewModelReferenceId="41:1" name="navScheduler" id="50:43"/>
+        <ViewModelPropertyViewModel viewModelReferenceId="41:1" name="navAdmin" id="50:44"/>
+        <ViewModelPropertyViewModel viewModelReferenceId="41:1" name="navOwner" id="50:45"/>
+        <ViewModelPropertyBoolean name="darkMode" id="50:48"/>
+        <ViewModelPropertyAssetImage name="logo" id="50:50"/>
+        <ViewModelPropertyViewModel viewModelReferenceId="52:1" name="home" id="50:51"/>
+        <ViewModelPropertyViewModel viewModelReferenceId="53:1" name="quote" id="50:52"/>
+        <ViewModelPropertyList name="alerts" id="50:53"/>
+        <ViewModelPropertyBoolean name="booting" id="50:54"/>
+        <ViewModelPropertyBoolean name="emptyVisible" id="50:55"/>
+        <ViewModelPropertyString name="emptyTitle" id="50:56"/>
+        <ViewModelPropertyString name="emptyHint" id="50:57"/>
+        <ViewModelPropertyTrigger name="fireConfetti" id="50:58"/>
+        <ViewModelPropertyTrigger name="fireAlertSpark" id="50:59"/>
+        <ViewModelPropertyBoolean name="toastOn" id="50:60"/>
+
+        <ViewModelInstance exports="true" name="Default" id="50:40">
+            <ViewModelInstanceString propertyValue="OdinOps" viewModelPropertyId="50:2"/>
+            <ViewModelInstanceString propertyValue="Sales lead · Drew Patel" viewModelPropertyId="50:3"/>
+            <ViewModelInstanceString propertyValue="Sales home — write Maya, then send" viewModelPropertyId="50:4"/>
+            <ViewModelInstanceString propertyValue="Sales" viewModelPropertyId="50:5"/>
+            <ViewModelInstanceString propertyValue="Leads, estimates to write/send, awaiting deposit." viewModelPropertyId="50:6"/>
+            <ViewModelInstanceNumber propertyValue="0" viewModelPropertyId="50:7"/>
+            <ViewModelInstanceNumber propertyValue="0" viewModelPropertyId="50:8"/>
+            <ViewModelInstanceString propertyValue="sales · Leads 1 · Estimates 1 · Awaiting deposit 1" viewModelPropertyId="50:9"/>
+            <ViewModelInstanceString propertyValue="Maya Chen" viewModelPropertyId="50:10"/>
+            <ViewModelInstanceString propertyValue="Estimate · Lawn install · $8,400" viewModelPropertyId="50:11"/>
+            <ViewModelInstanceString propertyValue="214 Oak Lane" viewModelPropertyId="50:12"/>
+            <ViewModelInstanceString propertyValue="Add line items, then send for e-sign and deposit" viewModelPropertyId="50:13"/>
+            <ViewModelInstanceString propertyValue="Draft" viewModelPropertyId="50:14"/>
+            <ViewModelInstanceColor propertyValue="FFD4AF37" viewModelPropertyId="50:15"/>
+            <ViewModelInstanceList viewModelPropertyId="50:16">
+                <ViewModelInstanceListItem viewModelId="40:1" viewModelInstanceId="40:21"/>
+                <ViewModelInstanceListItem viewModelId="40:1" viewModelInstanceId="40:22"/>
+            </ViewModelInstanceList>
+            <ViewModelInstanceList viewModelPropertyId="50:17"/>
+            <ViewModelInstanceList viewModelPropertyId="50:18"/>
+            <ViewModelInstanceList viewModelPropertyId="50:19"/>
+            <ViewModelInstanceList viewModelPropertyId="50:20">
+                <ViewModelInstanceListItem viewModelId="46:1" viewModelInstanceId="46:21"/>
+                <ViewModelInstanceListItem viewModelId="46:1" viewModelInstanceId="46:22"/>
+                <ViewModelInstanceListItem viewModelId="46:1" viewModelInstanceId="46:23"/>
+            </ViewModelInstanceList>
+            <ViewModelInstanceViewModel propertyValue="47:20" viewModelPropertyId="50:21"/>
+            <ViewModelInstanceViewModel propertyValue="48:20" viewModelPropertyId="50:22"/>
+            <ViewModelInstanceViewModel propertyValue="49:20" viewModelPropertyId="50:23"/>
+            <ViewModelInstanceViewModel propertyValue="43:21" viewModelPropertyId="50:24"/>
+            <ViewModelInstanceViewModel propertyValue="43:22" viewModelPropertyId="50:25"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="50:28"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="50:29"/>
+            <ViewModelInstanceNumber propertyValue="0" viewModelPropertyId="50:36"/>
+            <ViewModelInstanceViewModel propertyValue="41:21" viewModelPropertyId="50:41"/>
+            <ViewModelInstanceViewModel propertyValue="41:22" viewModelPropertyId="50:42"/>
+            <ViewModelInstanceViewModel propertyValue="41:23" viewModelPropertyId="50:43"/>
+            <ViewModelInstanceViewModel propertyValue="41:24" viewModelPropertyId="50:44"/>
+            <ViewModelInstanceViewModel propertyValue="41:25" viewModelPropertyId="50:45"/>
+            <ViewModelInstanceBoolean propertyValue="true" viewModelPropertyId="50:48"/>
+            <ViewModelInstanceAssetImage propertyValue="10:8" viewModelPropertyId="50:50"/>
+            <ViewModelInstanceViewModel propertyValue="52:20" viewModelPropertyId="50:51"/>
+            <ViewModelInstanceViewModel propertyValue="53:20" viewModelPropertyId="50:52"/>
+            <ViewModelInstanceList viewModelPropertyId="50:53">
+                <ViewModelInstanceListItem viewModelId="51:1" viewModelInstanceId="51:20"/>
+            </ViewModelInstanceList>
+            <ViewModelInstanceBoolean propertyValue="true" viewModelPropertyId="50:54"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="50:55"/>
+            <ViewModelInstanceString propertyValue="Queue is clear" viewModelPropertyId="50:56"/>
+            <ViewModelInstanceString propertyValue="When a job is ready, it lands here." viewModelPropertyId="50:57"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="50:58"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="50:59"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="50:60"/>
+        </ViewModelInstance>
+    </ViewModel>
+</Rive>

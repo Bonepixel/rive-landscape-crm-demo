@@ -1,0 +1,170 @@
+<Rive version="1" kind="fragment">
+    <Artboard isComponent="true" defaultStateMachineId="62:5" viewModelId="42:1" viewModelInstanceId="42:20"
+              clip="false" x="420" y="140" width="358" height="68" styleId="62:2" name="KpiTile" id="62:1">
+        <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed" name="Kpi Style" id="62:2"/>
+        <Fill name="Clear"><SolidColor colorValue="00000000" name="C"/></Fill>
+
+        <LayoutComponent width="358" height="68" styleId="62:11" name="Tile" id="62:10">
+            <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed"
+                                  flexDirectionValue="row" layoutAlignmentType="centerLeft"
+                                  paddingLeft="14" paddingLeftUnitsValue="points"
+                                  paddingRight="14" paddingRightUnitsValue="points"
+                                  gapHorizontal="12" gapHorizontalUnitsValue="points"
+                                  cornerRadiusTL="16" name="Tile Style" id="62:11"/>
+            <Fill name="TileFill">
+                <LinearGradient startX="0" startY="0" endX="60" endY="68" name="TileKey">
+                    <GradientStop colorValue="FF221C42" position="0"/>
+                    <GradientStop colorValue="FF15122C" position="1"/>
+                </LinearGradient>
+            </Fill>
+            <Stroke thickness="3" name="TileFeather">
+                <SolidColor colorValue="16FFFFFF" name="C"/>
+                <Feather strength="6" offsetX="-2" offsetY="-3" name="TopLight"/>
+            </Stroke>
+            <Stroke thickness="1.15" name="TileEdge">
+                <SolidColor colorValue="0000E5FF" name="C" id="62:14"/>
+            </Stroke>
+            <LayoutComponent width="10" height="40" styleId="62:21" name="Accent" id="62:20">
+                <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed"
+                                      cornerRadiusTL="6" name="Accent Style" id="62:21"/>
+                <Fill name="AccentFill">
+                    <SolidColor colorValue="FF5B8C3E" name="C">
+                        <DataBindContext sourcePathIds="42:1-42:4" propertyKey="37"/>
+                    </SolidColor>
+                </Fill>
+                <Stroke thickness="5" name="AccentGlow">
+                    <SolidColor colorValue="552EEBFA" name="C">
+                        <DataBindContext sourcePathIds="42:1-42:4" propertyKey="37"/>
+                    </SolidColor>
+                    <Feather strength="7" name="AccentFeather"/>
+                </Stroke>
+            </LayoutComponent>
+            <LayoutComponent width="0" height="0" styleId="62:31" name="Copy" id="62:30">
+                <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="hug"
+                                      flexDirectionValue="column" layoutAlignmentType="centerLeft"
+                                      gapVertical="2" gapVerticalUnitsValue="points" name="Copy Style" id="62:31"/>
+                <Text name="Label" id="62:32">
+                    <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="LL"/>
+                    <TextStylePaint fontSize="12" fontAssetId="10:1" name="LS" id="62:33">
+                        <Fill name="F"><SolidColor colorValue="FF5CFFF1" name="C"/></Fill>
+                        <TextStyleAxis tag="2003265652" axisValue="600" name="Weight"/>
+                    </TextStylePaint>
+                    <TextValueRun styleId="62:33" text="KPI" name="Run">
+                        <DataBindContext sourcePathIds="42:1-42:2" propertyKey="268"/>
+                    </TextValueRun>
+                </Text>
+                <Text name="Value" id="62:34">
+                    <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="VL"/>
+                    <TextStylePaint fontSize="22" fontAssetId="10:1" name="VS" id="62:35">
+                        <Fill name="F"><SolidColor colorValue="FFF4F1FF" name="C"/></Fill>
+                        <TextStyleAxis tag="2003265652" axisValue="700" name="Weight"/>
+                    </TextStylePaint>
+                    <TextValueRun styleId="62:35" text="0" name="Run">
+                        <DataBindContext sourcePathIds="42:1-42:3" propertyKey="268"/>
+                    </TextValueRun>
+                </Text>
+            </LayoutComponent>
+        </LayoutComponent>
+
+        <LinearAnimation duration="1" name="KpiRest" id="62:3">
+            <KeyedObject objectId="62:10">
+                <KeyedProperty propertyKey="16"><KeyFrameDouble value="1" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="17"><KeyFrameDouble value="1" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="62:14">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="14FFFFFF" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="18" name="KpiTick" id="62:4">
+            <KeyedObject objectId="62:10">
+                <KeyedProperty propertyKey="16">
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="1.04" interpolationType="cubic" frame="7"/>
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="18"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="17">
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="1.04" interpolationType="cubic" frame="7"/>
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="18"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="62:14">
+                <KeyedProperty propertyKey="37">
+                    <KeyFrameColor value="14FFFFFF" interpolationType="cubic" frame="0"/>
+                    <KeyFrameColor value="FF2EEBFA" interpolationType="cubic" frame="7"/>
+                    <KeyFrameColor value="14FFFFFF" interpolationType="cubic" frame="18"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="KpiOn" id="62:6">
+            <KeyedObject objectId="62:14">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+
+        <StateMachine name="KpiTile SM" id="62:5">
+            <StateMachineLayer name="Tick" id="62:40">
+                <AnyState x="200" y="-120"/>
+                <ExitState x="400" y="-120"/>
+                <EntryState><StateTransition stateToId="62:41"/></EntryState>
+                <AnimationState x="160" y="40" animationId="62:3" id="62:41">
+                    <StateTransition stateToId="62:42">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyTrigger>
+                                    <DataBindContext sourcePathIds="42:1-42:6" propertyKey="686"/>
+                                </BindablePropertyTrigger>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueTriggerComparator/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+                <AnimationState x="360" y="40" animationId="62:4" id="62:42">
+                    <StateTransition stateToId="62:41" duration="320"/>
+                </AnimationState>
+            </StateMachineLayer>
+            <StateMachineLayer name="Select" id="62:50">
+                <AnyState x="200" y="-120"/>
+                <ExitState x="400" y="-120"/>
+                <EntryState><StateTransition stateToId="62:51"/></EntryState>
+                <AnimationState x="160" y="40" animationId="62:3" id="62:51">
+                    <StateTransition stateToId="62:52" duration="140">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="42:1-42:5" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="true"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+                <AnimationState x="360" y="40" animationId="62:6" id="62:52">
+                    <StateTransition stateToId="62:51" duration="140">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="42:1-42:5" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="false"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+            </StateMachineLayer>
+            <StateMachineListenerSingle targetId="62:10" listenerTypeValue="click" name="PickKpi" id="62:60">
+                <ListenerViewModelChange>
+                    <BindablePropertyBoolean propertyValue="true">
+                        <DataBindContext sourcePathIds="42:1-42:5" propertyKey="634" direction="true"/>
+                    </BindablePropertyBoolean>
+                </ListenerViewModelChange>
+                <ListenerViewModelChange fromViewModelProperty="true" fromDataBindId="62:61">
+                    <BindablePropertyNumber>
+                        <DataBindContext sourcePathIds="42:1-42:7" propertyKey="636" id="62:61"/>
+                        <DataBindContext sourcePathIds="50:1-50:7" propertyKey="636" direction="true"/>
+                    </BindablePropertyNumber>
+                </ListenerViewModelChange>
+            </StateMachineListenerSingle>
+        </StateMachine>
+    </Artboard>
+</Rive>
