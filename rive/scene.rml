@@ -11,7 +11,7 @@
             </LinearGradient>
         </Fill>
 
-        <Shape x="195" y="210" name="VioletBloom" id="70:310" blendModeValue="screen">
+        <Shape x="195" y="210" name="VioletBloom" id="70:310" blendModeValue="screen" selectable="false">
             <Ellipse width="380" height="260" originX="0.5" originY="0.5" name="P"/>
             <Fill name="F">
                 <RadialGradient startX="0" startY="0" endX="170" endY="0">
@@ -24,7 +24,7 @@
                 <Feather strength="22" name="Feather"/>
             </Stroke>
         </Shape>
-        <Shape x="195" y="-20" name="VignetteTop" id="70:311">
+        <Shape x="195" y="-20" name="VignetteTop" id="70:311" selectable="false">
             <Ellipse width="520" height="180" originX="0.5" originY="0.5" name="P"/>
             <Fill name="F"><SolidColor colorValue="880B0A14" name="C"/></Fill>
             <Stroke thickness="40" name="G">
@@ -32,7 +32,7 @@
                 <Feather strength="28" name="Feather"/>
             </Stroke>
         </Shape>
-        <Shape x="195" y="860" name="VignetteBot" id="70:312">
+        <Shape x="195" y="860" name="VignetteBot" id="70:312" selectable="false">
             <Ellipse width="520" height="200" originX="0.5" originY="0.5" name="P"/>
             <Fill name="F"><SolidColor colorValue="AA0B0A14" name="C"/></Fill>
             <Stroke thickness="36" name="G">
@@ -41,7 +41,7 @@
             </Stroke>
         </Shape>
 
-        <Shape x="28" y="140" name="Dust0" id="70:841" blendModeValue="screen">
+        <Shape x="28" y="140" name="Dust0" id="70:841" blendModeValue="screen" selectable="false">
             <Ellipse width="3" height="3" originX="0.5" originY="0.5" name="P"/>
             <Fill name="F"><SolidColor colorValue="28C4B8FF" name="C"/></Fill>
             <Stroke thickness="4" name="G">
@@ -49,7 +49,7 @@
                 <Feather strength="9" name="Feather"/>
             </Stroke>
         </Shape>
-        <Shape x="86" y="233" name="Dust1" id="70:842" blendModeValue="screen">
+        <Shape x="86" y="233" name="Dust1" id="70:842" blendModeValue="screen" selectable="false">
             <Ellipse width="4" height="4" originX="0.5" originY="0.5" name="P"/>
             <Fill name="F"><SolidColor colorValue="28C4B8FF" name="C"/></Fill>
             <Stroke thickness="4" name="G">
@@ -57,7 +57,7 @@
                 <Feather strength="9" name="Feather"/>
             </Stroke>
         </Shape>
-        <Shape x="144" y="326" name="Dust2" id="70:843" blendModeValue="screen">
+        <Shape x="144" y="326" name="Dust2" id="70:843" blendModeValue="screen" selectable="false">
             <Ellipse width="3" height="3" originX="0.5" originY="0.5" name="P"/>
             <Fill name="F"><SolidColor colorValue="28C4B8FF" name="C"/></Fill>
             <Stroke thickness="4" name="G">
@@ -65,7 +65,7 @@
                 <Feather strength="9" name="Feather"/>
             </Stroke>
         </Shape>
-        <Shape x="202" y="419" name="Dust3" id="70:844" blendModeValue="screen">
+        <Shape x="202" y="419" name="Dust3" id="70:844" blendModeValue="screen" selectable="false">
             <Ellipse width="4" height="4" originX="0.5" originY="0.5" name="P"/>
             <Fill name="F"><SolidColor colorValue="28C4B8FF" name="C"/></Fill>
             <Stroke thickness="4" name="G">
@@ -73,7 +73,7 @@
                 <Feather strength="9" name="Feather"/>
             </Stroke>
         </Shape>
-        <Shape x="260" y="512" name="Dust4" id="70:845" blendModeValue="screen">
+        <Shape x="260" y="512" name="Dust4" id="70:845" blendModeValue="screen" selectable="false">
             <Ellipse width="3" height="3" originX="0.5" originY="0.5" name="P"/>
             <Fill name="F"><SolidColor colorValue="28C4B8FF" name="C"/></Fill>
             <Stroke thickness="4" name="G">
@@ -81,7 +81,7 @@
                 <Feather strength="9" name="Feather"/>
             </Stroke>
         </Shape>
-        <Shape x="318" y="605" name="Dust5" id="70:846" blendModeValue="screen">
+        <Shape x="318" y="605" name="Dust5" id="70:846" blendModeValue="screen" selectable="false">
             <Ellipse width="4" height="4" originX="0.5" originY="0.5" name="P"/>
             <Fill name="F"><SolidColor colorValue="28C4B8FF" name="C"/></Fill>
             <Stroke thickness="4" name="G">
@@ -109,7 +109,7 @@
                     <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed"
                                           cornerRadiusTL="22" name="Logo Style" id="70:31"/>
                     <Fill name="LogoFill"><SolidColor colorValue="FF1E1548" name="C" id="70:32"/></Fill>
-                    <Shape x="22" y="18" name="IrisGlow" id="70:340" blendModeValue="screen">
+                    <Shape x="22" y="18" name="IrisGlow" id="70:340" blendModeValue="screen" selectable="false">
                         <Ellipse width="16" height="16" originX="0.5" originY="0.5" name="P"/>
                         <Stroke thickness="6" name="G">
                             <SolidColor colorValue="882EEBFA" name="C" id="70:341"/>
@@ -207,14 +207,14 @@
                                       flexDirectionValue="column" layoutAlignmentType="topLeft"
                                       gapVertical="8" gapVerticalUnitsValue="points"
                                       name="ContentWell Style" id="70:81"/>
-                <LayoutComponent width="0" height="0" styleId="70:551" name="EmptyState" id="70:550">
+                <LayoutComponent width="0" height="0" styleId="70:551" name="EmptyState" id="70:550" selectable="false">
                     <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="hug"
                                           flexDirectionValue="column" layoutAlignmentType="center"
                                           paddingTop="18" paddingTopUnitsValue="points"
                                           paddingBottom="18" paddingBottomUnitsValue="points"
                                           gapVertical="8" gapVerticalUnitsValue="points"
                                           name="Empty Style" id="70:551"/>
-                    <LayoutComponent width="64" height="64" styleId="70:553" name="EmptyMark" id="70:552">
+                    <LayoutComponent width="64" height="64" styleId="70:553" name="EmptyMark" id="70:552" selectable="false">
                         <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed"
                                               layoutAlignmentType="center" cornerRadiusTL="32" name="EmptyMark Style" id="70:553"/>
                         <Fill name="EmptyWell"><SolidColor colorValue="FF15122C" name="C"/></Fill>
@@ -222,7 +222,7 @@
                             <SolidColor colorValue="442EEBFA" name="C"/>
                             <Feather strength="10" name="Feather"/>
                         </Stroke>
-                        <Shape x="32" y="30" name="EmptyEye" id="70:554" blendModeValue="screen">
+                        <Shape x="32" y="30" name="EmptyEye" id="70:554" blendModeValue="screen" selectable="false">
                             <Ellipse width="14" height="14" originX="0.5" originY="0.5" name="P"/>
                             <Stroke thickness="5" name="G">
                                 <SolidColor colorValue="882EEBFA" name="C"/>
@@ -381,7 +381,7 @@
                 </NestedArtboardLayout>
             </LayoutComponent>
 
-            <LayoutComponent width="0" height="40" styleId="70:581" name="ToastPlate" id="70:580">
+            <LayoutComponent width="0" height="40" styleId="70:581" name="ToastPlate" id="70:580" selectable="false">
                 <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fixed"
                                       layoutAlignmentType="center"
                                       paddingLeft="12" paddingLeftUnitsValue="points"
@@ -442,8 +442,8 @@
             </LayoutComponent>
         </LayoutComponent>
 
-        <Node x="195" y="628" name="Burst" id="70:800">
-            <Shape x="6.0" y="0.0" name="Spark0" id="70:801" blendModeValue="screen">
+        <Node x="195" y="628" name="Burst" id="70:800" selectable="false">
+            <Shape x="6.0" y="0.0" name="Spark0" id="70:801" blendModeValue="screen" selectable="false">
                 <Ellipse width="5" height="5" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="3.5" endY="0">
@@ -456,7 +456,7 @@
                     <Feather strength="7.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="6.5" y="2.7" name="Spark1" id="70:802" blendModeValue="screen">
+            <Shape x="6.5" y="2.7" name="Spark1" id="70:802" blendModeValue="screen" selectable="false">
                 <Ellipse width="6" height="6" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="4.2" endY="0">
@@ -469,7 +469,7 @@
                     <Feather strength="8.1" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="5.7" y="5.7" name="Spark2" id="70:803" blendModeValue="screen">
+            <Shape x="5.7" y="5.7" name="Spark2" id="70:803" blendModeValue="screen" selectable="false">
                 <Ellipse width="7" height="7" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="4.9" endY="0">
@@ -482,7 +482,7 @@
                     <Feather strength="8.4" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="2.3" y="5.5" name="Spark3" id="70:804" blendModeValue="screen">
+            <Shape x="2.3" y="5.5" name="Spark3" id="70:804" blendModeValue="screen" selectable="false">
                 <Ellipse width="8" height="8" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="5.6" endY="0">
@@ -495,7 +495,7 @@
                     <Feather strength="8.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="0.0" y="7.0" name="Spark4" id="70:805" blendModeValue="screen">
+            <Shape x="0.0" y="7.0" name="Spark4" id="70:805" blendModeValue="screen" selectable="false">
                 <Ellipse width="5" height="5" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="3.5" endY="0">
@@ -508,7 +508,7 @@
                     <Feather strength="7.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="-3.1" y="7.4" name="Spark5" id="70:806" blendModeValue="screen">
+            <Shape x="-3.1" y="7.4" name="Spark5" id="70:806" blendModeValue="screen" selectable="false">
                 <Ellipse width="6" height="6" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="4.2" endY="0">
@@ -521,7 +521,7 @@
                     <Feather strength="8.1" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="-4.2" y="4.2" name="Spark6" id="70:807" blendModeValue="screen">
+            <Shape x="-4.2" y="4.2" name="Spark6" id="70:807" blendModeValue="screen" selectable="false">
                 <Ellipse width="7" height="7" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="4.9" endY="0">
@@ -534,7 +534,7 @@
                     <Feather strength="8.4" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="-6.5" y="2.7" name="Spark7" id="70:808" blendModeValue="screen">
+            <Shape x="-6.5" y="2.7" name="Spark7" id="70:808" blendModeValue="screen" selectable="false">
                 <Ellipse width="8" height="8" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="5.6" endY="0">
@@ -547,7 +547,7 @@
                     <Feather strength="8.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="-8.0" y="0.0" name="Spark8" id="70:809" blendModeValue="screen">
+            <Shape x="-8.0" y="0.0" name="Spark8" id="70:809" blendModeValue="screen" selectable="false">
                 <Ellipse width="5" height="5" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="3.5" endY="0">
@@ -560,7 +560,7 @@
                     <Feather strength="7.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="-5.5" y="-2.3" name="Spark9" id="70:810" blendModeValue="screen">
+            <Shape x="-5.5" y="-2.3" name="Spark9" id="70:810" blendModeValue="screen" selectable="false">
                 <Ellipse width="6" height="6" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="4.2" endY="0">
@@ -573,7 +573,7 @@
                     <Feather strength="8.1" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="-4.9" y="-4.9" name="Spark10" id="70:811" blendModeValue="screen">
+            <Shape x="-4.9" y="-4.9" name="Spark10" id="70:811" blendModeValue="screen" selectable="false">
                 <Ellipse width="7" height="7" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="4.9" endY="0">
@@ -586,7 +586,7 @@
                     <Feather strength="8.4" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="-3.1" y="-7.4" name="Spark11" id="70:812" blendModeValue="screen">
+            <Shape x="-3.1" y="-7.4" name="Spark11" id="70:812" blendModeValue="screen" selectable="false">
                 <Ellipse width="8" height="8" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="5.6" endY="0">
@@ -599,7 +599,7 @@
                     <Feather strength="8.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="-0.0" y="-6.0" name="Spark12" id="70:813" blendModeValue="screen">
+            <Shape x="-0.0" y="-6.0" name="Spark12" id="70:813" blendModeValue="screen" selectable="false">
                 <Ellipse width="5" height="5" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="3.5" endY="0">
@@ -612,7 +612,7 @@
                     <Feather strength="7.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="2.7" y="-6.5" name="Spark13" id="70:814" blendModeValue="screen">
+            <Shape x="2.7" y="-6.5" name="Spark13" id="70:814" blendModeValue="screen" selectable="false">
                 <Ellipse width="6" height="6" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="4.2" endY="0">
@@ -625,7 +625,7 @@
                     <Feather strength="8.1" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="5.7" y="-5.7" name="Spark14" id="70:815" blendModeValue="screen">
+            <Shape x="5.7" y="-5.7" name="Spark14" id="70:815" blendModeValue="screen" selectable="false">
                 <Ellipse width="7" height="7" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="4.9" endY="0">
@@ -638,7 +638,7 @@
                     <Feather strength="8.4" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="5.5" y="-2.3" name="Spark15" id="70:816" blendModeValue="screen">
+            <Shape x="5.5" y="-2.3" name="Spark15" id="70:816" blendModeValue="screen" selectable="false">
                 <Ellipse width="8" height="8" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="5.6" endY="0">
@@ -653,8 +653,8 @@
             </Shape>
         </Node>
 
-        <Node x="195" y="620" name="Confetti" id="70:820">
-            <Shape x="-42.0" y="10" name="Mote0" id="70:821" blendModeValue="screen">
+        <Node x="195" y="620" name="Confetti" id="70:820" selectable="false">
+            <Shape x="-42.0" y="10" name="Mote0" id="70:821" blendModeValue="screen" selectable="false">
                 <Ellipse width="4" height="4" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="2.8" endY="0">
@@ -667,7 +667,7 @@
                     <Feather strength="7.4" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="-34.4" y="10" name="Mote1" id="70:822" blendModeValue="screen">
+            <Shape x="-34.4" y="10" name="Mote1" id="70:822" blendModeValue="screen" selectable="false">
                 <Ellipse width="5" height="5" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="3.5" endY="0">
@@ -680,7 +680,7 @@
                     <Feather strength="7.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="-26.8" y="10" name="Mote2" id="70:823" blendModeValue="screen">
+            <Shape x="-26.8" y="10" name="Mote2" id="70:823" blendModeValue="screen" selectable="false">
                 <Ellipse width="6" height="6" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="4.2" endY="0">
@@ -693,7 +693,7 @@
                     <Feather strength="8.1" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="-19.200000000000003" y="10" name="Mote3" id="70:824" blendModeValue="screen">
+            <Shape x="-19.200000000000003" y="10" name="Mote3" id="70:824" blendModeValue="screen" selectable="false">
                 <Ellipse width="4" height="4" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="2.8" endY="0">
@@ -706,7 +706,7 @@
                     <Feather strength="7.4" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="-11.600000000000001" y="10" name="Mote4" id="70:825" blendModeValue="screen">
+            <Shape x="-11.600000000000001" y="10" name="Mote4" id="70:825" blendModeValue="screen" selectable="false">
                 <Ellipse width="5" height="5" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="3.5" endY="0">
@@ -719,7 +719,7 @@
                     <Feather strength="7.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="-4.0" y="10" name="Mote5" id="70:826" blendModeValue="screen">
+            <Shape x="-4.0" y="10" name="Mote5" id="70:826" blendModeValue="screen" selectable="false">
                 <Ellipse width="6" height="6" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="4.2" endY="0">
@@ -732,7 +732,7 @@
                     <Feather strength="8.1" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="3.5999999999999943" y="10" name="Mote6" id="70:827" blendModeValue="screen">
+            <Shape x="3.5999999999999943" y="10" name="Mote6" id="70:827" blendModeValue="screen" selectable="false">
                 <Ellipse width="4" height="4" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="2.8" endY="0">
@@ -745,7 +745,7 @@
                     <Feather strength="7.4" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="11.199999999999996" y="10" name="Mote7" id="70:828" blendModeValue="screen">
+            <Shape x="11.199999999999996" y="10" name="Mote7" id="70:828" blendModeValue="screen" selectable="false">
                 <Ellipse width="5" height="5" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="3.5" endY="0">
@@ -758,7 +758,7 @@
                     <Feather strength="7.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="18.799999999999997" y="10" name="Mote8" id="70:829" blendModeValue="screen">
+            <Shape x="18.799999999999997" y="10" name="Mote8" id="70:829" blendModeValue="screen" selectable="false">
                 <Ellipse width="6" height="6" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="4.2" endY="0">
@@ -771,7 +771,7 @@
                     <Feather strength="8.1" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="26.39999999999999" y="10" name="Mote9" id="70:830" blendModeValue="screen">
+            <Shape x="26.39999999999999" y="10" name="Mote9" id="70:830" blendModeValue="screen" selectable="false">
                 <Ellipse width="4" height="4" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="2.8" endY="0">
@@ -784,7 +784,7 @@
                     <Feather strength="7.4" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="34.0" y="10" name="Mote10" id="70:831" blendModeValue="screen">
+            <Shape x="34.0" y="10" name="Mote10" id="70:831" blendModeValue="screen" selectable="false">
                 <Ellipse width="5" height="5" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="3.5" endY="0">
@@ -797,7 +797,7 @@
                     <Feather strength="7.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="41.599999999999994" y="10" name="Mote11" id="70:832" blendModeValue="screen">
+            <Shape x="41.599999999999994" y="10" name="Mote11" id="70:832" blendModeValue="screen" selectable="false">
                 <Ellipse width="6" height="6" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="4.2" endY="0">
@@ -812,8 +812,8 @@
             </Shape>
         </Node>
 
-        <Node x="273" y="792" name="DockSpark" id="70:860">
-            <Shape x="0" y="0" name="AlertSpark0" id="70:861" blendModeValue="screen">
+        <Node x="273" y="792" name="DockSpark" id="70:860" selectable="false">
+            <Shape x="0" y="0" name="AlertSpark0" id="70:861" blendModeValue="screen" selectable="false">
                 <Ellipse width="5" height="5" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="3.5" endY="0">
@@ -826,7 +826,7 @@
                     <Feather strength="7.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="0" y="0" name="AlertSpark1" id="70:862" blendModeValue="screen">
+            <Shape x="0" y="0" name="AlertSpark1" id="70:862" blendModeValue="screen" selectable="false">
                 <Ellipse width="5" height="5" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="3.5" endY="0">
@@ -839,7 +839,7 @@
                     <Feather strength="7.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="0" y="0" name="AlertSpark2" id="70:863" blendModeValue="screen">
+            <Shape x="0" y="0" name="AlertSpark2" id="70:863" blendModeValue="screen" selectable="false">
                 <Ellipse width="5" height="5" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="3.5" endY="0">
@@ -852,7 +852,7 @@
                     <Feather strength="7.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="0" y="0" name="AlertSpark3" id="70:864" blendModeValue="screen">
+            <Shape x="0" y="0" name="AlertSpark3" id="70:864" blendModeValue="screen" selectable="false">
                 <Ellipse width="5" height="5" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="3.5" endY="0">
@@ -865,7 +865,7 @@
                     <Feather strength="7.8" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Shape x="0" y="0" name="AlertSpark4" id="70:865" blendModeValue="screen">
+            <Shape x="0" y="0" name="AlertSpark4" id="70:865" blendModeValue="screen" selectable="false">
                 <Ellipse width="5" height="5" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="3.5" endY="0">
@@ -880,12 +880,12 @@
             </Shape>
         </Node>
 
-        <Node x="195" y="422" name="Splash" id="70:500">
-            <Shape name="SplashVoid" id="70:501">
+        <Node x="195" y="422" name="Splash" id="70:500" selectable="false">
+            <Shape name="SplashVoid" id="70:501" selectable="false">
                 <Rectangle width="390" height="844" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F"><SolidColor colorValue="FF0B0A14" name="C" id="70:502"/></Fill>
             </Shape>
-            <Shape x="0" y="-40" name="SplashBloom" id="70:503" blendModeValue="screen">
+            <Shape x="0" y="-40" name="SplashBloom" id="70:503" blendModeValue="screen" selectable="false">
                 <Ellipse width="260" height="200" originX="0.5" originY="0.5" name="P"/>
                 <Fill name="F">
                     <RadialGradient startX="0" startY="0" endX="110" endY="0">
@@ -898,8 +898,8 @@
                     <Feather strength="18" name="Feather"/>
                 </Stroke>
             </Shape>
-            <Image assetId="10:8" x="0" y="-56" name="SplashMark" id="70:510"/>
-            <Shape x="0" y="36" name="Shimmer" id="70:520">
+            <Image assetId="10:8" x="0" y="-56" name="SplashMark" id="70:510" selectable="false"/>
+            <Shape x="0" y="36" name="Shimmer" id="70:520" selectable="false">
                 <Rectangle width="88" height="3" originX="0.5" originY="0.5" cornerRadiusTL="2" name="P"/>
                 <Fill name="F"><SolidColor colorValue="FF2EEBFA" name="C" id="70:521"/></Fill>
                 <Stroke thickness="6" name="G">

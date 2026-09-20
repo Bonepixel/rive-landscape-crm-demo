@@ -55,8 +55,121 @@
 .rive-host,
 .rive-host canvas,
 .fallback {
+  position: relative;
   width: 100%;
   height: 100%;
+}
+
+.hit-layer,
+.hit-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.hit-frame {
+  inset: auto;
+  overflow: hidden;
+}
+
+.hit-artboard {
+  position: relative;
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+.hit-list {
+  position: absolute;
+  left: 16px;
+  top: 158px;
+  width: 358px;
+  height: 380px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.hit-list.live {
+  pointer-events: auto;
+}
+
+.hit-row,
+.hit-cta,
+.hit-dock button {
+  pointer-events: auto;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  min-height: 44px;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hit-row {
+  flex: 0 0 70px;
+  width: 100%;
+  border-radius: 16px;
+}
+
+.hit-actions {
+  position: absolute;
+  left: 16px;
+  top: 670px;
+  width: 358px;
+  height: 48px;
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.hit-cta {
+  flex: 1;
+  min-height: 48px;
+  border-radius: 14px;
+}
+
+.hit-dock {
+  position: absolute;
+  left: 8px;
+  top: 774px;
+  width: 374px;
+  height: 56px;
+  display: flex;
+  pointer-events: auto;
+}
+
+.hit-dock button {
+  flex: 1;
+  min-height: 56px;
+}
+
+.hit-layer.debug .hit-row,
+.hit-layer.debug .hit-cta,
+.hit-layer.debug .hit-dock button {
+  outline: 1px dashed rgb(46 235 250 / 45%);
+  color: rgb(46 235 250 / 70%);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.debug-hud {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 8px;
+  z-index: 9;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgb(11 10 20 / 78%);
+  color: #2eebfa;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  pointer-events: none;
 }
 
 .loading,

@@ -4,7 +4,7 @@
         <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed" name="Btn Style" id="63:2"/>
         <Fill name="Clear"><SolidColor colorValue="00000000" name="C"/></Fill>
 
-        <Shape x="87" y="24" name="BtnGlow" id="63:16" blendModeValue="screen">
+        <Shape x="87" y="24" name="BtnGlow" id="63:16" blendModeValue="screen" selectable="false">
             <Ellipse width="150" height="36" originX="0.5" originY="0.5" name="P"/>
             <Stroke thickness="10" name="GlowStroke">
                 <SolidColor colorValue="002EEBFA" name="C" id="63:17"/>

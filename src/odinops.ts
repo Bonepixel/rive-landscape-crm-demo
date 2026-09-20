@@ -865,15 +865,17 @@ export function parseDeepLink(search: string) {
   const tab = DOCK.find((item) => item.id === params.get('tab'))?.id
   const job = params.get('job') || undefined
   const fallback = params.has('fallback')
-  return { role, tab, job, fallback }
+  const debug = params.has('debug')
+  return { role, tab, job, fallback, debug }
 }
 
-export function writeDeepLink(input: { role: StaffRole; tab: Tab; job: string; fallback: boolean }) {
+export function writeDeepLink(input: { role: StaffRole; tab: Tab; job: string; fallback: boolean; debug?: boolean }) {
   const params = new URLSearchParams()
   params.set('role', input.role)
   params.set('tab', input.tab)
   if (input.job) params.set('job', input.job)
   if (input.fallback) params.set('fallback', '1')
+  if (input.debug) params.set('debug', '1')
   const next = `${window.location.pathname}?${params.toString()}`
   window.history.replaceState(null, '', next)
 }

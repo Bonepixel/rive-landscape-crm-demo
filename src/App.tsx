@@ -12,7 +12,6 @@ import {
   deriveKpis,
   emptyCopy,
   featuredJob,
-  groupedMoreNav,
   homeLens,
   homeNextActions,
   jobCta,
@@ -21,7 +20,6 @@ import {
   parseDeepLink,
   savePersisted,
   seedAlerts,
-  tabByIndex,
   writeDeepLink,
   type Alert,
   type CreateLane,
@@ -54,6 +52,7 @@ function boot() {
     selectedId,
     darkMode: true,
     fallback: link.fallback || !supportsWebGL2(),
+    debug: link.debug,
   }
 }
 
@@ -75,6 +74,7 @@ export default function App() {
   const [booting, setBooting] = useState(true)
   const [confetti, setConfetti] = useState(0)
   const [alertSpark, setAlertSpark] = useState(0)
+  const [debugLine, setDebugLine] = useState(`tab=${initial.tab}`)
   const undo = useRef<{ jobs: Job[]; alerts: Alert[] } | null>(null)
   const toastTimer = useRef(0)
   const alertCount = useRef(initial.alerts.length)
@@ -86,8 +86,8 @@ export default function App() {
 
   useEffect(() => {
     savePersisted({ jobs, alerts, role, tab, selectedId, darkMode })
-    writeDeepLink({ role, tab, job: selectedId, fallback: riveFailed })
-  }, [jobs, alerts, role, tab, selectedId, darkMode, riveFailed])
+    writeDeepLink({ role, tab, job: selectedId, fallback: riveFailed, debug: initial.debug })
+  }, [jobs, alerts, role, tab, selectedId, darkMode, riveFailed, initial.debug])
 
   const flash = useCallback((message: string, undoable = false) => {
     setToast(message)
@@ -115,17 +115,14 @@ export default function App() {
     flash('Undone')
   }, [flash])
 
+  const onDebug = useCallback((message: string) => {
+    setDebugLine(message)
+    if (initial.debug) console.info('[odinops]', message)
+  }, [initial.debug])
+
   const onSelect = useCallback((id: string) => {
     if (jobs.some((item) => item.id === id)) setSelectedId(id)
   }, [jobs])
-
-  const onSelectJobIndex = useCallback((index: number) => {
-    const list = tab === 'home' ? jobsForLens(jobs, homeLens(role), 'home') : jobs
-    if (list[index]) {
-      onSelect(list[index].id)
-      setSheetOpen(true)
-    }
-  }, [jobs, role, tab, onSelect])
 
   const onRole = useCallback((next: StaffRole) => {
     setRole(next)
@@ -146,7 +143,8 @@ export default function App() {
     setTab(next)
     if (next !== 'more') setMoreRoute(null)
     setSheetOpen(false)
-  }, [tab, moreRoute])
+    onDebug(`tab=${next}`)
+  }, [tab, moreRoute, onDebug])
 
   const onCreate = useCallback((lane: CreateLane) => {
     if (lane.action === 'stub') {
@@ -166,7 +164,8 @@ export default function App() {
     setTab('jobs')
     setSheetOpen(true)
     flash(createdToast(lane.action), true)
-  }, [jobs.length, role, flash, snapshot])
+    onDebug(`created=${job.id}`)
+  }, [jobs.length, role, flash, snapshot, onDebug])
 
   const onPrimary = useCallback(() => {
     const target = tab === 'home' && !sheetOpen
@@ -189,7 +188,8 @@ export default function App() {
       navigator.vibrate(12)
     }
     flash(result.toast, true)
-  }, [selected, role, flash, snapshot, tab, sheetOpen, jobs])
+    onDebug(`primary fire ${result.toast} selected=${result.job.id}`)
+  }, [selected, role, flash, snapshot, tab, sheetOpen, jobs, onDebug])
 
   const onOverflow = useCallback((action: string) => {
     if (!selected) return
@@ -200,13 +200,13 @@ export default function App() {
     flash(action, true)
   }, [selected, flash, snapshot])
 
-  const onSelectMoreIndex = useCallback((index: number) => {
-    const groups = groupedMoreNav(role).flatMap((group) => group.items)
-    if (groups[index]) {
-      setTab('more')
-      setMoreRoute(groups[index].route)
+  const onSecondary = useCallback(() => {
+    if (moreRoute) {
+      setMoreRoute(null)
+      return
     }
-  }, [role])
+    setSheetOpen(true)
+  }, [moreRoute])
 
   const onAck = useCallback((id: string) => {
     setAlerts((current) => current.map((alert) => (alert.id === id ? { ...alert, unread: false } : alert)))
@@ -219,7 +219,7 @@ export default function App() {
 
   useEffect(() => {
     if (!riveReady) return
-    const timer = window.setTimeout(() => setBooting(false), 900)
+    const timer = window.setTimeout(() => setBooting(false), 400)
     return () => window.clearTimeout(timer)
   }, [riveReady])
 
@@ -227,6 +227,9 @@ export default function App() {
   const list = jobsForLens(jobs, homeLens(role), tab === 'home' || tab === 'jobs' ? tab : 'jobs')
   const kpis = deriveKpis(jobs)
   const widgets = homeNextActions(jobs, homeLens(role))
+  const featured = featuredJob(jobs, homeLens(role), role)
+  const ctaJob = tab === 'home' && !sheetOpen ? (featured ?? selected) : selected
+  const primaryLabel = ctaJob ? jobCta(ctaJob, role).primary : 'Open'
   const empty = (
     (tab === 'home' && list.length === 0)
     || (tab === 'jobs' && list.length === 0)
@@ -241,6 +244,7 @@ export default function App() {
           <span>{riveReady ? 'Rive' : riveFailed ? 'Live shell' : 'Loading…'}</span>
         </div>
         <div className="phone">
+          {initial.debug && <div className="debug-hud">{debugLine} · tab={tab} · selected={selectedId}</div>}
           {showRive && (
             <AppRive
               jobs={list}
@@ -259,13 +263,22 @@ export default function App() {
               empty={empty}
               confetti={confetti}
               alertSpark={alertSpark}
+              debug={initial.debug}
+              primaryLabel={primaryLabel}
               onReady={() => setRiveReady(true)}
               onError={() => setRiveFailed(true)}
-              onSelectJobIndex={onSelectJobIndex}
-              onSelectMoreIndex={onSelectMoreIndex}
-              onTabIndex={(index) => onTab(tabByIndex(index))}
+              onTab={onTab}
               onPrimary={onPrimary}
-              onSecondary={() => undefined}
+              onSecondary={onSecondary}
+              onSelectJob={(id) => {
+                onSelect(id)
+                if (tab !== 'home') setSheetOpen(true)
+              }}
+              onCreate={onCreate}
+              onMore={setMoreRoute}
+              onAck={onAck}
+              onRole={onRole}
+              onDebug={onDebug}
             />
           )}
           {riveFailed && (

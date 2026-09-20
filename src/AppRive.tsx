@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import {
   Alignment,
   Fit,
@@ -9,11 +9,13 @@ import {
   type Rive,
   type ViewModelInstance,
 } from '@rive-app/react-webgl2'
+import { HitLayer, type BridgeRow } from './HitLayer'
 import {
   DOCK,
   KIND_FILL,
   MORE_NAV,
   ORG,
+  ROLE_LABEL,
   SEATS,
   createLanes,
   featuredJob,
@@ -29,6 +31,7 @@ import {
   tabIndex,
   visibleMoreNav,
   type Alert,
+  type CreateLane,
   type HomeWidget,
   type Job,
   type StaffRole,
@@ -97,13 +100,19 @@ type Props = {
   empty: { title: string; body: string } | null
   confetti: number
   alertSpark: number
+  debug: boolean
+  primaryLabel: string
   onReady: () => void
   onError: () => void
-  onSelectJobIndex: (index: number) => void
-  onSelectMoreIndex: (index: number) => void
-  onTabIndex: (index: number) => void
+  onTab: (tab: Tab) => void
   onPrimary: () => void
   onSecondary: () => void
+  onSelectJob: (id: string) => void
+  onCreate: (lane: CreateLane) => void
+  onMore: (route: string | null) => void
+  onAck: (id: string) => void
+  onRole: (role: StaffRole) => void
+  onDebug: (message: string) => void
 }
 
 export function AppRive({
@@ -123,13 +132,19 @@ export function AppRive({
   empty,
   confetti,
   alertSpark,
+  debug,
+  primaryLabel,
   onReady,
   onError,
-  onSelectJobIndex,
-  onSelectMoreIndex,
-  onTabIndex,
+  onTab,
   onPrimary,
   onSecondary,
+  onSelectJob,
+  onCreate,
+  onMore,
+  onAck,
+  onRole,
+  onDebug,
 }: Props) {
   const { rive, RiveComponent } = useRive({
     src: RIV,
@@ -149,27 +164,79 @@ export function AppRive({
   const { value: selectedIndex } = useViewModelInstanceNumber('selectedIndex', vmi)
   const { value: nextTabIndex } = useViewModelInstanceNumber('roleIndex', vmi)
 
-  useViewModelInstanceTrigger('primaryBtn/fire', vmi, { onTrigger: onPrimary })
+  useViewModelInstanceTrigger('primaryBtn/fire', vmi, {
+    onTrigger: () => {
+      onDebug('primary fire (rive)')
+      onPrimary()
+    },
+  })
   useViewModelInstanceTrigger('secondaryBtn/fire', vmi, { onTrigger: onSecondary })
 
-  const listJobs = tab === 'alerts' || tab === 'create' || tab === 'more' ? [] : jobs
+  const lanes = createLanes(role)
+  const createRows = tab === 'create' ? [...lanes.primary, ...lanes.also] : []
   const moreItems = tab === 'more' && !moreRoute ? visibleMoreNav(role) : []
+  const ignoreWriteUntil = useRef(0)
 
+  const bridgeRows = useMemo<BridgeRow[]>(() => {
+    if (tab === 'create') {
+      return createRows.map((lane) => ({ type: 'create', id: lane.id, label: lane.label }))
+    }
+    if (tab === 'alerts') {
+      return alerts.map((alert) => ({ type: 'alert', id: alert.id, label: alert.title }))
+    }
+    if (tab === 'more' && !moreRoute) {
+      return [
+        ...SEATS.map((seat) => ({ type: 'seat' as const, id: seat.role, label: `${seat.name} · ${ROLE_LABEL[seat.role]}` })),
+        ...moreItems.map((item) => ({ type: 'more' as const, id: item.route, label: item.label })),
+      ]
+    }
+    if (tab === 'jobs') {
+      return jobs.map((job) => ({ type: 'job', id: job.id, label: job.customerName }))
+    }
+    return []
+  }, [tab, createRows, alerts, moreItems, moreRoute, jobs])
+
+  const applyBridge = (row: BridgeRow) => {
+    ignoreWriteUntil.current = performance.now() + 280
+    onDebug(`selected=${row.type}:${row.id}`)
+    if (row.type === 'job') onSelectJob(row.id)
+    if (row.type === 'create') {
+      const lane = createRows.find((item) => item.id === row.id)
+      if (lane) onCreate(lane)
+    }
+    if (row.type === 'alert') onAck(row.id)
+    if (row.type === 'more') onMore(row.id)
+    if (row.type === 'seat') onRole(row.id as StaffRole)
+  }
+
+  const primedIndex = useRef(false)
   useEffect(() => {
-    if (selectedIndex == null || Number.isNaN(selectedIndex) || selectedIndex < 0) return
-    const index = Math.round(selectedIndex)
-    if (tab === 'more' && moreItems[index]) {
-      onSelectMoreIndex(index)
+    if (selectedIndex == null || Number.isNaN(selectedIndex)) return
+    if (!primedIndex.current) {
+      primedIndex.current = true
       return
     }
-    if (listJobs[index]) onSelectJobIndex(index)
-  }, [selectedIndex, listJobs, moreItems, tab, onSelectJobIndex, onSelectMoreIndex])
+    if (selectedIndex < 0) return
+    const index = Math.round(selectedIndex)
+    const row = bridgeRows[index]
+    if (row) applyBridge(row)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedIndex])
 
+  const primedTab = useRef(false)
   useEffect(() => {
     if (nextTabIndex == null || Number.isNaN(nextTabIndex)) return
+    if (!primedTab.current) {
+      primedTab.current = true
+      return
+    }
     const index = Math.round(nextTabIndex)
-    if (DOCK[index] && DOCK[index].id !== tab) onTabIndex(index)
-  }, [nextTabIndex, tab, onTabIndex])
+    if (DOCK[index] && DOCK[index].id !== tab) {
+      ignoreWriteUntil.current = performance.now() + 280
+      onDebug(`tab=${DOCK[index].id} (rive)`)
+      onTab(DOCK[index].id)
+    }
+  }, [nextTabIndex, tab, onTab, onDebug])
 
   const lastRole = useRef<StaffRole | null>(null)
   useEffect(() => {
@@ -215,8 +282,7 @@ export function AppRive({
       : (allJobs.find((job) => job.id === selectedId) ?? allJobs[0])
     const seat = SEATS.find((item) => item.role === role)
     const cta = selected ? jobCta(selected, role) : null
-    const selectedIndexValue = Math.max(0, listJobs.findIndex((job) => job.id === selectedId))
-    const lanes = createLanes(role)
+    const selectedIndexValue = Math.max(0, jobs.findIndex((job) => job.id === selectedId))
 
     writeString(vmi, 'businessName', 'OdinOps')
     writeString(vmi, 'subtitle', `${ORG} · ${seat?.name.split(' ')[0] ?? ''}`)
@@ -230,8 +296,10 @@ export function AppRive({
     writeBool(vmi, 'emptyVisible', Boolean(empty))
     writeString(vmi, 'emptyTitle', empty?.title ?? '')
     writeString(vmi, 'emptyHint', empty?.body ?? '')
-    writeNumber(vmi, 'roleIndex', tabIndex(tab))
-    writeNumber(vmi, 'selectedIndex', tab === 'more' || tab === 'alerts' || tab === 'create' ? -1 : selectedIndexValue)
+    if (performance.now() > ignoreWriteUntil.current) {
+      writeNumber(vmi, 'roleIndex', tabIndex(tab))
+      writeNumber(vmi, 'selectedIndex', tab === 'home' || tab === 'jobs' ? selectedIndexValue : -1)
+    }
 
     const session = vmi.viewModel('session')
     const roleEnum = session?.enum('activeRole')
@@ -246,7 +314,7 @@ export function AppRive({
 
     writeString(vmi, 'primaryBtn/label', cta?.disabled ? cta.reason || cta.primary : (cta?.primary ?? 'Open'))
     writeBool(vmi, 'primaryBtn/primary', !cta?.disabled)
-    writeString(vmi, 'secondaryBtn/label', '···')
+    writeString(vmi, 'secondaryBtn/label', moreRoute ? 'Back' : '···')
     writeBool(vmi, 'secondaryBtn/primary', false)
 
     NAV.forEach((path, index) => {
@@ -286,39 +354,48 @@ export function AppRive({
       writeString(quote, 'step', flowLabel(selected))
     }
 
-    const createRows = tab === 'create' ? [...lanes.primary, ...lanes.also] : []
-    const rows = tab === 'alerts'
+    const visualRows = tab === 'alerts'
       ? alerts.map((alert) => ({
-          id: alert.id,
           customerName: alert.title,
           title: alert.detail,
           estimate: 0,
           status: alert.time,
           color: 0xff2eebfa,
           selected: false,
+          dimmed: false,
         }))
-      : tab === 'more'
-        ? moreItems.map((item) => ({
-            id: item.route,
-            customerName: item.label,
-            title: item.hint,
-            estimate: 0,
-            status: item.href,
-            color: 0xff2eebfa,
-            selected: false,
-          }))
+      : tab === 'more' && !moreRoute
+        ? [
+            ...SEATS.map((item) => ({
+              customerName: item.name,
+              title: `${ROLE_LABEL[item.role]} · ${ORG}`,
+              estimate: 0,
+              status: 'Account',
+              color: item.role === role ? 0xff2eebfa : 0xffa78bfa,
+              selected: item.role === role,
+              dimmed: false,
+            })),
+            ...moreItems.map((item) => ({
+              customerName: item.label,
+              title: item.hint,
+              estimate: 0,
+              status: item.href,
+              color: 0xff2eebfa,
+              selected: false,
+              dimmed: false,
+            })),
+          ]
         : tab === 'create'
           ? createRows.map((lane) => ({
-              id: lane.id,
               customerName: lane.label,
               title: lane.hint,
               estimate: 0,
               status: lane.section === 'also' ? 'Also' : 'Create',
               color: KIND_FILL[lane.tone === 'lead' || lane.tone === 'book' || lane.tone === 'neutral' ? 'inspection' : lane.tone],
               selected: false,
+              dimmed: false,
             }))
-          : listJobs.map((job) => ({
-              id: job.id,
+          : jobs.map((job) => ({
               customerName: job.customerName,
               title: job.title,
               estimate: job.estimate,
@@ -328,15 +405,15 @@ export function AppRive({
               dimmed: job.step === 'complete',
             }))
 
-    syncList(rive, vmi, 'jobs', 'Job', rows.length, (instance, index) => {
-      const job = rows[index]
+    syncList(rive, vmi, 'jobs', 'Job', visualRows.length, (instance, index) => {
+      const job = visualRows[index]
       writeString(instance, 'customerName', job.customerName)
       writeString(instance, 'jobType', job.title)
       writeString(instance, 'estimate', job.estimate ? money(job.estimate) : '')
       writeString(instance, 'status', job.status)
       writeBool(instance, 'selected', job.selected)
       writeColor(instance, 'chipColor', job.color)
-      writeBool(instance, 'dimmed', 'dimmed' in job && Boolean(job.dimmed))
+      writeBool(instance, 'dimmed', job.dimmed)
     })
 
     const tiles = tab === 'home'
@@ -371,13 +448,33 @@ export function AppRive({
     darkMode,
     booting,
     empty,
-    listJobs,
+    createRows,
     moreItems,
   ])
 
   return (
     <div className="rive-host">
       <RiveComponent />
+      <HitLayer
+        tab={tab}
+        rows={bridgeRows}
+        primaryLabel={primaryLabel}
+        debug={debug}
+        onTab={(next) => {
+          ignoreWriteUntil.current = performance.now() + 280
+          onDebug(`tab=${next}`)
+          onTab(next)
+        }}
+        onPrimary={() => {
+          onDebug('primary fire')
+          onPrimary()
+        }}
+        onSecondary={() => {
+          onDebug('secondary fire')
+          onSecondary()
+        }}
+        onRow={applyBridge}
+      />
     </div>
   )
 }
