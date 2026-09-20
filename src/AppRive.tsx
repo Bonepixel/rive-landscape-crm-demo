@@ -223,14 +223,16 @@ export function AppRive({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIndex])
 
-  const primedTab = useRef(false)
+  const lastHeardTab = useRef<number | null>(null)
   useEffect(() => {
     if (nextTabIndex == null || Number.isNaN(nextTabIndex)) return
-    if (!primedTab.current) {
-      primedTab.current = true
+    const index = Math.round(nextTabIndex)
+    if (lastHeardTab.current === null) {
+      lastHeardTab.current = index
       return
     }
-    const index = Math.round(nextTabIndex)
+    if (lastHeardTab.current === index) return
+    lastHeardTab.current = index
     if (DOCK[index] && DOCK[index].id !== tab) {
       ignoreWriteUntil.current = performance.now() + 280
       onDebug(`tab=${DOCK[index].id} (rive)`)
@@ -461,7 +463,8 @@ export function AppRive({
         primaryLabel={primaryLabel}
         debug={debug}
         onTab={(next) => {
-          ignoreWriteUntil.current = performance.now() + 280
+          ignoreWriteUntil.current = performance.now() + 800
+          lastHeardTab.current = tabIndex(next)
           onDebug(`tab=${next}`)
           onTab(next)
         }}
