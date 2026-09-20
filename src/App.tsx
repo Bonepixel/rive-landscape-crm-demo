@@ -38,10 +38,6 @@ function supportsWebGL2(): boolean {
   }
 }
 
-function prefersDark(): boolean {
-  return true
-}
-
 function boot() {
   const link = parseDeepLink(window.location.search)
   const stored = loadPersisted()
