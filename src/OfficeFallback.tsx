@@ -56,7 +56,7 @@ export function OfficeFallback({
   const showDays = role === 'scheduler'
   const kpis = role === 'owner' ? deriveKpis(jobs) : []
   const pills = role === 'admin' ? derivePills(jobs) : []
-  const logo = `${import.meta.env.BASE_URL}brand/${darkMode ? 'odinops-dark' : 'odinops-light'}.svg`
+  const logo = `${import.meta.env.BASE_URL}brand/${darkMode ? 'odinops-dark' : 'odinops-light'}.jpg`
 
   return (
     <div

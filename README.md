@@ -42,9 +42,9 @@ Light shell: paper / lavender (`#E8E2F8`) with navy type. Toggle **Light/Dark** 
 
 | File | Where |
 |---|---|
-| `public/brand/odinops-light.svg` (+ `.png`) | Light lockup |
-| `public/brand/odinops-dark.svg` (+ `.png`) | Dark lockup |
-| `public/brand/odinops-mark.svg` (+ `.png`) | Raven mark |
+| `public/brand/odinops-light.jpg` | Light lockup |
+| `public/brand/odinops-dark.jpg` | Dark lockup |
+| `public/brand/odinops-mark.png` | Raven mark |
 | `rive/brand/odinops-mark.png` | Embedded Rive `ImageAsset` `LogoMark` |
 
 Header uses the mark in Rive (`App.logo`) and the lockup in the HTML fallback.

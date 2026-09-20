@@ -123,11 +123,11 @@
 }
 
 .logo-img {
-  width: 64px;
-  height: 38px;
+  width: 132px;
+  height: 76px;
   object-fit: contain;
   border-radius: 10px;
-  background: #1e1548;
+  background: #070612;
 }
 
 .fallback.light .logo-img {
