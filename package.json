@@ -1,0 +1,26 @@
+{
+  "name": "rive-landscape-crm-demo",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "build:rive": "rive rive --once && mkdir -p public/assets && cp rive/build/landscape-crm.riv public/assets/landscape-crm.riv",
+    "verify:rive": "rive rive --verify"
+  },
+  "dependencies": {
+    "@rive-app/react-webgl2": "^4.27.3",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "typescript": "~5.9.2",
+    "vite": "^8.3.0"
+  }
+}

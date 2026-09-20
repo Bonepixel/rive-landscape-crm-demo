@@ -1,0 +1,5 @@
+This project embeds Inter (variable) from the official Rive CLI sample
+`keyboard_menu`. Inter is licensed under the SIL Open Font License 1.1.
+
+https://github.com/rsms/inter
+https://scripts.sil.org/OFL
