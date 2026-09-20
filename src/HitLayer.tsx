@@ -23,6 +23,15 @@ function contain(width: number, height: number, artW = 390, artH = 844): Frame {
   }
 }
 
+function box(frame: Frame, x: number, y: number, w: number, h: number) {
+  return {
+    left: x * frame.scale,
+    top: y * frame.scale,
+    width: w * frame.scale,
+    height: h * frame.scale,
+  }
+}
+
 type Props = {
   tab: Tab
   rows: BridgeRow[]
@@ -53,17 +62,19 @@ export function HitLayer({
     const parent = node.parentElement
     if (!parent) return
     const update = () => {
-      const box = parent.getBoundingClientRect()
+      const canvas = parent.querySelector('canvas')
+      const box = (canvas ?? parent).getBoundingClientRect()
       setFrame(contain(box.width, box.height))
     }
     update()
     const observer = new ResizeObserver(update)
     observer.observe(parent)
+    if (parent.querySelector('canvas')) observer.observe(parent.querySelector('canvas') as Element)
     return () => observer.disconnect()
   }, [])
 
   return (
-    <div ref={host} className={`hit-layer ${debug ? 'debug' : ''}`}>
+    <div ref={host} className={`hit-layer ${debug ? 'debug' : ''}`} data-testid="hit-layer">
       {frame && (
         <div
           className="hit-frame"
@@ -74,50 +85,55 @@ export function HitLayer({
             height: frame.height,
           }}
         >
-          <div
-            className="hit-artboard"
-            style={{
-              width: 390,
-              height: 844,
-              transform: `scale(${frame.scale})`,
-            }}
-          >
-            <div className={`hit-list ${rows.length ? 'live' : 'idle'}`} role="list">
-              {rows.map((row) => (
-                <button
-                  key={`${row.type}-${row.id}`}
-                  type="button"
-                  className="hit-row"
-                  aria-label={row.label}
-                  onClick={() => onRow(row)}
-                >
-                  {debug ? row.label : ''}
-                </button>
-              ))}
-            </div>
-            <div className="hit-actions">
-              <button type="button" className="hit-cta" aria-label={primaryLabel} onClick={onPrimary}>
-                {debug ? primaryLabel : ''}
+          <div className={`hit-list ${rows.length ? 'live' : 'idle'}`} role="list" style={box(frame, 16, 158, 358, 380)}>
+            {rows.map((row) => (
+              <button
+                key={`${row.type}-${row.id}`}
+                type="button"
+                className="hit-row"
+                aria-label={row.label}
+                data-bridge={`${row.type}:${row.id}`}
+                onClick={() => onRow(row)}
+              >
+                {debug ? row.label : ''}
               </button>
-              <button type="button" className="hit-cta" aria-label="More actions" onClick={onSecondary}>
-                {debug ? '···' : ''}
-              </button>
-            </div>
-            <nav className="hit-dock" aria-label="Primary">
-              {DOCK.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={item.id === tab ? 'on' : ''}
-                  aria-label={item.label}
-                  aria-current={item.id === tab ? 'page' : undefined}
-                  onClick={() => onTab(item.id)}
-                >
-                  {debug ? item.label : ''}
-                </button>
-              ))}
-            </nav>
+            ))}
           </div>
+          <div className="hit-actions" style={box(frame, 16, 668, 358, 52)}>
+            <button
+              type="button"
+              className="hit-cta"
+              data-testid="hit-primary"
+              aria-label={primaryLabel}
+              onClick={onPrimary}
+            >
+              {debug ? primaryLabel : ''}
+            </button>
+            <button
+              type="button"
+              className="hit-cta"
+              data-testid="hit-secondary"
+              aria-label="More actions"
+              onClick={onSecondary}
+            >
+              {debug ? '···' : ''}
+            </button>
+          </div>
+          <nav className="hit-dock" aria-label="Primary" style={box(frame, 4, 768, 382, 72)}>
+            {DOCK.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={item.id === tab ? 'on' : ''}
+                aria-label={item.label}
+                aria-current={item.id === tab ? 'page' : undefined}
+                data-tab={item.id}
+                onClick={() => onTab(item.id)}
+              >
+                {debug ? item.label : ''}
+              </button>
+            ))}
+          </nav>
         </div>
       )}
     </div>

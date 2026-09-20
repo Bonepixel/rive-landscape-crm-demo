@@ -79,16 +79,17 @@
   pointer-events: none;
 }
 
-.hit-list {
+.hit-list,
+.hit-actions,
+.hit-dock {
   position: absolute;
-  left: 16px;
-  top: 158px;
-  width: 358px;
-  height: 380px;
+}
+
+.hit-list {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   pointer-events: none;
 }
 
@@ -110,17 +111,13 @@
 }
 
 .hit-row {
-  flex: 0 0 70px;
+  flex: 0 0 18%;
+  min-height: 44px;
   width: 100%;
   border-radius: 16px;
 }
 
 .hit-actions {
-  position: absolute;
-  left: 16px;
-  top: 670px;
-  width: 358px;
-  height: 48px;
   display: flex;
   gap: 8px;
   pointer-events: auto;
@@ -128,30 +125,26 @@
 
 .hit-cta {
   flex: 1;
-  min-height: 48px;
+  min-height: 44px;
   border-radius: 14px;
 }
 
 .hit-dock {
-  position: absolute;
-  left: 8px;
-  top: 774px;
-  width: 374px;
-  height: 56px;
   display: flex;
   pointer-events: auto;
 }
 
 .hit-dock button {
   flex: 1;
-  min-height: 56px;
+  min-height: 44px;
 }
 
 .hit-layer.debug .hit-row,
 .hit-layer.debug .hit-cta,
 .hit-layer.debug .hit-dock button {
-  outline: 1px dashed rgb(46 235 250 / 45%);
-  color: rgb(46 235 250 / 70%);
+  outline: 2px solid rgb(46 235 250 / 70%);
+  background: rgb(46 235 250 / 10%);
+  color: #2eebfa;
   font-size: 9px;
   font-weight: 700;
 }
