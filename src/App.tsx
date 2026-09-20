@@ -39,7 +39,7 @@ function supportsWebGL2(): boolean {
 }
 
 function prefersDark(): boolean {
-  return !window.matchMedia('(prefers-color-scheme: light)').matches
+  return true
 }
 
 function boot() {
@@ -56,7 +56,7 @@ function boot() {
     role,
     tab,
     selectedId,
-    darkMode: stored?.darkMode ?? prefersDark(),
+    darkMode: true,
     fallback: link.fallback || !supportsWebGL2(),
   }
 }
