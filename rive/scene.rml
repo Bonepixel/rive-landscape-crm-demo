@@ -4,10 +4,10 @@
         <LayoutComponentStyle name="Phone Style" id="70:2"/>
 
         <Fill name="Background">
-            <LinearGradient startX="0" startY="0" endX="120" endY="844" name="Grove">
-                <GradientStop colorValue="FF0B1F16" position="0"/>
-                <GradientStop colorValue="FF123526" position="0.55"/>
-                <GradientStop colorValue="FF0E2A1C" position="1"/>
+            <LinearGradient startX="0" startY="0" endX="80" endY="844" name="Night" id="70:3">
+                <GradientStop colorValue="FF070612" position="0" id="70:301"/>
+                <GradientStop colorValue="FF120C24" position="0.5" id="70:302"/>
+                <GradientStop colorValue="FF1A1240" position="1" id="70:303"/>
             </LinearGradient>
         </Fill>
 
@@ -16,519 +16,461 @@
                                   flexDirectionValue="column" layoutAlignmentType="topLeft"
                                   paddingLeft="16" paddingLeftUnitsValue="points"
                                   paddingRight="16" paddingRightUnitsValue="points"
-                                  paddingTop="22" paddingTopUnitsValue="points"
-                                  paddingBottom="16" paddingBottomUnitsValue="points"
-                                  gapVertical="12" gapVerticalUnitsValue="points"
+                                  paddingTop="20" paddingTopUnitsValue="points"
+                                  paddingBottom="14" paddingBottomUnitsValue="points"
+                                  gapVertical="10" gapVerticalUnitsValue="points"
                                   name="Root Style" id="70:11"/>
 
-            <!-- Header -->
             <LayoutComponent width="0" height="0" styleId="70:21" name="Header" id="70:20">
                 <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="hug"
-                                      flexDirectionValue="column" layoutAlignmentType="topLeft"
-                                      gapVertical="10" gapVerticalUnitsValue="points"
+                                      flexDirectionValue="row" layoutAlignmentType="centerLeft"
+                                      gapHorizontal="12" gapHorizontalUnitsValue="points"
                                       name="Header Style" id="70:21"/>
-
-                <LayoutComponent width="0" height="0" styleId="70:31" name="TitleRow" id="70:30">
+                <LayoutComponent width="44" height="44" clip="true" styleId="70:31" name="Logo" id="70:30">
+                    <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed"
+                                          cornerRadiusTL="22" name="Logo Style" id="70:31"/>
+                    <Fill name="LogoFill"><SolidColor colorValue="FF1E1548" name="C" id="70:32"/></Fill>
+                    <Image assetId="10:8" fit="contain" name="Mark" id="70:33">
+                        <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="fill" name="Mark Layout"/>
+                        <DataBindContext sourcePathIds="50:1-50:50" propertyKey="206"/>
+                    </Image>
+                </LayoutComponent>
+                <LayoutComponent width="0" height="0" styleId="70:41" name="Titles" id="70:40">
                     <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="hug"
-                                          flexDirectionValue="row" layoutAlignmentType="centerLeft"
-                                          gapHorizontal="12" gapHorizontalUnitsValue="points"
-                                          name="TitleRow Style" id="70:31"/>
-
-                    <LayoutComponent width="44" height="44" styleId="70:41" name="Logo" id="70:40">
-                        <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed"
-                                              cornerRadiusTL="22" name="Logo Style" id="70:41"/>
-                        <Fill name="LogoFill">
-                            <SolidColor colorValue="FF9CCC4C" name="C"/>
-                        </Fill>
-                        <Node name="Leaf">
-                            <Shape x="22" y="24" name="LeafShape">
-                                <Ellipse width="18" height="22" originX="0.5" originY="0.5" name="Blade"/>
-                                <Fill name="F"><SolidColor colorValue="FF163D2A" name="C"/></Fill>
-                            </Shape>
-                            <Shape x="22" y="26" name="Stem">
-                                <Rectangle width="2" height="10" originX="0.5" originY="0" name="Path"/>
-                                <Fill name="F"><SolidColor colorValue="FF0B1F16" name="C"/></Fill>
-                            </Shape>
-                        </Node>
-                    </LayoutComponent>
-
-                    <LayoutComponent width="0" height="0" styleId="70:51" name="Titles" id="70:50">
-                        <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="hug"
-                                              flexDirectionValue="column" layoutAlignmentType="centerLeft"
-                                              gapVertical="2" gapVerticalUnitsValue="points"
-                                              name="Titles Style" id="70:51"/>
-                        <Text name="Business" id="70:52">
-                            <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="Biz Layout"/>
-                            <TextStylePaint fontSize="18" fontAssetId="10:1" name="BizStyle" id="70:53">
-                                <Fill name="F"><SolidColor colorValue="FFF4F1E8" name="C"/></Fill>
-                                <TextStyleAxis tag="2003265652" axisValue="700" name="Weight"/>
-                            </TextStylePaint>
-                            <TextValueRun styleId="70:53" text="GreenField Landscapes" name="Run">
-                                <DataBindContext sourcePathIds="50:1-50:2" propertyKey="268"/>
-                            </TextValueRun>
-                        </Text>
-                        <Text name="Subtitle" id="70:54">
-                            <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="Sub Layout"/>
-                            <TextStylePaint fontSize="12" fontAssetId="10:1" name="SubStyle" id="70:55">
-                                <Fill name="F"><SolidColor colorValue="FFC8E07A" name="C"/></Fill>
-                                <TextStyleAxis tag="2003265652" axisValue="500" name="Weight"/>
-                            </TextStylePaint>
-                            <TextValueRun styleId="70:55" text="Sales · Field CRM" name="Run">
-                                <DataBindContext sourcePathIds="50:1-50:3" propertyKey="268"/>
-                            </TextValueRun>
-                        </Text>
-                    </LayoutComponent>
-                </LayoutComponent>
-
-                <LayoutComponent width="0" height="32" styleId="70:61" name="ValueChip" id="70:60">
-                    <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fixed"
-                                          layoutAlignmentType="centerLeft"
-                                          paddingLeft="12" paddingLeftUnitsValue="points"
-                                          paddingRight="12" paddingRightUnitsValue="points"
-                                          cornerRadiusTL="16" name="ValueChip Style" id="70:61"/>
-                    <Fill name="ValueFill">
-                        <SolidColor colorValue="FF163D2A" name="C"/>
-                    </Fill>
-                    <Text name="PipelineValue" id="70:62">
-                        <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="Val Layout"/>
-                        <TextStylePaint fontSize="13" fontAssetId="10:1" name="ValStyle" id="70:63">
-                            <Fill name="F"><SolidColor colorValue="FFE8F0C8" name="C"/></Fill>
-                            <TextStyleAxis tag="2003265652" axisValue="600" name="Weight"/>
+                                          flexDirectionValue="column" layoutAlignmentType="centerLeft"
+                                          gapVertical="2" gapVerticalUnitsValue="points" name="Titles Style" id="70:41"/>
+                    <Text name="Business" id="70:42">
+                        <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="Biz Layout"/>
+                        <TextStylePaint fontSize="20" fontAssetId="10:1" name="BizStyle" id="70:43">
+                            <Fill name="F"><SolidColor colorValue="FFF4F1FF" name="C" id="70:44"/></Fill>
+                            <TextStyleAxis tag="2003265652" axisValue="750" name="Weight"/>
                         </TextStylePaint>
-                        <TextValueRun styleId="70:63" text="Pipeline  $44.5k open" name="Run">
-                            <DataBindContext sourcePathIds="50:1-50:10" propertyKey="268"/>
+                        <TextValueRun styleId="70:43" text="OdinOps" name="Run">
+                            <DataBindContext sourcePathIds="50:1-50:2" propertyKey="268"/>
+                        </TextValueRun>
+                    </Text>
+                    <Text name="Subtitle" id="70:45">
+                        <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="Sub Layout"/>
+                        <TextStylePaint fontSize="12" fontAssetId="10:1" name="SubStyle" id="70:46">
+                            <Fill name="F"><SolidColor colorValue="FF00E5FF" name="C" id="70:47"/></Fill>
+                            <TextStyleAxis tag="2003265652" axisValue="550" name="Weight"/>
+                        </TextStylePaint>
+                        <TextValueRun styleId="70:46" text="Intake · Front desk" name="Run">
+                            <DataBindContext sourcePathIds="50:1-50:3" propertyKey="268"/>
                         </TextValueRun>
                     </Text>
                 </LayoutComponent>
             </LayoutComponent>
 
-            <!-- Pipeline tabs -->
-            <LayoutComponent width="0" height="64" styleId="70:71" name="Tabs" id="70:70">
+            <LayoutComponent width="0" height="30" styleId="70:51" name="ValueChip" id="70:50">
                 <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fixed"
-                                      flexDirectionValue="row" layoutAlignmentType="center"
-                                      gapHorizontal="8" gapHorizontalUnitsValue="points"
-                                      name="Tabs Style" id="70:71"/>
-
-                <LayoutComponent width="0" height="64" styleId="70:81" name="TabNew" id="70:80">
-                    <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fill"
-                                          flexDirectionValue="column" layoutAlignmentType="center"
-                                          gapVertical="2" gapVerticalUnitsValue="points"
-                                          cornerRadiusTL="14" name="TabNew Style" id="70:81"/>
-                    <Fill name="TabNewFill">
-                        <SolidColor colorValue="FF2F6B3A" name="C" id="70:82"/>
-                    </Fill>
-                    <Text name="TabNewLabel" id="70:83" sizingValue="autoWidth">
-                        <LayoutParticipant layoutWidthScaleType="hug" layoutHeightScaleType="hug" name="TNL"/>
-                        <TextStylePaint fontSize="11" fontAssetId="10:1" name="TNS" id="70:84">
-                            <Fill name="F"><SolidColor colorValue="FFF4F1E8" name="C"/></Fill>
-                            <TextStyleAxis tag="2003265652" axisValue="650" name="Weight"/>
-                        </TextStylePaint>
-                        <TextValueRun styleId="70:84" text="New Lead" name="Run"/>
-                    </Text>
-                    <Text name="TabNewCount" id="70:85" sizingValue="autoWidth">
-                        <LayoutParticipant layoutWidthScaleType="hug" layoutHeightScaleType="hug" name="TNC"/>
-                        <TextStylePaint fontSize="16" fontAssetId="10:1" name="TNCS" id="70:86">
-                            <Fill name="F"><SolidColor colorValue="FFC8E07A" name="C"/></Fill>
-                            <TextStyleAxis tag="2003265652" axisValue="700" name="Weight"/>
-                        </TextStylePaint>
-                        <TextValueRun styleId="70:86" text="2" name="Run">
-                            <DataBindContext sourcePathIds="50:1-50:5" propertyKey="268"/>
-                        </TextValueRun>
-                    </Text>
-                </LayoutComponent>
-
-                <LayoutComponent width="0" height="64" styleId="70:91" name="TabEstimate" id="70:90">
-                    <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fill"
-                                          flexDirectionValue="column" layoutAlignmentType="center"
-                                          gapVertical="2" gapVerticalUnitsValue="points"
-                                          cornerRadiusTL="14" name="TabEst Style" id="70:91"/>
-                    <Fill name="TabEstFill">
-                        <SolidColor colorValue="FF1A3A2A" name="C" id="70:92"/>
-                    </Fill>
-                    <Text name="TabEstLabel" id="70:93" sizingValue="autoWidth">
-                        <LayoutParticipant layoutWidthScaleType="hug" layoutHeightScaleType="hug" name="TEL"/>
-                        <TextStylePaint fontSize="11" fontAssetId="10:1" name="TES" id="70:94">
-                            <Fill name="F"><SolidColor colorValue="FFF4F1E8" name="C"/></Fill>
-                            <TextStyleAxis tag="2003265652" axisValue="650" name="Weight"/>
-                        </TextStylePaint>
-                        <TextValueRun styleId="70:94" text="Estimate Sent" name="Run"/>
-                    </Text>
-                    <Text name="TabEstCount" id="70:95" sizingValue="autoWidth">
-                        <LayoutParticipant layoutWidthScaleType="hug" layoutHeightScaleType="hug" name="TEC"/>
-                        <TextStylePaint fontSize="16" fontAssetId="10:1" name="TECS" id="70:96">
-                            <Fill name="F"><SolidColor colorValue="FFD4A04A" name="C"/></Fill>
-                            <TextStyleAxis tag="2003265652" axisValue="700" name="Weight"/>
-                        </TextStylePaint>
-                        <TextValueRun styleId="70:96" text="2" name="Run">
-                            <DataBindContext sourcePathIds="50:1-50:6" propertyKey="268"/>
-                        </TextValueRun>
-                    </Text>
-                </LayoutComponent>
-
-                <LayoutComponent width="0" height="64" styleId="70:101" name="TabWon" id="70:100">
-                    <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fill"
-                                          flexDirectionValue="column" layoutAlignmentType="center"
-                                          gapVertical="2" gapVerticalUnitsValue="points"
-                                          cornerRadiusTL="14" name="TabWon Style" id="70:101"/>
-                    <Fill name="TabWonFill">
-                        <SolidColor colorValue="FF1A3A2A" name="C" id="70:102"/>
-                    </Fill>
-                    <Text name="TabWonLabel" id="70:103" sizingValue="autoWidth">
-                        <LayoutParticipant layoutWidthScaleType="hug" layoutHeightScaleType="hug" name="TWL"/>
-                        <TextStylePaint fontSize="11" fontAssetId="10:1" name="TWS" id="70:104">
-                            <Fill name="F"><SolidColor colorValue="FFF4F1E8" name="C"/></Fill>
-                            <TextStyleAxis tag="2003265652" axisValue="650" name="Weight"/>
-                        </TextStylePaint>
-                        <TextValueRun styleId="70:104" text="Won" name="Run"/>
-                    </Text>
-                    <Text name="TabWonCount" id="70:105" sizingValue="autoWidth">
-                        <LayoutParticipant layoutWidthScaleType="hug" layoutHeightScaleType="hug" name="TWC"/>
-                        <TextStylePaint fontSize="16" fontAssetId="10:1" name="TWCS" id="70:106">
-                            <Fill name="F"><SolidColor colorValue="FF7ED4C6" name="C"/></Fill>
-                            <TextStyleAxis tag="2003265652" axisValue="700" name="Weight"/>
-                        </TextStylePaint>
-                        <TextValueRun styleId="70:106" text="1" name="Run">
-                            <DataBindContext sourcePathIds="50:1-50:7" propertyKey="268"/>
-                        </TextValueRun>
-                    </Text>
-                </LayoutComponent>
+                                      layoutAlignmentType="centerLeft"
+                                      paddingLeft="12" paddingLeftUnitsValue="points"
+                                      paddingRight="12" paddingRightUnitsValue="points"
+                                      cornerRadiusTL="15" name="ValueChip Style" id="70:51"/>
+                <Fill name="ValueFill"><SolidColor colorValue="FF1E1548" name="C" id="70:52"/></Fill>
+                <Text name="PipelineValue" id="70:53">
+                    <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="Val Layout"/>
+                    <TextStylePaint fontSize="12" fontAssetId="10:1" name="ValStyle" id="70:54">
+                        <Fill name="F"><SolidColor colorValue="FF5CFFF1" name="C" id="70:55"/></Fill>
+                        <TextStyleAxis tag="2003265652" axisValue="600" name="Weight"/>
+                    </TextStylePaint>
+                    <TextValueRun styleId="70:54" text="Desk  1 new inquiries" name="Run">
+                        <DataBindContext sourcePathIds="50:1-50:9" propertyKey="268"/>
+                    </TextValueRun>
+                </Text>
             </LayoutComponent>
 
-            <!-- Job list -->
-            <LayoutComponent width="0" height="0" clip="true" styleId="70:111" name="ListWell" id="70:110">
+            <LayoutComponent width="0" height="0" styleId="70:61" name="RoleNav" id="70:60">
+                <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="hug"
+                                      flexDirectionValue="row" flexWrapValue="wrap" layoutAlignmentType="centerLeft"
+                                      gapHorizontal="6" gapHorizontalUnitsValue="points"
+                                      gapVertical="6" gapVerticalUnitsValue="points"
+                                      name="RoleNav Style" id="70:61"/>
+                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:41"
+                                      instanceWidth="82" instanceHeight="34" name="NavIntake" id="70:62">
+                    <NestedStateMachine animationId="61:5" name="SM"/>
+                </NestedArtboardLayout>
+                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:42"
+                                      instanceWidth="82" instanceHeight="34" name="NavSales" id="70:63">
+                    <NestedStateMachine animationId="61:5" name="SM"/>
+                </NestedArtboardLayout>
+                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:43"
+                                      instanceWidth="82" instanceHeight="34" name="NavSched" id="70:64">
+                    <NestedStateMachine animationId="61:5" name="SM"/>
+                </NestedArtboardLayout>
+                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:44"
+                                      instanceWidth="82" instanceHeight="34" name="NavAdmin" id="70:65">
+                    <NestedStateMachine animationId="61:5" name="SM"/>
+                </NestedArtboardLayout>
+                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:45"
+                                      instanceWidth="82" instanceHeight="34" name="NavOwner" id="70:66">
+                    <NestedStateMachine animationId="61:5" name="SM"/>
+                </NestedArtboardLayout>
+                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:46"
+                                      instanceWidth="82" instanceHeight="34" name="NavForeman" id="70:67">
+                    <NestedStateMachine animationId="61:5" name="SM"/>
+                </NestedArtboardLayout>
+                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:47"
+                                      instanceWidth="82" instanceHeight="34" name="NavCrew" id="70:68">
+                    <NestedStateMachine animationId="61:5" name="SM"/>
+                </NestedArtboardLayout>
+            </LayoutComponent>
+
+            <LayoutComponent width="0" height="0" styleId="70:71" name="PanelHead" id="70:70">
+                <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="hug"
+                                      flexDirectionValue="column" layoutAlignmentType="topLeft"
+                                      gapVertical="2" gapVerticalUnitsValue="points" name="PanelHead Style" id="70:71"/>
+                <Text name="PanelTitle" id="70:72">
+                    <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="PT"/>
+                    <TextStylePaint fontSize="15" fontAssetId="10:1" name="PTS" id="70:73">
+                        <Fill name="F"><SolidColor colorValue="FFF4F1FF" name="C" id="70:74"/></Fill>
+                        <TextStyleAxis tag="2003265652" axisValue="700" name="Weight"/>
+                    </TextStylePaint>
+                    <TextValueRun styleId="70:73" text="Today's inquiries" name="Run">
+                        <DataBindContext sourcePathIds="50:1-50:5" propertyKey="268"/>
+                    </TextValueRun>
+                </Text>
+                <Text name="PanelHint" id="70:75">
+                    <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="PH"/>
+                    <TextStylePaint fontSize="11" fontAssetId="10:1" name="PHS" id="70:76">
+                        <Fill name="F"><SolidColor colorValue="FFA89CC8" name="C" id="70:77"/></Fill>
+                        <TextStyleAxis tag="2003265652" axisValue="500" name="Weight"/>
+                    </TextStylePaint>
+                    <TextValueRun styleId="70:76" text="1 waiting" name="Run">
+                        <DataBindContext sourcePathIds="50:1-50:6" propertyKey="268"/>
+                    </TextValueRun>
+                </Text>
+            </LayoutComponent>
+
+            <LayoutComponent width="0" height="0" clip="true" styleId="70:81" name="ContentWell" id="70:80">
                 <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fill"
                                       flexDirectionValue="column" layoutAlignmentType="topLeft"
                                       gapVertical="8" gapVerticalUnitsValue="points"
-                                      name="ListWell Style" id="70:111"/>
-                <ArtboardComponentList name="LeadRows" id="70:112">
-                    <DataBindContext sourcePathIds="50:1-50:11" propertyKey="800"/>
+                                      name="ContentWell Style" id="70:81"/>
+                <LayoutComponent width="0" height="0" styleId="70:86" name="PillsRow" id="70:85">
+                    <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="hug"
+                                          flexDirectionValue="row" flexWrapValue="wrap"
+                                          gapHorizontal="6" gapHorizontalUnitsValue="points"
+                                          gapVertical="6" gapVerticalUnitsValue="points"
+                                          name="PillsRow Style" id="70:86"/>
+                    <ArtboardComponentList name="PillRows" id="70:87">
+                        <DataBindContext sourcePathIds="50:1-50:19" propertyKey="800"/>
+                    </ArtboardComponentList>
+                </LayoutComponent>
+                <ArtboardComponentList name="KpiRows" id="70:88">
+                    <DataBindContext sourcePathIds="50:1-50:18" propertyKey="800"/>
+                </ArtboardComponentList>
+                <ArtboardComponentList name="DayRows" id="70:89">
+                    <DataBindContext sourcePathIds="50:1-50:17" propertyKey="800"/>
+                </ArtboardComponentList>
+                <ArtboardComponentList name="JobRows" id="70:90">
+                    <DataBindContext sourcePathIds="50:1-50:16" propertyKey="800"/>
                 </ArtboardComponentList>
             </LayoutComponent>
 
-            <!-- Selected job hero -->
-            <LayoutComponent width="0" height="148" styleId="70:121" name="Hero" id="70:120">
+            <LayoutComponent width="0" height="108" styleId="70:101" name="Hero" id="70:100">
                 <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fixed"
                                       flexDirectionValue="column" layoutAlignmentType="topLeft"
                                       paddingLeft="14" paddingLeftUnitsValue="points"
                                       paddingRight="14" paddingRightUnitsValue="points"
-                                      paddingTop="12" paddingTopUnitsValue="points"
-                                      paddingBottom="12" paddingBottomUnitsValue="points"
-                                      gapVertical="4" gapVerticalUnitsValue="points"
-                                      cornerRadiusTL="18" name="Hero Style" id="70:121"/>
-                <Fill name="HeroFill">
-                    <SolidColor colorValue="FF163D2A" name="C"/>
-                </Fill>
+                                      paddingTop="10" paddingTopUnitsValue="points"
+                                      paddingBottom="10" paddingBottomUnitsValue="points"
+                                      gapVertical="3" gapVerticalUnitsValue="points"
+                                      cornerRadiusTL="18" name="Hero Style" id="70:101"/>
+                <Fill name="HeroFill"><SolidColor colorValue="FF1E1548" name="C" id="70:102"/></Fill>
                 <Stroke thickness="1.5" name="HeroEdge">
-                    <SolidColor colorValue="FF8FBF4D" name="C"/>
+                    <SolidColor colorValue="FF00E5FF" name="C" id="70:103"/>
                 </Stroke>
-
-                <LayoutComponent width="0" height="0" styleId="70:131" name="HeroTop" id="70:130">
+                <LayoutComponent width="0" height="0" styleId="70:111" name="HeroTop" id="70:110">
                     <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="hug"
                                           flexDirectionValue="row" layoutAlignmentType="centerLeft"
                                           gapHorizontal="8" gapHorizontalUnitsValue="points"
-                                          name="HeroTop Style" id="70:131"/>
-                    <Text name="HeroKicker" id="70:132" sizingValue="autoWidth">
+                                          name="HeroTop Style" id="70:111"/>
+                    <Text name="HeroKicker" id="70:112" sizingValue="autoWidth">
                         <LayoutParticipant layoutWidthScaleType="hug" layoutHeightScaleType="hug" name="HK"/>
-                        <TextStylePaint fontSize="11" fontAssetId="10:1" name="HKS" id="70:133">
-                            <Fill name="F"><SolidColor colorValue="FFC8E07A" name="C"/></Fill>
-                            <TextStyleAxis tag="2003265652" axisValue="600" name="Weight"/>
+                        <TextStylePaint fontSize="10" fontAssetId="10:1" name="HKS" id="70:113">
+                            <Fill name="F"><SolidColor colorValue="FF5CFFF1" name="C"/></Fill>
+                            <TextStyleAxis tag="2003265652" axisValue="650" name="Weight"/>
                         </TextStylePaint>
-                        <TextValueRun styleId="70:133" text="SELECTED JOB" name="Run"/>
+                        <TextValueRun styleId="70:113" text="SELECTED" name="Run"/>
                     </Text>
-                    <LayoutComponent width="0" height="20" styleId="70:141" name="HeroChip" id="70:140">
+                    <LayoutComponent width="0" height="20" styleId="70:121" name="HeroChip" id="70:120">
                         <LayoutComponentStyle layoutWidthScaleType="hug" layoutHeightScaleType="fixed"
                                               layoutAlignmentType="center"
                                               paddingLeft="8" paddingLeftUnitsValue="points"
                                               paddingRight="8" paddingRightUnitsValue="points"
-                                              cornerRadiusTL="10" name="HeroChip Style" id="70:141"/>
+                                              cornerRadiusTL="10" name="HeroChip Style" id="70:121"/>
                         <Fill name="HeroChipFill">
-                            <SolidColor colorValue="FF5B8C3E" name="C" id="70:142">
-                                <DataBindContext sourcePathIds="50:1-50:27" propertyKey="37"/>
+                            <SolidColor colorValue="FF7B5CFF" name="C" id="70:122">
+                                <DataBindContext sourcePathIds="50:1-50:15" propertyKey="37"/>
                             </SolidColor>
                         </Fill>
-                        <Text name="HeroStatus" id="70:143" sizingValue="autoWidth">
+                        <Text name="HeroStatus" id="70:123" sizingValue="autoWidth">
                             <LayoutParticipant layoutWidthScaleType="hug" layoutHeightScaleType="hug" name="HS"/>
-                            <TextStylePaint fontSize="10" fontAssetId="10:1" name="HSS" id="70:144">
-                                <Fill name="F"><SolidColor colorValue="FFF7F3E8" name="C"/></Fill>
+                            <TextStylePaint fontSize="10" fontAssetId="10:1" name="HSS" id="70:124">
+                                <Fill name="F"><SolidColor colorValue="FF070612" name="C"/></Fill>
                                 <TextStyleAxis tag="2003265652" axisValue="650" name="Weight"/>
                             </TextStylePaint>
-                            <TextValueRun styleId="70:144" text="New lead" name="Run">
-                                <DataBindContext sourcePathIds="50:1-50:15" propertyKey="268"/>
+                            <TextValueRun styleId="70:124" text="Inquiry" name="Run">
+                                <DataBindContext sourcePathIds="50:1-50:14" propertyKey="268"/>
                             </TextValueRun>
                         </Text>
                     </LayoutComponent>
                 </LayoutComponent>
-
-                <Text name="HeroName" id="70:150">
+                <Text name="HeroName" id="70:130">
                     <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="HN"/>
-                    <TextStylePaint fontSize="20" fontAssetId="10:1" name="HNS" id="70:151">
-                        <Fill name="F"><SolidColor colorValue="FFF7F3E8" name="C"/></Fill>
+                    <TextStylePaint fontSize="18" fontAssetId="10:1" name="HNS" id="70:131">
+                        <Fill name="F"><SolidColor colorValue="FFF4F1FF" name="C" id="70:132"/></Fill>
                         <TextStyleAxis tag="2003265652" axisValue="700" name="Weight"/>
                     </TextStylePaint>
-                    <TextValueRun styleId="70:151" text="Maya Chen" name="Run">
-                        <DataBindContext sourcePathIds="50:1-50:12" propertyKey="268"/>
+                    <TextValueRun styleId="70:131" text="Maya Chen" name="Run">
+                        <DataBindContext sourcePathIds="50:1-50:10" propertyKey="268"/>
                     </TextValueRun>
                 </Text>
-                <Text name="HeroJob" id="70:152">
+                <Text name="HeroJob" id="70:133">
                     <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="HJ"/>
-                    <TextStylePaint fontSize="13" fontAssetId="10:1" name="HJS" id="70:153">
-                        <Fill name="F"><SolidColor colorValue="FFD4E8B0" name="C"/></Fill>
+                    <TextStylePaint fontSize="12" fontAssetId="10:1" name="HJS" id="70:134">
+                        <Fill name="F"><SolidColor colorValue="FFC8B8FF" name="C" id="70:135"/></Fill>
                         <TextStyleAxis tag="2003265652" axisValue="500" name="Weight"/>
                     </TextStylePaint>
-                    <TextValueRun styleId="70:153" text="Lawn install" name="Run">
-                        <DataBindContext sourcePathIds="50:1-50:13" propertyKey="268"/>
-                    </TextValueRun>
-                    <TextValueRun styleId="70:153" text="  ·  " name="Dot"/>
-                    <TextValueRun styleId="70:154" text="$8,400" name="Est">
-                        <DataBindContext sourcePathIds="50:1-50:14" propertyKey="268"/>
-                    </TextValueRun>
-                    <TextStylePaint fontSize="13" fontAssetId="10:1" name="HES" id="70:154">
-                        <Fill name="F"><SolidColor colorValue="FFC8E07A" name="C"/></Fill>
-                        <TextStyleAxis tag="2003265652" axisValue="700" name="Weight"/>
-                    </TextStylePaint>
-                </Text>
-                <Text name="HeroAddress" id="70:155">
-                    <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="HA"/>
-                    <TextStylePaint fontSize="12" fontAssetId="10:1" name="HAS" id="70:156">
-                        <Fill name="F"><SolidColor colorValue="FFA8B89A" name="C"/></Fill>
-                        <TextStyleAxis tag="2003265652" axisValue="500" name="Weight"/>
-                    </TextStylePaint>
-                    <TextValueRun styleId="70:156" text="214 Oak Lane · site walk Fri" name="Run">
-                        <DataBindContext sourcePathIds="50:1-50:16" propertyKey="268"/>
+                    <TextValueRun styleId="70:134" text="Lawn install · $8,400" name="Run">
+                        <DataBindContext sourcePathIds="50:1-50:11" propertyKey="268"/>
                     </TextValueRun>
                 </Text>
-                <Text name="HeroNext" id="70:157">
+                <Text name="HeroNext" id="70:136">
                     <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="HX"/>
-                    <TextStylePaint fontSize="12" fontAssetId="10:1" name="HXS" id="70:158">
-                        <Fill name="F"><SolidColor colorValue="FF9CCC4C" name="C"/></Fill>
+                    <TextStylePaint fontSize="12" fontAssetId="10:1" name="HXS" id="70:137">
+                        <Fill name="F"><SolidColor colorValue="FF00E5FF" name="C" id="70:138"/></Fill>
                         <TextStyleAxis tag="2003265652" axisValue="600" name="Weight"/>
                     </TextStylePaint>
-                    <TextValueRun styleId="70:158" text="Next: send estimate" name="Run">
-                        <DataBindContext sourcePathIds="50:1-50:17" propertyKey="268"/>
+                    <TextValueRun styleId="70:137" text="Next: send to sales" name="Run">
+                        <DataBindContext sourcePathIds="50:1-50:13" propertyKey="268"/>
                     </TextValueRun>
                 </Text>
             </LayoutComponent>
 
-            <!-- Actions -->
-            <LayoutComponent width="0" height="52" styleId="70:161" name="Actions" id="70:160">
+            <LayoutComponent width="0" height="48" styleId="70:141" name="Actions" id="70:140">
                 <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fixed"
                                       flexDirectionValue="row" layoutAlignmentType="center"
                                       gapHorizontal="8" gapHorizontalUnitsValue="points"
-                                      name="Actions Style" id="70:161"/>
-
-                <LayoutComponent width="0" height="52" styleId="70:171" name="BtnNew" id="70:170">
-                    <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fill"
-                                          layoutAlignmentType="center" cornerRadiusTL="14"
-                                          name="BtnNew Style" id="70:171"/>
-                    <Fill name="BtnNewFill">
-                        <SolidColor colorValue="FFE8E0C8" name="C" id="70:172"/>
-                    </Fill>
-                    <Text name="BtnNewLabel" id="70:173" sizingValue="autoWidth">
-                        <LayoutParticipant layoutWidthScaleType="hug" layoutHeightScaleType="hug" name="BNL"/>
-                        <TextStylePaint fontSize="13" fontAssetId="10:1" name="BNS" id="70:174">
-                            <Fill name="F"><SolidColor colorValue="FF1A2E22" name="C"/></Fill>
-                            <TextStyleAxis tag="2003265652" axisValue="650" name="Weight"/>
-                        </TextStylePaint>
-                        <TextValueRun styleId="70:174" text="New lead" name="Run"/>
-                    </Text>
-                </LayoutComponent>
-
-                <LayoutComponent width="0" height="52" styleId="70:181" name="BtnEstimate" id="70:180">
-                    <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fill"
-                                          layoutAlignmentType="center" cornerRadiusTL="14"
-                                          name="BtnEst Style" id="70:181"/>
-                    <Fill name="BtnEstFill">
-                        <SolidColor colorValue="FF9CCC4C" name="C" id="70:182"/>
-                    </Fill>
-                    <Text name="BtnEstLabel" id="70:183" sizingValue="autoWidth">
-                        <LayoutParticipant layoutWidthScaleType="hug" layoutHeightScaleType="hug" name="BEL"/>
-                        <TextStylePaint fontSize="13" fontAssetId="10:1" name="BES" id="70:184">
-                            <Fill name="F"><SolidColor colorValue="FF0B1F16" name="C"/></Fill>
-                            <TextStyleAxis tag="2003265652" axisValue="700" name="Weight"/>
-                        </TextStylePaint>
-                        <TextValueRun styleId="70:184" text="Send estimate" name="Run"/>
-                    </Text>
-                </LayoutComponent>
-
-                <LayoutComponent width="0" height="52" styleId="70:191" name="BtnCall" id="70:190">
-                    <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fill"
-                                          layoutAlignmentType="center" cornerRadiusTL="14"
-                                          name="BtnCall Style" id="70:191"/>
-                    <Fill name="BtnCallFill">
-                        <SolidColor colorValue="FF2F6B3A" name="C" id="70:192"/>
-                    </Fill>
-                    <Text name="BtnCallLabel" id="70:193" sizingValue="autoWidth">
-                        <LayoutParticipant layoutWidthScaleType="hug" layoutHeightScaleType="hug" name="BCL"/>
-                        <TextStylePaint fontSize="13" fontAssetId="10:1" name="BCS" id="70:194">
-                            <Fill name="F"><SolidColor colorValue="FFF4F1E8" name="C"/></Fill>
-                            <TextStyleAxis tag="2003265652" axisValue="650" name="Weight"/>
-                        </TextStylePaint>
-                        <TextValueRun styleId="70:194" text="Call" name="Run"/>
-                    </Text>
-                </LayoutComponent>
+                                      name="Actions Style" id="70:141"/>
+                <NestedArtboardLayout artboardId="63:1" dataBindPathIds="50:1-50:24"
+                                      instanceWidth="174" instanceHeight="48"
+                                      instanceWidthScaleType="fill" instanceHeightScaleType="fixed"
+                                      name="PrimaryBtn" id="70:142">
+                    <NestedStateMachine animationId="63:5" name="SM"/>
+                </NestedArtboardLayout>
+                <NestedArtboardLayout artboardId="63:1" dataBindPathIds="50:1-50:25"
+                                      instanceWidth="174" instanceHeight="48"
+                                      instanceWidthScaleType="fill" instanceHeightScaleType="fixed"
+                                      name="SecondaryBtn" id="70:143">
+                    <NestedStateMachine animationId="63:5" name="SM"/>
+                </NestedArtboardLayout>
             </LayoutComponent>
 
-            <Text name="Toast" id="70:200">
+            <Text name="Toast" id="70:150">
                 <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="Toast Layout"/>
-                <TextStylePaint fontSize="12" fontAssetId="10:1" name="ToastStyle" id="70:201">
-                    <Fill name="F"><SolidColor colorValue="FFC8E07A" name="C"/></Fill>
+                <TextStylePaint fontSize="12" fontAssetId="10:1" name="ToastStyle" id="70:151">
+                    <Fill name="F"><SolidColor colorValue="FF00E5FF" name="C" id="70:152"/></Fill>
                     <TextStyleAxis tag="2003265652" axisValue="500" name="Weight"/>
                 </TextStylePaint>
-                <TextValueRun styleId="70:201" text="Tap a job · send the estimate" name="Run">
-                    <DataBindContext sourcePathIds="50:1-50:9" propertyKey="268"/>
+                <TextValueRun styleId="70:151" text="Tap a job · switch roles" name="Run">
+                    <DataBindContext sourcePathIds="50:1-50:4" propertyKey="268"/>
                 </TextValueRun>
             </Text>
         </LayoutComponent>
 
-        <!-- Motion: chip pulse + tab/button states -->
-        <LinearAnimation duration="90" loopValue="loop" name="ChipPulse" id="70:3">
-            <KeyedObject objectId="70:140">
+        <Node x="195" y="620" name="Burst" id="70:200">
+            <Shape x="-36" y="0" name="SparkA" id="70:201">
+                <Ellipse width="8" height="8" originX="0.5" originY="0.5" name="P"/>
+                <Fill name="F"><SolidColor colorValue="FF00E5FF" name="C"/></Fill>
+            </Shape>
+            <Shape x="28" y="-18" name="SparkB" id="70:202">
+                <Ellipse width="6" height="6" originX="0.5" originY="0.5" name="P"/>
+                <Fill name="F"><SolidColor colorValue="FFFF3D8A" name="C"/></Fill>
+            </Shape>
+            <Shape x="8" y="16" name="SparkC" id="70:203">
+                <Ellipse width="7" height="7" originX="0.5" originY="0.5" name="P"/>
+                <Fill name="F"><SolidColor colorValue="FFC6FF4D" name="C"/></Fill>
+            </Shape>
+            <Shape x="-18" y="-22" name="SparkD" id="70:204">
+                <Ellipse width="5" height="5" originX="0.5" originY="0.5" name="P"/>
+                <Fill name="F"><SolidColor colorValue="FF6E4AFF" name="C"/></Fill>
+            </Shape>
+            <Shape x="40" y="8" name="SparkE" id="70:205">
+                <Ellipse width="6" height="6" originX="0.5" originY="0.5" name="P"/>
+                <Fill name="F"><SolidColor colorValue="FF5CFFF1" name="C"/></Fill>
+            </Shape>
+        </Node>
+
+        <LinearAnimation duration="150" loopValue="loop" name="LogoBreathe" id="70:210">
+            <KeyedObject objectId="70:30">
+                <KeyedProperty propertyKey="16">
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="1.045" interpolationType="cubic" frame="75"/>
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="150"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="17">
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="1.045" interpolationType="cubic" frame="75"/>
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="150"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+
+        <LinearAnimation duration="1" name="ThemeDark" id="70:211">
+            <KeyedObject objectId="70:301">
+                <KeyedProperty propertyKey="38"><KeyFrameColor value="FF070612" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:302">
+                <KeyedProperty propertyKey="38"><KeyFrameColor value="FF120C24" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:303">
+                <KeyedProperty propertyKey="38"><KeyFrameColor value="FF1A1240" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:44">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FFF4F1FF" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:74">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FFF4F1FF" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:102">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF1E1548" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:52">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF1E1548" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:32">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF1E1548" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:132">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FFF4F1FF" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="ThemeLight" id="70:212">
+            <KeyedObject objectId="70:301">
+                <KeyedProperty propertyKey="38"><KeyFrameColor value="FFF4F1FF" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:302">
+                <KeyedProperty propertyKey="38"><KeyFrameColor value="FFE8E2F8" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:303">
+                <KeyedProperty propertyKey="38"><KeyFrameColor value="FFD4C8F4" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:44">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF120C24" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:74">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF120C24" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:102">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FFFFFFFF" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:52">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FFFFFFFF" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:32">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FFFFFFFF" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:132">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF120C24" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+
+        <LinearAnimation duration="1" name="ContentRest" id="70:213">
+            <KeyedObject objectId="70:80">
+                <KeyedProperty propertyKey="13"><KeyFrameDouble value="0" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="18" name="ContentSwitch" id="70:214">
+            <KeyedObject objectId="70:80">
+                <KeyedProperty propertyKey="13">
+                    <KeyFrameDouble value="0" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="18" interpolationType="cubic" frame="8"/>
+                    <KeyFrameDouble value="0" interpolationType="cubic" frame="18"/>
+                </KeyedProperty>
                 <KeyedProperty propertyKey="18">
                     <KeyFrameDouble value="1" interpolationType="cubic" frame="0"/>
-                    <KeyFrameDouble value="0.62" interpolationType="cubic" frame="45"/>
-                    <KeyFrameDouble value="1" interpolationType="cubic" frame="90"/>
+                    <KeyFrameDouble value="0.35" interpolationType="cubic" frame="8"/>
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="18"/>
                 </KeyedProperty>
             </KeyedObject>
         </LinearAnimation>
 
-        <LinearAnimation duration="1" name="TabOn" id="70:210">
-            <KeyedObject objectId="70:82">
-                <KeyedProperty propertyKey="37">
-                    <KeyFrameColor value="FF2F6B3A" interpolationType="hold"/>
-                </KeyedProperty>
+        <LinearAnimation duration="1" name="BurstHide" id="70:215">
+            <KeyedObject objectId="70:200">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="0" interpolationType="hold"/></KeyedProperty>
             </KeyedObject>
         </LinearAnimation>
-        <LinearAnimation duration="1" name="TabOff" id="70:211">
-            <KeyedObject objectId="70:82">
-                <KeyedProperty propertyKey="37">
-                    <KeyFrameColor value="FF1A3A2A" interpolationType="hold"/>
+        <LinearAnimation duration="28" name="BurstPop" id="70:216">
+            <KeyedObject objectId="70:200">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="0" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="4"/>
+                    <KeyFrameDouble value="0" interpolationType="cubic" frame="28"/>
                 </KeyedProperty>
-            </KeyedObject>
-        </LinearAnimation>
-        <LinearAnimation duration="1" name="TabEstOn" id="70:212">
-            <KeyedObject objectId="70:92">
-                <KeyedProperty propertyKey="37">
-                    <KeyFrameColor value="FF2F6B3A" interpolationType="hold"/>
-                </KeyedProperty>
-            </KeyedObject>
-        </LinearAnimation>
-        <LinearAnimation duration="1" name="TabEstOff" id="70:213">
-            <KeyedObject objectId="70:92">
-                <KeyedProperty propertyKey="37">
-                    <KeyFrameColor value="FF1A3A2A" interpolationType="hold"/>
-                </KeyedProperty>
-            </KeyedObject>
-        </LinearAnimation>
-        <LinearAnimation duration="1" name="TabWonOn" id="70:214">
-            <KeyedObject objectId="70:102">
-                <KeyedProperty propertyKey="37">
-                    <KeyFrameColor value="FF2F6B3A" interpolationType="hold"/>
-                </KeyedProperty>
-            </KeyedObject>
-        </LinearAnimation>
-        <LinearAnimation duration="1" name="TabWonOff" id="70:215">
-            <KeyedObject objectId="70:102">
-                <KeyedProperty propertyKey="37">
-                    <KeyFrameColor value="FF1A3A2A" interpolationType="hold"/>
-                </KeyedProperty>
-            </KeyedObject>
-        </LinearAnimation>
-
-        <LinearAnimation duration="1" name="BtnRest" id="70:216">
-            <KeyedObject objectId="70:170">
                 <KeyedProperty propertyKey="16">
-                    <KeyFrameDouble value="1" interpolationType="hold"/>
+                    <KeyFrameDouble value="0.6" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="1.25" interpolationType="cubic" frame="10"/>
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="28"/>
                 </KeyedProperty>
                 <KeyedProperty propertyKey="17">
-                    <KeyFrameDouble value="1" interpolationType="hold"/>
+                    <KeyFrameDouble value="0.6" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="1.25" interpolationType="cubic" frame="10"/>
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="28"/>
                 </KeyedProperty>
             </KeyedObject>
-        </LinearAnimation>
-        <LinearAnimation duration="1" name="BtnPress" id="70:217">
-            <KeyedObject objectId="70:170">
-                <KeyedProperty propertyKey="16">
-                    <KeyFrameDouble value="0.94" interpolationType="hold"/>
-                </KeyedProperty>
-                <KeyedProperty propertyKey="17">
-                    <KeyFrameDouble value="0.94" interpolationType="hold"/>
+            <KeyedObject objectId="70:201">
+                <KeyedProperty propertyKey="14">
+                    <KeyFrameDouble value="0" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="-36" interpolationType="cubic" frame="28"/>
                 </KeyedProperty>
             </KeyedObject>
-        </LinearAnimation>
-        <LinearAnimation duration="1" name="BtnEstRest" id="70:218">
-            <KeyedObject objectId="70:180">
-                <KeyedProperty propertyKey="16">
-                    <KeyFrameDouble value="1" interpolationType="hold"/>
-                </KeyedProperty>
-                <KeyedProperty propertyKey="17">
-                    <KeyFrameDouble value="1" interpolationType="hold"/>
+            <KeyedObject objectId="70:202">
+                <KeyedProperty propertyKey="14">
+                    <KeyFrameDouble value="-18" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="-52" interpolationType="cubic" frame="28"/>
                 </KeyedProperty>
             </KeyedObject>
-        </LinearAnimation>
-        <LinearAnimation duration="1" name="BtnEstPress" id="70:219">
-            <KeyedObject objectId="70:180">
-                <KeyedProperty propertyKey="16">
-                    <KeyFrameDouble value="0.94" interpolationType="hold"/>
-                </KeyedProperty>
-                <KeyedProperty propertyKey="17">
-                    <KeyFrameDouble value="0.94" interpolationType="hold"/>
-                </KeyedProperty>
-            </KeyedObject>
-        </LinearAnimation>
-        <LinearAnimation duration="1" name="BtnCallRest" id="70:220">
-            <KeyedObject objectId="70:190">
-                <KeyedProperty propertyKey="16">
-                    <KeyFrameDouble value="1" interpolationType="hold"/>
-                </KeyedProperty>
-                <KeyedProperty propertyKey="17">
-                    <KeyFrameDouble value="1" interpolationType="hold"/>
-                </KeyedProperty>
-            </KeyedObject>
-        </LinearAnimation>
-        <LinearAnimation duration="1" name="BtnCallPress" id="70:221">
-            <KeyedObject objectId="70:190">
-                <KeyedProperty propertyKey="16">
-                    <KeyFrameDouble value="0.94" interpolationType="hold"/>
-                </KeyedProperty>
-                <KeyedProperty propertyKey="17">
-                    <KeyFrameDouble value="0.94" interpolationType="hold"/>
+            <KeyedObject objectId="70:203">
+                <KeyedProperty propertyKey="13">
+                    <KeyFrameDouble value="8" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="42" interpolationType="cubic" frame="28"/>
                 </KeyedProperty>
             </KeyedObject>
         </LinearAnimation>
 
         <StateMachine name="State Machine 1" id="70:5">
-            <StateMachineLayer name="Pulse" id="70:6">
+            <StateMachineLayer name="Logo" id="70:220">
                 <AnyState x="200" y="-120"/>
                 <ExitState x="400" y="-120"/>
-                <EntryState>
-                    <StateTransition stateToId="70:7"/>
-                </EntryState>
-                <AnimationState x="200" y="40" animationId="70:3" id="70:7"/>
+                <EntryState><StateTransition stateToId="70:221"/></EntryState>
+                <AnimationState x="200" y="40" animationId="70:210" id="70:221"/>
             </StateMachineLayer>
-
-            <StateMachineLayer name="TabNewLayer" id="70:230">
+            <StateMachineLayer name="Theme" id="70:230">
                 <AnyState x="200" y="-120"/>
                 <ExitState x="400" y="-120"/>
-                <EntryState>
-                    <StateTransition stateToId="70:231"/>
-                </EntryState>
-                <AnimationState x="160" y="40" animationId="70:210" id="70:231">
-                    <StateTransition stateToId="70:232" duration="120">
+                <EntryState><StateTransition stateToId="70:231"/></EntryState>
+                <AnimationState x="160" y="40" animationId="70:211" id="70:231">
+                    <StateTransition stateToId="70:232" duration="180">
                         <TransitionViewModelCondition>
                             <TransitionPropertyViewModelComparator>
                                 <BindablePropertyBoolean>
-                                    <DataBindContext sourcePathIds="50:1-50:18" propertyKey="634"/>
+                                    <DataBindContext sourcePathIds="50:1-50:48" propertyKey="634"/>
                                 </BindablePropertyBoolean>
                             </TransitionPropertyViewModelComparator>
                             <TransitionValueBooleanComparator value="false"/>
                         </TransitionViewModelCondition>
                     </StateTransition>
                 </AnimationState>
-                <AnimationState x="360" y="40" animationId="70:211" id="70:232">
-                    <StateTransition stateToId="70:231" duration="120">
+                <AnimationState x="360" y="40" animationId="70:212" id="70:232">
+                    <StateTransition stateToId="70:231" duration="180">
                         <TransitionViewModelCondition>
                             <TransitionPropertyViewModelComparator>
                                 <BindablePropertyBoolean>
-                                    <DataBindContext sourcePathIds="50:1-50:18" propertyKey="634"/>
+                                    <DataBindContext sourcePathIds="50:1-50:48" propertyKey="634"/>
                                 </BindablePropertyBoolean>
                             </TransitionPropertyViewModelComparator>
                             <TransitionValueBooleanComparator value="true"/>
@@ -536,324 +478,46 @@
                     </StateTransition>
                 </AnimationState>
             </StateMachineLayer>
-
-            <StateMachineLayer name="TabEstLayer" id="70:240">
+            <StateMachineLayer name="Content" id="70:240">
                 <AnyState x="200" y="-120"/>
                 <ExitState x="400" y="-120"/>
-                <EntryState>
-                    <StateTransition stateToId="70:242"/>
-                </EntryState>
-                <AnimationState x="160" y="40" animationId="70:212" id="70:241">
-                    <StateTransition stateToId="70:242" duration="120">
+                <EntryState><StateTransition stateToId="70:241"/></EntryState>
+                <AnimationState x="160" y="40" animationId="70:213" id="70:241">
+                    <StateTransition stateToId="70:242">
                         <TransitionViewModelCondition>
                             <TransitionPropertyViewModelComparator>
-                                <BindablePropertyBoolean>
-                                    <DataBindContext sourcePathIds="50:1-50:19" propertyKey="634"/>
-                                </BindablePropertyBoolean>
+                                <BindablePropertyTrigger>
+                                    <DataBindContext sourcePathIds="50:1-50:29" propertyKey="686"/>
+                                </BindablePropertyTrigger>
                             </TransitionPropertyViewModelComparator>
-                            <TransitionValueBooleanComparator value="false"/>
+                            <TransitionValueTriggerComparator/>
                         </TransitionViewModelCondition>
                     </StateTransition>
                 </AnimationState>
-                <AnimationState x="360" y="40" animationId="70:213" id="70:242">
-                    <StateTransition stateToId="70:241" duration="120">
-                        <TransitionViewModelCondition>
-                            <TransitionPropertyViewModelComparator>
-                                <BindablePropertyBoolean>
-                                    <DataBindContext sourcePathIds="50:1-50:19" propertyKey="634"/>
-                                </BindablePropertyBoolean>
-                            </TransitionPropertyViewModelComparator>
-                            <TransitionValueBooleanComparator value="true"/>
-                        </TransitionViewModelCondition>
-                    </StateTransition>
+                <AnimationState x="360" y="40" animationId="70:214" id="70:242">
+                    <StateTransition stateToId="70:241" duration="320"/>
                 </AnimationState>
             </StateMachineLayer>
-
-            <StateMachineLayer name="TabWonLayer" id="70:250">
+            <StateMachineLayer name="Success" id="70:250">
                 <AnyState x="200" y="-120"/>
                 <ExitState x="400" y="-120"/>
-                <EntryState>
-                    <StateTransition stateToId="70:252"/>
-                </EntryState>
-                <AnimationState x="160" y="40" animationId="70:214" id="70:251">
-                    <StateTransition stateToId="70:252" duration="120">
+                <EntryState><StateTransition stateToId="70:251"/></EntryState>
+                <AnimationState x="160" y="40" animationId="70:215" id="70:251">
+                    <StateTransition stateToId="70:252">
                         <TransitionViewModelCondition>
                             <TransitionPropertyViewModelComparator>
-                                <BindablePropertyBoolean>
-                                    <DataBindContext sourcePathIds="50:1-50:20" propertyKey="634"/>
-                                </BindablePropertyBoolean>
+                                <BindablePropertyTrigger>
+                                    <DataBindContext sourcePathIds="50:1-50:28" propertyKey="686"/>
+                                </BindablePropertyTrigger>
                             </TransitionPropertyViewModelComparator>
-                            <TransitionValueBooleanComparator value="false"/>
+                            <TransitionValueTriggerComparator/>
                         </TransitionViewModelCondition>
                     </StateTransition>
                 </AnimationState>
-                <AnimationState x="360" y="40" animationId="70:215" id="70:252">
-                    <StateTransition stateToId="70:251" duration="120">
-                        <TransitionViewModelCondition>
-                            <TransitionPropertyViewModelComparator>
-                                <BindablePropertyBoolean>
-                                    <DataBindContext sourcePathIds="50:1-50:20" propertyKey="634"/>
-                                </BindablePropertyBoolean>
-                            </TransitionPropertyViewModelComparator>
-                            <TransitionValueBooleanComparator value="true"/>
-                        </TransitionViewModelCondition>
-                    </StateTransition>
+                <AnimationState x="360" y="40" animationId="70:216" id="70:252">
+                    <StateTransition stateToId="70:251" duration="480"/>
                 </AnimationState>
             </StateMachineLayer>
-
-            <StateMachineLayer name="NewPress" id="70:260">
-                <AnyState x="200" y="-120"/>
-                <ExitState x="400" y="-120"/>
-                <EntryState>
-                    <StateTransition stateToId="70:261"/>
-                </EntryState>
-                <AnimationState x="160" y="40" animationId="70:216" id="70:261">
-                    <StateTransition stateToId="70:262" duration="80">
-                        <TransitionViewModelCondition>
-                            <TransitionPropertyViewModelComparator>
-                                <BindablePropertyBoolean>
-                                    <DataBindContext sourcePathIds="50:1-50:24" propertyKey="634"/>
-                                </BindablePropertyBoolean>
-                            </TransitionPropertyViewModelComparator>
-                            <TransitionValueBooleanComparator value="true"/>
-                        </TransitionViewModelCondition>
-                    </StateTransition>
-                </AnimationState>
-                <AnimationState x="360" y="40" animationId="70:217" id="70:262">
-                    <StateTransition stateToId="70:261" duration="80">
-                        <TransitionViewModelCondition>
-                            <TransitionPropertyViewModelComparator>
-                                <BindablePropertyBoolean>
-                                    <DataBindContext sourcePathIds="50:1-50:24" propertyKey="634"/>
-                                </BindablePropertyBoolean>
-                            </TransitionPropertyViewModelComparator>
-                            <TransitionValueBooleanComparator value="false"/>
-                        </TransitionViewModelCondition>
-                    </StateTransition>
-                </AnimationState>
-            </StateMachineLayer>
-
-            <StateMachineLayer name="EstPress" id="70:270">
-                <AnyState x="200" y="-120"/>
-                <ExitState x="400" y="-120"/>
-                <EntryState>
-                    <StateTransition stateToId="70:271"/>
-                </EntryState>
-                <AnimationState x="160" y="40" animationId="70:218" id="70:271">
-                    <StateTransition stateToId="70:272" duration="80">
-                        <TransitionViewModelCondition>
-                            <TransitionPropertyViewModelComparator>
-                                <BindablePropertyBoolean>
-                                    <DataBindContext sourcePathIds="50:1-50:25" propertyKey="634"/>
-                                </BindablePropertyBoolean>
-                            </TransitionPropertyViewModelComparator>
-                            <TransitionValueBooleanComparator value="true"/>
-                        </TransitionViewModelCondition>
-                    </StateTransition>
-                </AnimationState>
-                <AnimationState x="360" y="40" animationId="70:219" id="70:272">
-                    <StateTransition stateToId="70:271" duration="80">
-                        <TransitionViewModelCondition>
-                            <TransitionPropertyViewModelComparator>
-                                <BindablePropertyBoolean>
-                                    <DataBindContext sourcePathIds="50:1-50:25" propertyKey="634"/>
-                                </BindablePropertyBoolean>
-                            </TransitionPropertyViewModelComparator>
-                            <TransitionValueBooleanComparator value="false"/>
-                        </TransitionViewModelCondition>
-                    </StateTransition>
-                </AnimationState>
-            </StateMachineLayer>
-
-            <StateMachineLayer name="CallPress" id="70:280">
-                <AnyState x="200" y="-120"/>
-                <ExitState x="400" y="-120"/>
-                <EntryState>
-                    <StateTransition stateToId="70:281"/>
-                </EntryState>
-                <AnimationState x="160" y="40" animationId="70:220" id="70:281">
-                    <StateTransition stateToId="70:282" duration="80">
-                        <TransitionViewModelCondition>
-                            <TransitionPropertyViewModelComparator>
-                                <BindablePropertyBoolean>
-                                    <DataBindContext sourcePathIds="50:1-50:26" propertyKey="634"/>
-                                </BindablePropertyBoolean>
-                            </TransitionPropertyViewModelComparator>
-                            <TransitionValueBooleanComparator value="true"/>
-                        </TransitionViewModelCondition>
-                    </StateTransition>
-                </AnimationState>
-                <AnimationState x="360" y="40" animationId="70:221" id="70:282">
-                    <StateTransition stateToId="70:281" duration="80">
-                        <TransitionViewModelCondition>
-                            <TransitionPropertyViewModelComparator>
-                                <BindablePropertyBoolean>
-                                    <DataBindContext sourcePathIds="50:1-50:26" propertyKey="634"/>
-                                </BindablePropertyBoolean>
-                            </TransitionPropertyViewModelComparator>
-                            <TransitionValueBooleanComparator value="false"/>
-                        </TransitionViewModelCondition>
-                    </StateTransition>
-                </AnimationState>
-            </StateMachineLayer>
-
-            <!-- Tabs write pipeline + highlight flags -->
-            <StateMachineListenerSingle targetId="70:80" listenerTypeValue="click" name="PickNew" id="70:300">
-                <ListenerViewModelChange>
-                    <BindablePropertyEnum propertyValue="20:2">
-                        <DataBindContext sourcePathIds="50:1-50:4" propertyKey="637" direction="true"/>
-                    </BindablePropertyEnum>
-                </ListenerViewModelChange>
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="true">
-                        <DataBindContext sourcePathIds="50:1-50:18" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="false">
-                        <DataBindContext sourcePathIds="50:1-50:19" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="false">
-                        <DataBindContext sourcePathIds="50:1-50:20" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
-
-            <StateMachineListenerSingle targetId="70:90" listenerTypeValue="click" name="PickEstimate" id="70:301">
-                <ListenerViewModelChange>
-                    <BindablePropertyEnum propertyValue="20:3">
-                        <DataBindContext sourcePathIds="50:1-50:4" propertyKey="637" direction="true"/>
-                    </BindablePropertyEnum>
-                </ListenerViewModelChange>
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="false">
-                        <DataBindContext sourcePathIds="50:1-50:18" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="true">
-                        <DataBindContext sourcePathIds="50:1-50:19" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="false">
-                        <DataBindContext sourcePathIds="50:1-50:20" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
-
-            <StateMachineListenerSingle targetId="70:100" listenerTypeValue="click" name="PickWon" id="70:302">
-                <ListenerViewModelChange>
-                    <BindablePropertyEnum propertyValue="20:4">
-                        <DataBindContext sourcePathIds="50:1-50:4" propertyKey="637" direction="true"/>
-                    </BindablePropertyEnum>
-                </ListenerViewModelChange>
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="false">
-                        <DataBindContext sourcePathIds="50:1-50:18" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="false">
-                        <DataBindContext sourcePathIds="50:1-50:19" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="true">
-                        <DataBindContext sourcePathIds="50:1-50:20" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
-
-            <!-- Action buttons: press feedback + triggers -->
-            <StateMachineListenerSingle targetId="70:170" listenerTypeValue="down" name="NewDown" id="70:310">
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="true">
-                        <DataBindContext sourcePathIds="50:1-50:24" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
-            <StateMachineListenerSingle targetId="70:170" listenerTypeValue="up" name="NewUp" id="70:311">
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="false">
-                        <DataBindContext sourcePathIds="50:1-50:24" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
-            <StateMachineListenerSingle targetId="70:170" listenerTypeValue="exit" name="NewExit" id="70:312">
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="false">
-                        <DataBindContext sourcePathIds="50:1-50:24" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
-            <StateMachineListenerSingle targetId="70:170" listenerTypeValue="click" name="NewClick" id="70:313">
-                <ListenerViewModelChange>
-                    <BindablePropertyTrigger>
-                        <DataBindContext sourcePathIds="50:1-50:21" propertyKey="686" direction="true"/>
-                    </BindablePropertyTrigger>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
-
-            <StateMachineListenerSingle targetId="70:180" listenerTypeValue="down" name="EstDown" id="70:320">
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="true">
-                        <DataBindContext sourcePathIds="50:1-50:25" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
-            <StateMachineListenerSingle targetId="70:180" listenerTypeValue="up" name="EstUp" id="70:321">
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="false">
-                        <DataBindContext sourcePathIds="50:1-50:25" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
-            <StateMachineListenerSingle targetId="70:180" listenerTypeValue="exit" name="EstExit" id="70:322">
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="false">
-                        <DataBindContext sourcePathIds="50:1-50:25" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
-            <StateMachineListenerSingle targetId="70:180" listenerTypeValue="click" name="EstClick" id="70:323">
-                <ListenerViewModelChange>
-                    <BindablePropertyTrigger>
-                        <DataBindContext sourcePathIds="50:1-50:22" propertyKey="686" direction="true"/>
-                    </BindablePropertyTrigger>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
-
-            <StateMachineListenerSingle targetId="70:190" listenerTypeValue="down" name="CallDown" id="70:330">
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="true">
-                        <DataBindContext sourcePathIds="50:1-50:26" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
-            <StateMachineListenerSingle targetId="70:190" listenerTypeValue="up" name="CallUp" id="70:331">
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="false">
-                        <DataBindContext sourcePathIds="50:1-50:26" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
-            <StateMachineListenerSingle targetId="70:190" listenerTypeValue="exit" name="CallExit" id="70:332">
-                <ListenerViewModelChange>
-                    <BindablePropertyBoolean propertyValue="false">
-                        <DataBindContext sourcePathIds="50:1-50:26" propertyKey="634" direction="true"/>
-                    </BindablePropertyBoolean>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
-            <StateMachineListenerSingle targetId="70:190" listenerTypeValue="click" name="CallClick" id="70:333">
-                <ListenerViewModelChange>
-                    <BindablePropertyTrigger>
-                        <DataBindContext sourcePathIds="50:1-50:23" propertyKey="686" direction="true"/>
-                    </BindablePropertyTrigger>
-                </ListenerViewModelChange>
-            </StateMachineListenerSingle>
         </StateMachine>
     </Artboard>
 </Rive>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-label="OdinOps">
+  <rect width="720" height="420" fill="#ffffff"/>
+  <g transform="translate(168 210)">
+    <path d="M-8-118 C-70-108 -118-58 -122 8 C-126 82 -78 128 -18 132 C22 134 48 118 58 92 C28 108 -8 98 -18 62 C-28 22 8-8 52-2 C38-48 18-92 -8-118 Z" fill="#1A1240"/>
+    <path d="M-4-96 C-52-88 -88-48 -90 10 C-92 68 -54 108 -8 112 C18 114 36 100 42 80 C18 94 -8 86 -14 56 C-20 22 10-2 42 2 C30-36 16-72 -4-96 Z" fill="#2A1B5C"/>
+    <path d="M4-72 C-30-66 -56-36 -56 8 C-56 52 -28 82 6 84 C22 86 34 74 38 60 C20 72 2 64 -2 40 C-6 14 16-4 40 0 C30-28 18-54 4-72 Z" fill="#5B3DC8"/>
+    <path d="M18-48 C-4-44 -22-22 -22 8 C-22 38 -6 58 16 60 C26 61 34 52 36 42 C24 50 12 44 10 28 C8 10 22-2 38 0 C32-20 26-38 18-48 Z" fill="#6E4AFF"/>
+    <ellipse cx="78" cy="-6" rx="92" ry="38" transform="rotate(-12 78 -6)" fill="#120C24"/>
+    <path d="M148-18 C178-14 198 2 188 14 C168 8 150 10 138 18 C128 4 136-16 148-18 Z" fill="#1A1240"/>
+    <circle cx="42" cy="4" r="22" fill="#F4F1FF"/>
+    <circle cx="42" cy="4" r="16" fill="none" stroke="#00E5FF" stroke-width="7"/>
+    <circle cx="42" cy="4" r="7" fill="#070612"/>
+    <circle cx="47" cy="-1" r="2.2" fill="#5CFFF1"/>
+  </g>
+  <text x="360" y="372" text-anchor="middle" font-family="Inter, Arial Black, Arial, sans-serif" font-size="64" font-weight="800" letter-spacing="-1.5" fill="#120C24">OdinOps</text>
+</svg>

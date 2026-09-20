@@ -1,0 +1,86 @@
+<Rive version="1" kind="fragment">
+    <Artboard isComponent="true" defaultStateMachineId="64:5" viewModelId="44:1" viewModelInstanceId="44:20"
+              clip="true" x="420" y="300" width="84" height="26" styleId="64:2" name="StatusPill" id="64:1">
+        <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed" name="Pill Style" id="64:2"/>
+        <Fill name="Clear"><SolidColor colorValue="00000000" name="C"/></Fill>
+
+        <LayoutComponent width="84" height="26" styleId="64:11" name="Pill" id="64:10">
+            <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed"
+                                  layoutAlignmentType="center" cornerRadiusTL="13" name="Pill Box" id="64:11"/>
+            <Fill name="PillFill">
+                <SolidColor colorValue="FF5B8C3E" name="C" id="64:12">
+                    <DataBindContext sourcePathIds="44:1-44:3" propertyKey="37"/>
+                </SolidColor>
+            </Fill>
+            <Text name="Label" id="64:13" sizingValue="autoWidth">
+                <LayoutParticipant layoutWidthScaleType="hug" layoutHeightScaleType="hug" name="PL"/>
+                <TextStylePaint fontSize="10" fontAssetId="10:1" name="PS" id="64:14">
+                    <Fill name="F"><SolidColor colorValue="FFF7F3E8" name="C"/></Fill>
+                    <TextStyleAxis tag="2003265652" axisValue="650" name="Weight"/>
+                </TextStylePaint>
+                <TextValueRun styleId="64:14" text="Status" name="Run">
+                    <DataBindContext sourcePathIds="44:1-44:2" propertyKey="268"/>
+                </TextValueRun>
+            </Text>
+        </LayoutComponent>
+
+        <LinearAnimation duration="80" loopValue="loop" name="PillPulse" id="64:3">
+            <KeyedObject objectId="64:10">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="0.72" interpolationType="cubic" frame="40"/>
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="80"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="PillRest" id="64:6">
+            <KeyedObject objectId="64:10">
+                <KeyedProperty propertyKey="16"><KeyFrameDouble value="1" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="17"><KeyFrameDouble value="1" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="16" name="PillTick" id="64:4">
+            <KeyedObject objectId="64:10">
+                <KeyedProperty propertyKey="16">
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="1.12" interpolationType="cubic" frame="6"/>
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="16"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="17">
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="1.12" interpolationType="cubic" frame="6"/>
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="16"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+
+        <StateMachine name="StatusPill SM" id="64:5">
+            <StateMachineLayer name="Pulse" id="64:20">
+                <AnyState x="200" y="-120"/>
+                <ExitState x="400" y="-120"/>
+                <EntryState><StateTransition stateToId="64:21"/></EntryState>
+                <AnimationState x="200" y="40" animationId="64:3" id="64:21"/>
+            </StateMachineLayer>
+            <StateMachineLayer name="Tick" id="64:30">
+                <AnyState x="200" y="-120"/>
+                <ExitState x="400" y="-120"/>
+                <EntryState><StateTransition stateToId="64:31"/></EntryState>
+                <AnimationState x="160" y="40" animationId="64:6" id="64:31">
+                    <StateTransition stateToId="64:32">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyTrigger>
+                                    <DataBindContext sourcePathIds="44:1-44:4" propertyKey="686"/>
+                                </BindablePropertyTrigger>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueTriggerComparator/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+                <AnimationState x="360" y="40" animationId="64:4" id="64:32">
+                    <StateTransition stateToId="64:31" duration="280"/>
+                </AnimationState>
+            </StateMachineLayer>
+        </StateMachine>
+    </Artboard>
+</Rive>
