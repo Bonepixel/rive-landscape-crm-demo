@@ -1,12 +1,12 @@
 <Rive version="1" kind="fragment">
     <Artboard isComponent="true" defaultStateMachineId="61:5" viewModelId="41:1" viewModelInstanceId="41:20"
-              clip="true" x="420" y="90" width="82" height="34" styleId="61:2" name="RoleChip" id="61:1">
+              clip="true" x="420" y="90" width="72" height="44" styleId="61:2" name="DockItem" id="61:1">
         <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed" name="RoleChip Style" id="61:2"/>
         <Fill name="Clear"><SolidColor colorValue="00000000" name="C"/></Fill>
 
-        <LayoutComponent width="82" height="34" styleId="61:11" name="Chip" id="61:10">
-            <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed"
-                                  layoutAlignmentType="center" cornerRadiusTL="17" name="Chip Style" id="61:11"/>
+        <LayoutComponent width="72" height="44" styleId="61:11" name="Chip" id="61:10">
+            <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fill"
+                                  layoutAlignmentType="center" cornerRadiusTL="12" name="Chip Style" id="61:11"/>
             <Fill name="ChipFill">
                 <SolidColor colorValue="FF2A1B5C" name="C" id="61:12"/>
             </Fill>

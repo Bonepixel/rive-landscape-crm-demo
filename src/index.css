@@ -1,11 +1,14 @@
 :root {
   color-scheme: dark;
-  --midnight: #070612;
-  --navy: #1a1240;
-  --purple: #2a1b5c;
-  --violet: #6e4aff;
-  --cyan: #00e5ff;
-  --paper: #f4f1ff;
+  --void: #0b0a14;
+  --card: #15122c;
+  --navy: #1e1b4b;
+  --violet: #6d28d9;
+  --violet-soft: #a78bfa;
+  --cyan: #2eebfa;
+  --cyan-soft: #22d3ee;
+  --gold: #d4af37;
+  --paper: #f8fafc;
 }
 
 * {
@@ -18,7 +21,7 @@ body,
   margin: 0;
   min-height: 100%;
   height: 100%;
-  background: var(--midnight);
+  background: var(--void);
   color: var(--paper);
   font-family:
     Inter,
@@ -34,6 +37,7 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }

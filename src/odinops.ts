@@ -1,0 +1,642 @@
+export const STAFF_ROLES = ['owner', 'admin', 'scheduling', 'sales', 'foreman', 'worker'] as const
+export type StaffRole = (typeof STAFF_ROLES)[number]
+
+export const ROLE_LABEL: Record<StaffRole, string> = {
+  owner: 'Owner',
+  admin: 'Admin',
+  scheduling: 'Office',
+  sales: 'Sales lead',
+  foreman: 'Foreman',
+  worker: 'Worker',
+}
+
+export type HomeLens = 'pulse' | 'schedule' | 'sales' | 'crew' | 'stops'
+
+export function homeLens(role: StaffRole): HomeLens {
+  if (role === 'sales') return 'sales'
+  if (role === 'scheduling') return 'schedule'
+  if (role === 'foreman') return 'crew'
+  if (role === 'worker') return 'stops'
+  return 'pulse'
+}
+
+export function isOwnerLike(role: StaffRole) {
+  return role === 'owner' || role === 'admin'
+}
+
+export function isCrewRole(role: StaffRole) {
+  return role === 'foreman' || role === 'worker'
+}
+
+export type IntakeTiming = 'write' | 'schedule' | 'later'
+
+export function intakeDefaults(role: StaffRole): { kind: Kind; timing: IntakeTiming } {
+  if (role === 'scheduling') return { kind: 'service', timing: 'later' }
+  if (isCrewRole(role)) return { kind: 'service', timing: 'schedule' }
+  return { kind: 'estimate', timing: 'write' }
+}
+
+export type Seat = { id: string; name: string; role: StaffRole; email: string }
+
+export const SEATS: Seat[] = [
+  { id: 'avery', name: 'Avery Chen', role: 'owner', email: 'avery@acme.demo' },
+  { id: 'blake', name: 'Blake Ortiz', role: 'admin', email: 'blake@acme.demo' },
+  { id: 'casey', name: 'Casey Nguyen', role: 'scheduling', email: 'casey@acme.demo' },
+  { id: 'drew', name: 'Drew Patel', role: 'sales', email: 'drew@acme.demo' },
+  { id: 'ellis', name: 'Ellis Ward', role: 'foreman', email: 'ellis@acme.demo' },
+  { id: 'finley', name: 'Finley Brooks', role: 'worker', email: 'finley@acme.demo' },
+]
+
+export type Tab = 'home' | 'jobs' | 'create' | 'alerts' | 'more'
+
+export const DOCK: { id: Tab; label: string }[] = [
+  { id: 'home', label: 'Home' },
+  { id: 'jobs', label: 'Jobs' },
+  { id: 'create', label: 'Create' },
+  { id: 'alerts', label: 'Alerts' },
+  { id: 'more', label: 'More' },
+]
+
+export type Kind = 'estimate' | 'service'
+export type Step =
+  | 'request'
+  | 'create'
+  | 'awaiting'
+  | 'ready'
+  | 'schedule'
+  | 'start'
+  | 'progress'
+  | 'workDone'
+  | 'complete'
+
+export const KIND_FILL = {
+  estimate: 0xffd4af37,
+  job: 0xff2dd4bf,
+  service: 0xfffb923c,
+  inspection: 0xffa78bfa,
+} as const
+
+export const KIND_HEX = {
+  estimate: '#D4AF37',
+  job: '#2DD4BF',
+  service: '#FB923C',
+  inspection: '#A78BFA',
+} as const
+
+export const STEP_PILL: Record<Step, string> = {
+  request: 'Lead',
+  create: 'Draft',
+  awaiting: 'Awaiting deposit',
+  ready: 'Ready to schedule',
+  schedule: 'Ready to schedule',
+  start: 'Scheduled',
+  progress: 'In progress',
+  workDone: 'Done',
+  complete: 'Closed',
+}
+
+export type Job = {
+  id: string
+  customerName: string
+  title: string
+  kind: Kind
+  step: Step
+  estimate: number
+  address: string
+  note: string
+  crew: string
+  day: string
+  slot: string
+  assignee: string
+  signed: boolean
+  depositPaid: boolean
+}
+
+export type AlertKind = 'assignment' | 'signed' | 'shout' | 'ready' | 'estimate'
+
+export type Alert = {
+  id: string
+  title: string
+  detail: string
+  kind: AlertKind
+  jobId?: string
+  unread: boolean
+}
+
+export type MoreItem = {
+  href: string
+  label: string
+  hint: string
+  group: 'ops' | 'team'
+  route: string
+  show: (role: StaffRole) => boolean
+}
+
+export const MORE_NAV: MoreItem[] = [
+  { href: '/invoices', route: 'invoices', label: 'Invoices', hint: 'PDF invoices you can send', group: 'ops', show: (r) => isOwnerLike(r) || r === 'sales' || r === 'scheduling' },
+  { href: '/customers', route: 'customers', label: 'Customers', hint: 'Profile, jobs, and reminders', group: 'ops', show: () => true },
+  { href: '/catalog', route: 'catalog', label: 'Catalog', hint: 'Products & services · CSV', group: 'ops', show: () => true },
+  { href: '/book', route: 'book', label: 'Share self-book', hint: 'Public self-schedule link', group: 'ops', show: (r) => isOwnerLike(r) || r === 'scheduling' || r === 'sales' },
+  { href: '/forms', route: 'forms', label: 'Forms', hint: 'Shareable public intake', group: 'ops', show: () => true },
+  { href: '/reports', route: 'reports', label: 'Reports', hint: 'Sales, jobs, money · CSV', group: 'ops', show: () => true },
+  { href: '/team', route: 'team', label: 'Team', hint: 'Roles & staffing', group: 'team', show: () => true },
+  { href: '/crews', route: 'crews', label: 'Crews', hint: 'Crew boards for the field', group: 'team', show: (r) => isOwnerLike(r) || r === 'scheduling' || r === 'foreman' },
+  { href: '/sales', route: 'sales', label: 'Sales', hint: 'Sales team notes & photos', group: 'team', show: (r) => isOwnerLike(r) || r === 'sales' },
+  { href: '/settings', route: 'settings', label: 'Permissions', hint: 'Brand, signature & roles', group: 'team', show: (r) => isOwnerLike(r) },
+]
+
+export function visibleMoreNav(role: StaffRole) {
+  return MORE_NAV.filter((item) => item.show(role))
+}
+
+export function groupedMoreNav(role: StaffRole) {
+  const items = visibleMoreNav(role)
+  return [
+    { id: 'ops' as const, label: 'Ops', items: items.filter((item) => item.group === 'ops') },
+    { id: 'team' as const, label: 'Team', items: items.filter((item) => item.group === 'team') },
+  ].filter((group) => group.items.length > 0)
+}
+
+export function money(value: number) {
+  return `$${value.toLocaleString('en-US')}`
+}
+
+export function compactMoney(value: number) {
+  const thousands = value / 1000
+  return `$${Number.isInteger(thousands) ? `${thousands.toFixed(0)}k` : `${thousands.toFixed(1)}k`}`
+}
+
+export function isFieldPhase(job: Job) {
+  if (job.kind === 'service') return true
+  return job.signed && job.depositPaid
+}
+
+export function displayKind(job: Job): keyof typeof KIND_HEX {
+  if (job.kind === 'service') return 'service'
+  return isFieldPhase(job) ? 'job' : 'estimate'
+}
+
+export function kindLabel(job: Job) {
+  const kind = displayKind(job)
+  if (kind === 'job') return 'Job'
+  if (kind === 'service') return 'Service'
+  return 'Estimate'
+}
+
+export function kindHex(job: Job) {
+  return KIND_HEX[displayKind(job)]
+}
+
+export function kindArgb(job: Job) {
+  return KIND_FILL[displayKind(job)]
+}
+
+export function flowLabel(job: Job) {
+  return STEP_PILL[job.step]
+}
+
+export function kindNote(job: Job) {
+  if (job.kind === 'estimate' && !isFieldPhase(job)) {
+    return 'Estimate — price, e-sign, and deposit. Both unlock Ready to schedule on this same job.'
+  }
+  if (isFieldPhase(job) && job.kind === 'estimate') {
+    return 'Committed job — office / foreman / owner schedule this same record.'
+  }
+  return 'Service — start, do the work, mark done, then close. Unpaid never blocks close.'
+}
+
+export function jobCta(job: Job, role: StaffRole): { primary: string; secondary: string; attention: string } {
+  if (job.kind === 'estimate' && !isFieldPhase(job)) {
+    if (job.step === 'request') {
+      return { primary: 'Write estimate', secondary: 'Own lead', attention: 'Lead is open — own it or start the write-up' }
+    }
+    if (job.step === 'create') {
+      return { primary: 'Send for sign + deposit', secondary: 'Add lines', attention: 'Add line items, then send for e-sign and deposit' }
+    }
+    if (job.step === 'awaiting') {
+      return { primary: 'Collect deposit', secondary: 'Resend link', attention: 'Estimate sent — e-sign and deposit unlock Ready' }
+    }
+  }
+  if (job.step === 'ready' || job.step === 'schedule') {
+    return { primary: 'Schedule install', secondary: 'Assign later', attention: 'Ready to schedule — pick crew and a window' }
+  }
+  if (job.step === 'start') {
+    return { primary: 'Start job', secondary: 'Delay', attention: 'Review the stop, then start the crew' }
+  }
+  if (job.step === 'progress') {
+    return { primary: 'Check off', secondary: 'Need help', attention: 'On site — photos, notes, then check off' }
+  }
+  if (job.step === 'workDone') {
+    return { primary: 'Close job', secondary: 'Send invoice', attention: 'Done — close anytime. Unpaid does not block.' }
+  }
+  return { primary: role === 'sales' ? 'Open estimate' : 'Open job', secondary: 'Notes', attention: 'Closed' }
+}
+
+export function homeSubtitle(lens: HomeLens) {
+  if (lens === 'sales') return 'Leads, estimates to write/send, awaiting deposit.'
+  if (lens === 'stops') return 'My jobs today.'
+  if (lens === 'schedule') return 'Day board and unscheduled queue.'
+  if (lens === 'crew') return 'Crew day / assignments.'
+  return 'Agenda + pulse — jobs moving this week.'
+}
+
+export function homeTitle(lens: HomeLens) {
+  return lens === 'sales' ? 'Sales' : "Today's jobs"
+}
+
+export const SAMPLE_JOBS: Job[] = [
+  {
+    id: 'hale',
+    customerName: 'Tom Hale',
+    title: 'Irrigation retrofit',
+    kind: 'estimate',
+    step: 'request',
+    estimate: 6250,
+    address: '15 Willow Ave',
+    note: 'Inbound request — own or write',
+    crew: '',
+    day: '',
+    slot: '',
+    assignee: 'drew',
+    signed: false,
+    depositPaid: false,
+  },
+  {
+    id: 'maya',
+    customerName: 'Maya Chen',
+    title: 'Lawn install',
+    kind: 'estimate',
+    step: 'create',
+    estimate: 8400,
+    address: '214 Oak Lane',
+    note: 'Draft — add lines, then send',
+    crew: '',
+    day: '',
+    slot: '',
+    assignee: 'drew',
+    signed: false,
+    depositPaid: false,
+  },
+  {
+    id: 'rivera',
+    customerName: 'Rivera Family',
+    title: 'Hardscape patio',
+    kind: 'estimate',
+    step: 'awaiting',
+    estimate: 21750,
+    address: '88 Cedar Court',
+    note: 'Sent — waiting on e-sign + deposit',
+    crew: '',
+    day: '',
+    slot: '',
+    assignee: 'drew',
+    signed: false,
+    depositPaid: false,
+  },
+  {
+    id: 'patel',
+    customerName: 'Patel Residence',
+    title: 'Tree cleanup',
+    kind: 'estimate',
+    step: 'ready',
+    estimate: 3180,
+    address: '402 Maple Drive',
+    note: 'Signed + deposit in — office books this job',
+    crew: '',
+    day: '',
+    slot: '',
+    assignee: 'casey',
+    signed: true,
+    depositPaid: true,
+  },
+  {
+    id: 'june',
+    customerName: 'June Okonkwo',
+    title: 'Garden beds + mulch',
+    kind: 'service',
+    step: 'start',
+    estimate: 4960,
+    address: '9 Birch Street',
+    note: 'Luis + Ana · today 8:00–12:00',
+    crew: 'Luis + Ana',
+    day: 'Today',
+    slot: '8:00–12:00',
+    assignee: 'ellis',
+    signed: false,
+    depositPaid: true,
+  },
+  {
+    id: 'west',
+    customerName: 'West Park HOA',
+    title: 'Irrigation check',
+    kind: 'service',
+    step: 'progress',
+    estimate: 1280,
+    address: '1200 Park Loop',
+    note: 'Finley on site',
+    crew: 'Finley',
+    day: 'Today',
+    slot: '12:00–2:00',
+    assignee: 'finley',
+    signed: false,
+    depositPaid: true,
+  },
+]
+
+export function seedAlerts(jobs: Job[]): Alert[] {
+  const rivera = jobs.find((job) => job.id === 'rivera')
+  const june = jobs.find((job) => job.id === 'june')
+  const patel = jobs.find((job) => job.id === 'patel')
+  return [
+    {
+      id: 'ping-assign-june',
+      title: 'You were put on a visit',
+      detail: june ? `${june.customerName} · ${june.title}` : 'Crew assignment',
+      kind: 'assignment',
+      jobId: 'june',
+      unread: true,
+    },
+    {
+      id: 'ping-signed-patel',
+      title: 'Estimate signed',
+      detail: patel ? `${patel.customerName} · ${patel.title}` : 'Signed',
+      kind: 'signed',
+      jobId: 'patel',
+      unread: true,
+    },
+    {
+      id: 'ping-shout',
+      title: 'Office shout',
+      detail: 'Crew rolling at 8 — West Park after lunch',
+      kind: 'shout',
+      unread: true,
+    },
+    {
+      id: 'ready-patel',
+      title: 'Ready to schedule',
+      detail: patel ? `${patel.customerName} · ${patel.title}` : 'Handoff',
+      kind: 'ready',
+      jobId: 'patel',
+      unread: true,
+    },
+    {
+      id: 'await-rivera',
+      title: 'Estimate sent — awaiting deposit',
+      detail: rivera ? `${rivera.customerName} · ${rivera.title}` : 'Awaiting',
+      kind: 'estimate',
+      jobId: 'rivera',
+      unread: true,
+    },
+  ]
+}
+
+export type HomeWidget = {
+  id: string
+  label: string
+  count: number
+  hint: string
+  tone: keyof typeof KIND_HEX
+}
+
+export function countBy(jobs: Job[], pred: (job: Job) => boolean) {
+  return jobs.filter(pred).length
+}
+
+export function isLead(job: Job) {
+  return job.kind === 'estimate' && job.step === 'request'
+}
+
+export function isDraft(job: Job) {
+  return job.kind === 'estimate' && job.step === 'create'
+}
+
+export function isAwaiting(job: Job) {
+  return job.kind === 'estimate' && job.step === 'awaiting'
+}
+
+export function isHandoff(job: Job) {
+  return job.step === 'ready' || job.step === 'schedule'
+}
+
+export function isToday(job: Job) {
+  return job.day === 'Today'
+}
+
+export function homeWidgets(jobs: Job[], lens: HomeLens): HomeWidget[] {
+  if (lens === 'sales') {
+    return [
+      { id: 'leads', label: 'Leads', count: countBy(jobs, isLead), hint: 'Own or write', tone: 'estimate' },
+      { id: 'draft', label: 'Estimates', count: countBy(jobs, isDraft), hint: 'Draft / send', tone: 'estimate' },
+      { id: 'awaiting', label: 'Awaiting deposit', count: countBy(jobs, isAwaiting), hint: 'Sent — waiting on deposit', tone: 'estimate' },
+    ]
+  }
+  if (lens === 'stops') {
+    const mine = jobs.filter((job) => job.assignee === 'finley' || (isToday(job) && job.kind === 'service'))
+    return [
+      { id: 'next', label: 'Next job', count: mine.filter((job) => job.step === 'progress' || job.step === 'start').length ? 1 : 0, hint: 'On your book', tone: 'service' },
+      { id: 'remaining', label: 'Remaining today', count: mine.filter(isToday).length, hint: 'Stops left', tone: 'service' },
+    ]
+  }
+  if (lens === 'schedule') {
+    return [
+      { id: 'board', label: "Today's jobs", count: countBy(jobs, isToday), hint: 'On the day board', tone: 'service' },
+      { id: 'handoff', label: 'Ready to schedule', count: countBy(jobs, isHandoff), hint: 'Committed — book a crew', tone: 'job' },
+    ]
+  }
+  if (lens === 'crew') {
+    return [
+      { id: 'start', label: "Today's jobs", count: countBy(jobs, (job) => isToday(job) && (job.step === 'start' || job.step === 'progress')), hint: 'Hold to start', tone: 'service' },
+      { id: 'handoff', label: 'Ready to schedule', count: countBy(jobs, isHandoff), hint: 'Office / foreman book these', tone: 'job' },
+    ]
+  }
+  return [
+    { id: 'today', label: "Today's jobs", count: countBy(jobs, isToday), hint: 'On the book', tone: 'service' },
+    { id: 'handoff', label: 'Ready to schedule', count: countBy(jobs, isHandoff), hint: 'Won jobs waiting on a slot', tone: 'job' },
+  ]
+}
+
+export function jobsForLens(jobs: Job[], lens: HomeLens, tab: Tab): Job[] {
+  if (tab === 'jobs') return jobs
+  if (lens === 'sales') return jobs.filter((job) => job.kind === 'estimate' && !isFieldPhase(job))
+  if (lens === 'stops') return jobs.filter((job) => job.assignee === 'finley' || (isToday(job) && job.kind === 'service'))
+  if (lens === 'schedule') return jobs.filter((job) => isToday(job) || isHandoff(job))
+  if (lens === 'crew') return jobs.filter((job) => isToday(job) || isHandoff(job) || job.step === 'progress')
+  return jobs.filter((job) => isToday(job) || isHandoff(job) || job.kind === 'estimate')
+}
+
+export function deriveKpis(jobs: Job[]) {
+  const pipeline = jobs.filter((job) => job.kind === 'estimate' && !isFieldPhase(job)).reduce((sum, job) => sum + job.estimate, 0)
+  const won = jobs.filter((job) => isFieldPhase(job) || job.step === 'ready').reduce((sum, job) => sum + job.estimate, 0)
+  return [
+    { id: 'pipe', label: 'Open pipeline', value: compactMoney(pipeline), accent: KIND_FILL.estimate },
+    { id: 'won', label: 'Won / booked', value: compactMoney(won), accent: KIND_FILL.job },
+    { id: 'booked', label: 'Scheduled', value: String(countBy(jobs, (job) => job.step === 'start' || job.step === 'progress')), accent: KIND_FILL.service },
+    { id: 'ready', label: 'Ready queue', value: String(countBy(jobs, isHandoff)), accent: KIND_FILL.inspection },
+  ]
+}
+
+export function sendEstimate(job: Job): Job {
+  if (job.kind !== 'estimate' || (job.step !== 'request' && job.step !== 'create')) return job
+  return { ...job, step: 'awaiting', note: 'Estimate sent — e-sign and deposit' }
+}
+
+export function collectDeposit(job: Job): Job {
+  if (job.kind !== 'estimate' || job.step !== 'awaiting') return job
+  return {
+    ...job,
+    step: 'ready',
+    signed: true,
+    depositPaid: true,
+    note: 'Signed + deposit in — office books this job',
+  }
+}
+
+export function writeEstimate(job: Job): Job {
+  if (job.kind !== 'estimate' || job.step !== 'request') return job
+  return { ...job, step: 'create', note: 'Draft — add lines, then send' }
+}
+
+export function scheduleInstall(job: Job, crew = 'Luis + Ana'): Job {
+  if (job.step !== 'ready' && job.step !== 'schedule') return job
+  return {
+    ...job,
+    step: 'start',
+    crew,
+    day: 'Today',
+    slot: '2:00–5:00',
+    assignee: 'ellis',
+    note: `${crew} · Today 2:00–5:00`,
+  }
+}
+
+export function startJob(job: Job): Job {
+  if (job.step !== 'start') return job
+  return { ...job, step: 'progress', note: `${job.crew || 'Crew'} rolling` }
+}
+
+export function checkOff(job: Job): Job {
+  if (job.step !== 'progress' && job.step !== 'start') return job
+  return { ...job, step: 'workDone', note: 'Crew checked the work off' }
+}
+
+export function closeJob(job: Job): Job {
+  if (job.step !== 'workDone') return job
+  return { ...job, step: 'complete', note: 'Closed' }
+}
+
+export function createJob(kind: Kind, index: number, role: StaffRole): Job {
+  const defaults = intakeDefaults(role)
+  const useKind = kind
+  if (useKind === 'estimate') {
+    return {
+      id: `est-${index}`,
+      customerName: `New lead #${index}`,
+      title: 'Site visit / quote',
+      kind: 'estimate',
+      step: 'create',
+      estimate: 2500,
+      address: 'On-site',
+      note: 'Created from + · Estimate write-up',
+      crew: '',
+      day: '',
+      slot: '',
+      assignee: 'drew',
+      signed: false,
+      depositPaid: false,
+    }
+  }
+  const later = defaults.timing === 'later'
+  return {
+    id: `svc-${index}`,
+    customerName: `Service #${index}`,
+    title: 'Install / service call',
+    kind: 'service',
+    step: later ? 'schedule' : 'start',
+    estimate: 1800,
+    address: 'On-site',
+    note: later ? 'Unscheduled — office queue' : 'Booked for today',
+    crew: later ? '' : 'Luis + Ana',
+    day: later ? '' : 'Today',
+    slot: later ? '' : '3:00–5:00',
+    assignee: later ? 'casey' : 'ellis',
+    signed: false,
+    depositPaid: false,
+  }
+}
+
+export function applyPrimary(job: Job, role: StaffRole): { job: Job; toast: string; alert?: Alert } {
+  if (job.kind === 'estimate' && job.step === 'request') {
+    const next = writeEstimate(job)
+    return { job: next, toast: `Draft open · ${next.customerName}` }
+  }
+  if (job.kind === 'estimate' && job.step === 'create') {
+    const next = sendEstimate(job)
+    return {
+      job: next,
+      toast: `Estimate sent · ${next.customerName}`,
+      alert: {
+        id: `await-${next.id}`,
+        title: 'Estimate sent — awaiting deposit',
+        detail: `${next.customerName} · ${next.title}`,
+        kind: 'estimate',
+        jobId: next.id,
+        unread: true,
+      },
+    }
+  }
+  if (job.kind === 'estimate' && job.step === 'awaiting') {
+    const next = collectDeposit(job)
+    return {
+      job: next,
+      toast: `Signed + deposit · ${next.customerName}`,
+      alert: {
+        id: `signed-${next.id}`,
+        title: 'Estimate signed',
+        detail: `${next.customerName} · ${next.title}`,
+        kind: 'signed',
+        jobId: next.id,
+        unread: true,
+      },
+    }
+  }
+  if (job.step === 'ready' || job.step === 'schedule') {
+    const next = scheduleInstall(job)
+    return {
+      job: next,
+      toast: `Crew booked · ${next.customerName} ${next.slot}`,
+      alert: {
+        id: `assign-${next.id}`,
+        title: 'You were put on a visit',
+        detail: `${next.customerName} · ${next.title}`,
+        kind: 'assignment',
+        jobId: next.id,
+        unread: true,
+      },
+    }
+  }
+  if (job.step === 'start' && (role === 'foreman' || role === 'worker' || isOwnerLike(role))) {
+    const next = startJob(job)
+    return { job: next, toast: `Started · ${next.customerName}` }
+  }
+  if (job.step === 'progress') {
+    const next = checkOff(job)
+    return { job: next, toast: `Checked off · ${next.customerName}` }
+  }
+  if (job.step === 'workDone') {
+    const next = closeJob(job)
+    return { job: next, toast: `Closed · ${next.customerName}` }
+  }
+  return { job, toast: `${job.customerName} · ${flowLabel(job)}` }
+}
+
+export function tabByIndex(index: number): Tab {
+  return DOCK[index]?.id ?? 'home'
+}
+
+export function tabIndex(tab: Tab) {
+  return Math.max(0, DOCK.findIndex((item) => item.id === tab))
+}
+
+export function seatByRole(role: StaffRole) {
+  return SEATS.find((seat) => seat.role === role) ?? SEATS[0]
+}

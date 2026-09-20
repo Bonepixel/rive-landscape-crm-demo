@@ -1,23 +1,26 @@
 import { useCallback, useMemo, useState } from 'react'
 import './App.css'
-import { OfficeFallback } from './OfficeFallback'
-import { OfficeRive } from './OfficeRive'
+import { AppFallback } from './AppFallback'
+import { AppRive } from './AppRive'
 import {
-  SAMPLE_DAYS,
+  ROLE_LABEL,
   SAMPLE_JOBS,
-  advanceSales,
-  assignCrewToJob,
-  completeJob,
-  jobsForRole,
-  makeWalkIn,
-  nextSlotDay,
-  roleByIndex,
-  sendToSales,
-  startJob,
+  SEATS,
+  applyPrimary,
+  createJob,
+  deriveKpis,
+  groupedMoreNav,
+  homeLens,
+  homeWidgets,
+  jobCta,
+  jobsForLens,
+  seedAlerts,
+  tabByIndex,
+  type Alert,
   type Job,
-  type Role,
-  type ScheduleDay,
-} from './office'
+  type StaffRole,
+  type Tab,
+} from './odinops'
 
 function supportsWebGL2(): boolean {
   try {
@@ -37,11 +40,12 @@ function prefersDark(): boolean {
 
 export default function App() {
   const [jobs, setJobs] = useState<Job[]>(SAMPLE_JOBS)
-  const [days, setDays] = useState<ScheduleDay[]>(SAMPLE_DAYS)
-  const [selectedId, setSelectedId] = useState(SAMPLE_JOBS[0].id)
-  const [selectedDayId, setSelectedDayId] = useState(SAMPLE_DAYS[0].id)
-  const [role, setRole] = useState<Role>('intake')
-  const [toast, setToast] = useState('Capture a walk-in, then send Maya to sales')
+  const [alerts, setAlerts] = useState<Alert[]>(() => seedAlerts(SAMPLE_JOBS))
+  const [selectedId, setSelectedId] = useState(SAMPLE_JOBS[1].id)
+  const [role, setRole] = useState<StaffRole>('sales')
+  const [tab, setTab] = useState<Tab>('home')
+  const [moreRoute, setMoreRoute] = useState<string | null>(null)
+  const [toast, setToast] = useState('Sales home — write Maya, then send')
   const [darkMode, setDarkMode] = useState(prefersDark)
   const [burst, setBurst] = useState(0)
   const [riveReady, setRiveReady] = useState(false)
@@ -61,164 +65,130 @@ export default function App() {
     const job = jobs.find((item) => item.id === id)
     if (!job) return
     setSelectedId(id)
-    setToast(`${job.customerName} · ${job.jobType}`)
+    setToast(`${job.customerName} · ${job.title}`)
   }, [jobs])
 
   const onSelectJobIndex = useCallback((index: number) => {
-    const list = jobsForRole(jobs, role)
+    const list = jobsForLens(jobs, homeLens(role), tab === 'alerts' ? 'jobs' : tab)
     if (list[index]) onSelect(list[index].id)
-  }, [jobs, role, onSelect])
+  }, [jobs, role, tab, onSelect])
 
-  const onSelectDay = useCallback((id: string) => {
-    const day = days.find((item) => item.id === id)
-    if (!day) return
-    setSelectedDayId(id)
-    const job = jobs.find((item) => item.id === day.jobId)
-    setToast(job ? `${day.day} · ${job.customerName}` : `${day.day} open slot`)
-  }, [days, jobs])
-
-  const onSelectDayIndex = useCallback((index: number) => {
-    if (days[index]) onSelectDay(days[index].id)
-  }, [days, onSelectDay])
-
-  const onRole = useCallback((next: Role) => {
+  const onRole = useCallback((next: StaffRole) => {
     setRole(next)
-    const visible = jobsForRole(jobs, next)
+    const seat = SEATS.find((item) => item.role === next)
+    const lens = homeLens(next)
+    const visible = jobsForLens(jobs, lens, 'home')
     if (visible.length && !visible.some((job) => job.id === selectedId)) {
       setSelectedId(visible[0].id)
     }
-    setToast(`Role: ${next}`)
+    setTab('home')
+    setMoreRoute(null)
+    setToast(`Demo role · ${seat?.name} · ${ROLE_LABEL[next]}`)
   }, [jobs, selectedId])
 
-  const onRoleIndex = useCallback((index: number) => {
-    onRole(roleByIndex(index))
-  }, [onRole])
+  const onTab = useCallback((next: Tab) => {
+    if (next === 'more' && tab === 'more' && moreRoute) {
+      setMoreRoute(null)
+      return
+    }
+    setTab(next)
+    if (next !== 'more') setMoreRoute(null)
+  }, [tab, moreRoute])
+
+  const onTabIndex = useCallback((index: number) => {
+    onTab(tabByIndex(index))
+  }, [onTab])
+
+  const onCreate = useCallback((kind: 'estimate' | 'service') => {
+    const job = createJob(kind, jobs.length + 1, role)
+    setJobs((current) => [job, ...current])
+    setSelectedId(job.id)
+    setTab('jobs')
+    flash(`Created ${kind} · ${job.customerName}`)
+  }, [jobs.length, role, flash])
 
   const onPrimary = useCallback(() => {
-    if (role === 'intake') {
-      const lead = makeWalkIn(jobs.length + 1)
-      setJobs((current) => [...current, lead])
-      setSelectedId(lead.id)
-      flash(`Walk-in captured · ${lead.customerName}`)
+    if (tab === 'create') {
+      onCreate('estimate')
       return
     }
-    if (role === 'sales' && selected) {
-      if (selected.status !== 'newLead' && selected.status !== 'estimateSent') {
-        setToast(`${selected.customerName} is not in the estimate path`)
-        return
-      }
-      const updated = advanceSales(selected)
-      setJobs((current) => current.map((job) => (job.id === updated.id ? updated : job)))
-      flash(
-        updated.status === 'estimateSent'
-          ? `Estimate sent to ${updated.customerName}`
-          : `${updated.customerName} marked won`,
-      )
+    if (tab === 'more') {
+      setMoreRoute(null)
+      setTab('jobs')
       return
     }
-    if (role === 'scheduler') {
-      const target =
-        selected?.status === 'won' || selected?.status === 'scheduled'
-          ? selected
-          : jobs.find((job) => job.status === 'won')
-      if (!target) {
-        setToast('No won job ready to book')
-        return
-      }
-      const result = assignCrewToJob(target, days)
-      setJobs((current) => current.map((job) => (job.id === result.job.id ? result.job : job)))
-      setDays(result.days)
-      setSelectedId(result.job.id)
-      setSelectedDayId(result.dayId)
-      flash(`Crew booked · ${result.job.customerName} ${result.job.day}`)
-      return
+    if (!selected) return
+    const result = applyPrimary(selected, role)
+    setJobs((current) => current.map((job) => (job.id === result.job.id ? result.job : job)))
+    if (result.alert) {
+      setAlerts((current) => [result.alert!, ...current.filter((item) => item.id !== result.alert!.id)])
     }
-    if (role === 'admin' && selected) {
-      setToast(`Status confirmed · ${selected.customerName}`)
-      setBurst((value) => value + 1)
-      return
-    }
-    if (role === 'owner') {
-      flash('Scoreboard refreshed')
-      return
-    }
-    if (role === 'foreman') {
-      const target = selected?.status === 'scheduled' ? selected : jobs.find((job) => job.status === 'scheduled')
-      if (!target) {
-        setToast('Nothing queued for the field')
-        return
-      }
-      const updated = startJob(target)
-      setJobs((current) => current.map((job) => (job.id === updated.id ? updated : job)))
-      setSelectedId(updated.id)
-      flash(`Crew rolling · ${updated.customerName}`)
-      return
-    }
-    if (role === 'workers') {
-      const target =
-        selected?.status === 'inProgress' || selected?.status === 'scheduled'
-          ? selected
-          : jobs.find((job) => job.status === 'inProgress' || job.status === 'scheduled')
-      if (!target) {
-        setToast('No assigned task to check off')
-        return
-      }
-      const updated = completeJob(target)
-      setJobs((current) => current.map((job) => (job.id === updated.id ? updated : job)))
-      setSelectedId(updated.id)
-      flash(`Checked off · ${updated.customerName}`)
-    }
-  }, [role, jobs, days, selected, flash])
+    flash(result.toast)
+  }, [selected, role, flash, tab, onCreate])
 
   const onSecondary = useCallback(() => {
-    if (role === 'intake' && selected) {
-      if (selected.status !== 'inquiry') {
-        setToast(`${selected.customerName} is already in sales`)
-        return
+    if (tab === 'create') {
+      onCreate('service')
+      return
+    }
+    if (tab === 'more' && moreRoute) {
+      setMoreRoute(null)
+      return
+    }
+    if (!selected) return
+    const cta = jobCta(selected, role)
+    if (selected.step === 'progress') {
+      const alert: Alert = {
+        id: `shout-${selected.id}`,
+        title: 'Office shout',
+        detail: `${selected.customerName} · need help on site`,
+        kind: 'shout',
+        jobId: selected.id,
+        unread: true,
       }
-      const updated = sendToSales(selected)
-      setJobs((current) => current.map((job) => (job.id === updated.id ? updated : job)))
-      flash(`Sent to sales · ${updated.customerName}`)
+      setAlerts((current) => [alert, ...current.filter((item) => item.id !== alert.id)])
+      setTab('alerts')
+      flash(`Shout sent · ${selected.customerName}`)
       return
     }
-    if (role === 'sales' && selected) {
-      setToast(`Calling ${selected.customerName}…`)
-      return
+    flash(cta.secondary)
+  }, [tab, moreRoute, selected, role, onCreate, flash])
+
+  const onSelectMoreIndex = useCallback((index: number) => {
+    const groups = groupedMoreNav(role).flatMap((group) => group.items)
+    if (groups[index]) {
+      setTab('more')
+      setMoreRoute(groups[index].route)
     }
-    if (role === 'scheduler') {
-      const next = nextSlotDay(days, selectedDayId)
-      setSelectedDayId(next.id)
-      setToast(`Focus ${next.day} ${next.slot}`)
-      return
-    }
-    if (role === 'admin' && selected) {
-      setJobs((current) =>
-        current.map((job) => (job.id === selected.id ? { ...job, flagged: !job.flagged } : job)),
-      )
-      flash(selected.flagged ? `Cleared hold · ${selected.customerName}` : `Hold · ${selected.customerName}`)
-      return
-    }
-    if (role === 'owner') {
-      setToast('Week review: won jobs now feed scheduler + field')
-      return
-    }
-    if (role === 'foreman' && selected) {
-      setToast(`Delay noted · ${selected.customerName}`)
-      return
-    }
-    if (role === 'workers' && selected) {
-      setToast(`Help requested · ${selected.customerName}`)
-    }
-  }, [role, selected, days, selectedDayId, flash])
+  }, [role])
+
+  const onAck = useCallback((id: string) => {
+    setAlerts((current) => current.map((alert) => (alert.id === id ? { ...alert, unread: false } : alert)))
+  }, [])
 
   const showRive = !riveFailed
+  const list = jobsForLens(jobs, homeLens(role), tab === 'home' || tab === 'jobs' ? tab : 'jobs')
+  const kpis = deriveKpis(jobs)
+  const widgets = homeWidgets(jobs, homeLens(role))
 
   return (
     <div className={`app ${darkMode ? 'dark' : 'light'}`}>
       <div className="shell">
         <div className="status">
-          <span>OdinOps · Landscape office</span>
+          <span>OdinOps</span>
           <span className="status-actions">
+            <select
+              className="seat-select"
+              aria-label="Demo role"
+              value={role}
+              onChange={(event) => onRole(event.target.value as StaffRole)}
+            >
+              {SEATS.map((seat) => (
+                <option key={seat.id} value={seat.role}>
+                  {seat.name} · {ROLE_LABEL[seat.role]}
+                </option>
+              ))}
+            </select>
             <button type="button" className="theme-toggle" onClick={() => setDarkMode((value) => !value)}>
               {darkMode ? 'Light' : 'Dark'}
             </button>
@@ -227,44 +197,49 @@ export default function App() {
         </div>
         <div className="phone">
           {showRive && (
-            <OfficeRive
-              jobs={jobs}
-              days={days}
+            <AppRive
+              jobs={list}
+              allJobs={jobs}
+              alerts={alerts}
+              kpis={kpis}
+              widgets={widgets}
               selectedId={selectedId}
-              selectedDayId={selectedDayId}
               role={role}
+              tab={tab}
+              moreRoute={moreRoute}
               toast={toast}
               darkMode={darkMode}
               burst={burst}
               onReady={() => setRiveReady(true)}
               onError={() => setRiveFailed(true)}
               onSelectJobIndex={onSelectJobIndex}
-              onSelectDayIndex={onSelectDayIndex}
-              onRoleIndex={onRoleIndex}
+              onSelectMoreIndex={onSelectMoreIndex}
+              onTabIndex={onTabIndex}
               onPrimary={onPrimary}
               onSecondary={onSecondary}
             />
           )}
           {riveFailed && (
-            <OfficeFallback
+            <AppFallback
               jobs={jobs}
-              days={days}
+              alerts={alerts}
               selectedId={selectedId}
-              selectedDayId={selectedDayId}
               role={role}
+              tab={tab}
+              moreRoute={moreRoute}
               toast={toast}
               darkMode={darkMode}
-              burst={burst}
               onSelect={onSelect}
-              onSelectDay={onSelectDay}
+              onTab={onTab}
               onRole={onRole}
               onPrimary={onPrimary}
               onSecondary={onSecondary}
+              onCreate={onCreate}
+              onMore={setMoreRoute}
+              onAck={onAck}
             />
           )}
-          {showRive && !riveReady && !riveFailed && (
-            <div className="loading">Loading OdinOps office…</div>
-          )}
+          {showRive && !riveReady && !riveFailed && <div className="loading">Loading OdinOps…</div>}
         </div>
       </div>
     </div>

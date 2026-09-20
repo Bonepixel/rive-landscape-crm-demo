@@ -5,9 +5,9 @@
 
         <Fill name="Background">
             <LinearGradient startX="0" startY="0" endX="80" endY="844" name="Night" id="70:3">
-                <GradientStop colorValue="FF070612" position="0" id="70:301"/>
-                <GradientStop colorValue="FF120C24" position="0.5" id="70:302"/>
-                <GradientStop colorValue="FF1A1240" position="1" id="70:303"/>
+                <GradientStop colorValue="FF0B0A14" position="0" id="70:301"/>
+                <GradientStop colorValue="FF15122C" position="0.5" id="70:302"/>
+                <GradientStop colorValue="FF1E1B4B" position="1" id="70:303"/>
             </LinearGradient>
         </Fill>
 
@@ -55,7 +55,7 @@
                             <Fill name="F"><SolidColor colorValue="FF00E5FF" name="C" id="70:47"/></Fill>
                             <TextStyleAxis tag="2003265652" axisValue="550" name="Weight"/>
                         </TextStylePaint>
-                        <TextValueRun styleId="70:46" text="Intake · Front desk" name="Run">
+                        <TextValueRun styleId="70:46" text="Sales lead · Drew Patel" name="Run">
                             <DataBindContext sourcePathIds="50:1-50:3" propertyKey="268"/>
                         </TextValueRun>
                     </Text>
@@ -75,46 +75,10 @@
                         <Fill name="F"><SolidColor colorValue="FF5CFFF1" name="C" id="70:55"/></Fill>
                         <TextStyleAxis tag="2003265652" axisValue="600" name="Weight"/>
                     </TextStylePaint>
-                    <TextValueRun styleId="70:54" text="Desk  1 new inquiries" name="Run">
+                    <TextValueRun styleId="70:54" text="sales · Leads 1 · Estimates 1 · Awaiting deposit 1" name="Run">
                         <DataBindContext sourcePathIds="50:1-50:9" propertyKey="268"/>
                     </TextValueRun>
                 </Text>
-            </LayoutComponent>
-
-            <LayoutComponent width="0" height="0" styleId="70:61" name="RoleNav" id="70:60">
-                <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="hug"
-                                      flexDirectionValue="row" flexWrapValue="wrap" layoutAlignmentType="centerLeft"
-                                      gapHorizontal="6" gapHorizontalUnitsValue="points"
-                                      gapVertical="6" gapVerticalUnitsValue="points"
-                                      name="RoleNav Style" id="70:61"/>
-                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:41"
-                                      instanceWidth="82" instanceHeight="34" name="NavIntake" id="70:62">
-                    <NestedStateMachine animationId="61:5" name="SM"/>
-                </NestedArtboardLayout>
-                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:42"
-                                      instanceWidth="82" instanceHeight="34" name="NavSales" id="70:63">
-                    <NestedStateMachine animationId="61:5" name="SM"/>
-                </NestedArtboardLayout>
-                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:43"
-                                      instanceWidth="82" instanceHeight="34" name="NavSched" id="70:64">
-                    <NestedStateMachine animationId="61:5" name="SM"/>
-                </NestedArtboardLayout>
-                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:44"
-                                      instanceWidth="82" instanceHeight="34" name="NavAdmin" id="70:65">
-                    <NestedStateMachine animationId="61:5" name="SM"/>
-                </NestedArtboardLayout>
-                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:45"
-                                      instanceWidth="82" instanceHeight="34" name="NavOwner" id="70:66">
-                    <NestedStateMachine animationId="61:5" name="SM"/>
-                </NestedArtboardLayout>
-                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:46"
-                                      instanceWidth="82" instanceHeight="34" name="NavForeman" id="70:67">
-                    <NestedStateMachine animationId="61:5" name="SM"/>
-                </NestedArtboardLayout>
-                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:47"
-                                      instanceWidth="82" instanceHeight="34" name="NavCrew" id="70:68">
-                    <NestedStateMachine animationId="61:5" name="SM"/>
-                </NestedArtboardLayout>
             </LayoutComponent>
 
             <LayoutComponent width="0" height="0" styleId="70:71" name="PanelHead" id="70:70">
@@ -127,7 +91,7 @@
                         <Fill name="F"><SolidColor colorValue="FFF4F1FF" name="C" id="70:74"/></Fill>
                         <TextStyleAxis tag="2003265652" axisValue="700" name="Weight"/>
                     </TextStylePaint>
-                    <TextValueRun styleId="70:73" text="Today's inquiries" name="Run">
+                    <TextValueRun styleId="70:73" text="Sales" name="Run">
                         <DataBindContext sourcePathIds="50:1-50:5" propertyKey="268"/>
                     </TextValueRun>
                 </Text>
@@ -137,7 +101,7 @@
                         <Fill name="F"><SolidColor colorValue="FFA89CC8" name="C" id="70:77"/></Fill>
                         <TextStyleAxis tag="2003265652" axisValue="500" name="Weight"/>
                     </TextStylePaint>
-                    <TextValueRun styleId="70:76" text="1 waiting" name="Run">
+                    <TextValueRun styleId="70:76" text="Leads, estimates to write/send, awaiting deposit." name="Run">
                         <DataBindContext sourcePathIds="50:1-50:6" propertyKey="268"/>
                     </TextValueRun>
                 </Text>
@@ -279,6 +243,43 @@
                     <DataBindContext sourcePathIds="50:1-50:4" propertyKey="268"/>
                 </TextValueRun>
             </Text>
+
+            <LayoutComponent width="0" height="52" styleId="70:61" name="Dock" id="70:60">
+                <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fixed"
+                                      flexDirectionValue="row" layoutAlignmentType="spaceBetweenCenter"
+                                      gapHorizontal="4" gapHorizontalUnitsValue="points"
+                                      name="Dock Style" id="70:61"/>
+                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:41"
+                                      instanceWidth="68" instanceHeight="44"
+                                      instanceWidthScaleType="fill" instanceHeightScaleType="fixed"
+                                      name="NavHome" id="70:62">
+                    <NestedStateMachine animationId="61:5" name="SM"/>
+                </NestedArtboardLayout>
+                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:42"
+                                      instanceWidth="68" instanceHeight="44"
+                                      instanceWidthScaleType="fill" instanceHeightScaleType="fixed"
+                                      name="NavJobs" id="70:63">
+                    <NestedStateMachine animationId="61:5" name="SM"/>
+                </NestedArtboardLayout>
+                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:43"
+                                      instanceWidth="68" instanceHeight="44"
+                                      instanceWidthScaleType="fill" instanceHeightScaleType="fixed"
+                                      name="NavCreate" id="70:64">
+                    <NestedStateMachine animationId="61:5" name="SM"/>
+                </NestedArtboardLayout>
+                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:44"
+                                      instanceWidth="68" instanceHeight="44"
+                                      instanceWidthScaleType="fill" instanceHeightScaleType="fixed"
+                                      name="NavAlerts" id="70:65">
+                    <NestedStateMachine animationId="61:5" name="SM"/>
+                </NestedArtboardLayout>
+                <NestedArtboardLayout artboardId="61:1" dataBindPathIds="50:1-50:45"
+                                      instanceWidth="68" instanceHeight="44"
+                                      instanceWidthScaleType="fill" instanceHeightScaleType="fixed"
+                                      name="NavMore" id="70:66">
+                    <NestedStateMachine animationId="61:5" name="SM"/>
+                </NestedArtboardLayout>
+            </LayoutComponent>
         </LayoutComponent>
 
         <Node x="195" y="620" name="Burst" id="70:200">

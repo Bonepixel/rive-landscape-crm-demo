@@ -1,87 +1,116 @@
-# OdinOps · Landscape office
+# OdinOps · phone demo
 
-Phone-testable **landscape contractor office** walkthrough. Chrome is **OdinOps** (purple / navy / electric cyan). Sample jobs stay landscaping: lawn, patio, irrigation, trees, garden beds.
+Phone-testable walkthrough of **real OdinOps** — the contract-neutral sales system at [Bonepixel/odinops](https://github.com/Bonepixel/odinops).
 
-UI is authored with the official [Rive App CLI](https://rive.app/docs/cli/overview) (reusable Components + view models, no Luau) and hosted in React with `@rive-app/react-webgl2`.
+> Estimate sells and hands off. Service finishes the job.
+
+Landscaping is only sample data (lawn, patio, irrigation). Information architecture, staff roles, home lenses, and the Estimate → Service handoff match the Next.js app — not a generic CRM.
 
 Live: **https://bonepixel.github.io/rive-landscape-crm-demo/**
 
-## Roles (shared React store)
+HTML-only shell: add `?fallback=1`.
 
-Actions in one role show up in the others.
+## Screens → live OdinOps routes
 
-| Role | Sees | Primary | Secondary |
+| Demo tab / surface | Live route | What it is |
+|---|---|---|
+| Home | `/home` | Role lens (`homeLens`) — pulse / sales / schedule / crew / stops |
+| Jobs | `/jobs` | Shared job book (Estimate and Service stay distinct) |
+| Create | `/create` | Intake — New estimate (`Site visit / quote`) or New service (`Install / service call`) |
+| Alerts | `/alerts` | Assignment / signed / shout (and ready / awaiting) |
+| More | menu | Role-gated drawer from `src/lib/nav.ts` |
+| More → Invoices | `/invoices` | Stub |
+| More → Customers | `/customers` | Stub |
+| More → Catalog | `/catalog` | Stub |
+| More → Share self-book | `/book` | Stub |
+| More → Forms | `/forms` | Stub |
+| More → Reports | `/reports` | Stub |
+| More → Team | `/team` | Stub |
+| More → Crews | `/crews` | Stub |
+| More → Sales | `/sales` | Stub |
+| More → Permissions | `/settings` | Stub (owner / admin) |
+
+Primary dock is always **Home · Jobs · Create · Alerts · More**. Demo role lives in the status-bar switcher (same idea as `DemoRoleSwitcher`).
+
+## Role × home matrix
+
+| Role | Label | `homeLens` | Home feels like |
 |---|---|---|---|
-| **Intake** | Inquiries + new leads | New walk-in | Send to sales |
-| **Sales** | New / estimate / won | Send estimate | Call |
-| **Scheduler** | Week slots | Assign crew | Next slot |
-| **Office admin** | All jobs + status chips | Confirm status | Hold |
-| **Owner** | KPI tiles | Refresh KPIs | Review week |
-| **Foreman** | Booked / on site | Start job | Delay |
-| **Workers** | Assigned tasks | Check off | Need help |
+| `owner` | Owner | pulse | Agenda + pipeline $ / jobs moving |
+| `admin` | Admin | pulse | Same pulse, admin More items |
+| `scheduling` | Office | schedule | Day board + Ready to schedule queue |
+| `sales` | Sales lead | sales | Leads, drafts to write/send, awaiting deposit |
+| `foreman` | Foreman | crew | Crew day / assignments |
+| `worker` | Worker | stops | My jobs today |
 
-Happy path: **Intake** send Maya to sales → **Sales** estimate then won → **Scheduler** assign crew → **Foreman** start job → **Workers** check off → **Owner** KPIs and **Admin** chips update.
+`intakeDefaults`: sales / owner / admin open **Estimate · write**; Office opens **Service · later** (unscheduled queue); foreman / worker open **Service · schedule** (booked today).
 
-## Brand tokens
+## Shared-state tap-through
+
+One React store (`src/odinops.ts`). A step in one seat is the same job in every other seat.
+
+1. **Sales** — Hale is a lead → **Write estimate**. Maya is a draft → **Send for sign + deposit** → awaiting.
+2. Rivera is awaiting → **Collect deposit** → Ready to schedule (signed ping).
+3. **Office** — Patel (or the won Rivera) → **Schedule install** + crew (assignment ping).
+4. **Foreman** — June (or the newly booked job) → **Start job**.
+5. **Worker** — West Park (or the in-progress stop) → **Check off**.
+6. **Owner** — Home pulse: open pipeline $, won / booked, scheduled count, ready queue.
+7. **Alerts** — assignment / signed / shout so the tab is never empty.
+
+Kinds stay distinct: **Estimate** (`Site visit / quote`) vs **Service** (`Install / service call`). After sign + deposit the same estimate record becomes a committed job the office books.
+
+## What was removed (off-brand)
+
+The previous demo invented a landscape CRM:
+
+- Primary IA as **Intake / Sales / Sched / Admin / Owner / Foreman / Workers**
+- Stages `inquiry → newLead → estimateSent → won`
+- Walk-in “send to sales” desk flow
+- `office.ts` / `OfficeFallback` / `OfficeRive` role model
+
+Those are gone. Dock, seats, lenses, and Create kinds now follow OdinOps.
+
+## Brand
+
+Official sheets + live app tokens:
 
 | Token | Hex | Use |
 |---|---|---|
-| Midnight | `#070612` | Dark shell |
-| Navy | `#1A1240` | Surfaces |
-| Purple | `#2A1B5C` | Idle chips |
-| Royal violet | `#6E4AFF` | Booked / secondary accent |
-| **Electric cyan** | `#00E5FF` | CTAs, active role, focus, motion flash |
-| Hot cyan | `#5CFFF1` | Labels on dark |
-| Magenta | `#FF3D8A` | Estimate / hold (sparing) |
-| Lime | `#C6FF4D` | Won / success (sparing) |
-| Paper | `#F4F1FF` | Cards + light text |
+| Void | `#0B0A14` | Dark shell |
+| Card | `#15122C` | Surfaces |
+| Navy | `#1E1B4B` | Secondary / dock idle |
+| Purple | `#6D28D9` / `#A78BFA` | Accents |
+| **Electric cyan** | `#22D3EE` / `#2EEBFA` | CTAs, selected dock, focus |
+| Gold | `#D4AF37` | Estimate kind |
+| Teal | `#2DD4BF` | Committed job |
+| Orange | `#FB923C` | Service |
 
-Light shell: paper / lavender (`#E8E2F8`) with navy type. Toggle **Light/Dark** in the status bar (defaults to the system scheme).
+Light + dark. Lockup in the HTML header (`public/brand/odinops-light.jpg` / `odinops-dark.jpg`); raven mark in Rive (`LogoMark`).
 
-### Logos
+## Rive
 
-| File | Where |
-|---|---|
-| `public/brand/odinops-light.jpg` | Light lockup |
-| `public/brand/odinops-dark.jpg` | Dark lockup |
-| `public/brand/odinops-mark.png` | Raven mark |
-| `rive/brand/odinops-mark.png` | Embedded Rive `ImageAsset` `LogoMark` |
+Reusable Components (`isComponent`):
 
-Header uses the mark in Rive (`App.logo`) and the lockup in the HTML fallback.
+- **DockItem** — Home / Jobs / Create / Alerts / More
+- **JobCard** — job row, alert row, More row
+- **KpiTile** — owner pulse
+- **ActionButton** — cyan primary / navy secondary
+- **StatusPill**
+- **DaySlot** — schedule board (bound when the lens needs it)
 
-## Rive Components
+View models: `Session` (role) · `Home` (lens) · `Job` · `Quote` · `ScheduleDay` · `Alert` · `Kpis` · `App`.
 
-Reusable artboards (`isComponent` + `ComponentAsset`), each with its own state machine:
+React owns the office store and binds into Rive (`autoBind`, lists, nested VMs, triggers). **No Luau.**
 
-- **RoleChip** — press + selected (cyan)
-- **JobCard** — list enter, press, select settle
-- **KpiTile** — value-change tick
-- **ActionButton** — press, primary breathe, success pulse
-- **StatusPill** — idle pulse + tick
-- **DaySlot** — press, select, assign highlight
-
-## View models
-
-`App` (root) · `Session.activeRole` · `Pipeline` · `Job` · `ScheduleDay` · `CrewMember` · `Kpis` · plus component VMs `RoleNav`, `KpiTile`, `Button`, `Pill`.
-
-React owns the store and pushes values through `@rive-app/react-webgl2` (`autoBind`, `list()`, nested `viewModel()` / path writes, triggers).
-
-## Motion
-
-- Role switch: content slide + crossfade (`roleSwitch` trigger)
-- Cards: enter scale/opacity, press, cyan select stroke
-- Primary actions: success pulse on the button + cyan/magenta/lime burst
-- KPI tiles + status pills: tick when values change
-- Scheduler: slot highlight when a crew is assigned
-- Idle: light logo + primary CTA breathe
+Motion is for role switches (`roleSwitch`) and status changes (`fireSuccess` / button pulse / KPI tick) — not decoration.
 
 ## Try it on a phone
 
 1. Open the Pages URL (or `npm run dev` on the same Wi‑Fi).
-2. Toggle **Light/Dark**.
-3. Walk Maya: Intake **Send to sales** → Sales **Send estimate** twice → Scheduler **Assign crew** → Foreman **Start job** → Crew **Check off**.
-4. Open **Owner** and **Admin** — KPIs and chips should have moved.
-5. `?fallback=1` forces the HTML shell (same store + CSS motion).
+2. Status bar: **Demo role** + Light/Dark.
+3. Walk the tap-through above. Switch seats between steps — the same jobs move.
+4. Dock stays Home / Jobs / Create / Alerts / More on every seat.
+5. `?fallback=1` is the same store without WebGL2.
 
 ## Local run
 
@@ -108,15 +137,15 @@ npm run verify:rive
 npm run build:rive
 ```
 
-Sources: [`rive/`](rive/) (`scene.rml`, `components/`, `data/models.rml`, `brand/`). **No Luau**, so unsigned `--once` is web-safe. Export lands at `public/assets/landscape-crm.riv`.
+Sources: [`rive/`](rive/). Export: `public/assets/landscape-crm.riv`.
 
 ## GitHub Pages
 
 - Vite `base`: `/rive-landscape-crm-demo/`
 - Workflow: [`.github/workflows/pages.yml`](.github/workflows/pages.yml)
-- Expected URL: https://bonepixel.github.io/rive-landscape-crm-demo/
+- URL: https://bonepixel.github.io/rive-landscape-crm-demo/
 
-If Pages is not enabled (admin): **Settings → Pages → Deploy from a branch → `gh-pages` / `/`**.
+If Pages is not enabled: **Settings → Pages → Deploy from a branch → `gh-pages` / `/`**.
 
 ## Stack
 
