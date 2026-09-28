@@ -52,6 +52,16 @@ Secondary only in `···`: Reschedule, Reassign, Note. Disabled CTAs show a rea
 
 Chooser page: **What do you want?** Role-filtered lanes — Lead / Estimate / Service / Inspection (+ Share self-book). **Also:** invoice, team, open jobs. Kind-colored icon wells. Creating opens the job sheet + toast (“Estimate created”).
 
+## Customers and invoices
+
+More → **Customers** lists every name on a job or invoice, sorted by what they owe. Tap one, then **New estimate**, and a $2,500 draft opens on Jobs.
+
+More → **Invoices** starts with #1040 (paid) and #1041 (unpaid). **Mark paid** records the payment. Closing a job (Done → Close) issues the next invoice and an **Invoice ready** alert. Estimate jobs subtract the 30% deposit already collected.
+
+The hero carries a five-segment stage track: Lead · Estimate · Won · Scheduled · Done. The current segment breathes. A closed job fills the track teal.
+
+Deep links: `?tab=more&route=customers` and `?tab=more&route=invoices`.
+
 ## Phone QA
 
 1. Open Pages or `?fallback=1`. Status bar is org chrome only — no role carnival.
@@ -71,7 +81,9 @@ Flat dock `3.5rem` + safe area. No raised Create FAB.
 
 ## Rive · production craft
 
-Rive owns the pixels (WebGL2). React is store + data binding + routing. `?fallback=1` keeps the HTML shell.
+Rive owns the pixels (WebGL2). React is store + data binding + routing. `?fallback=1` keeps the HTML shell. Taps go through an HTML hit layer pinned to the phone, so effects never steal a click. `?debug=1` outlines those targets.
+
+Tab changes slide the list in. Selecting a job, customer, or invoice pops the hero. Burst, confetti, splash, and the alert spark play through before they return to rest.
 
 **Particle / light path: pure RML + Feather + state machines.** No Luau, no unsigned WGSL — web runtimes reject those. No `rive publish` / signing step. Particles are 16 / 12 / 6 / 5 feathered ellipses (CTA burst, deposit/close confetti, ambient dust, dock alert spark) driven by solos-free SM layers.
 

@@ -2398,6 +2398,16 @@
                             <TransitionValueTriggerComparator/>
                         </TransitionViewModelCondition>
                     </StateTransition>
+                    <StateTransition stateToId="70:1082">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyTrigger>
+                                    <DataBindContext sourcePathIds="50:1-50:62" propertyKey="686"/>
+                                </BindablePropertyTrigger>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueTriggerComparator/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
                 </AnimationState>
                 <AnimationState x="360" y="40" animationId="70:1111" id="70:1082">
                     <StateTransition stateToId="70:1081" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
@@ -2406,6 +2416,16 @@
                             <TransitionPropertyViewModelComparator>
                                 <BindablePropertyTrigger>
                                     <DataBindContext sourcePathIds="50:1-50:63" propertyKey="686"/>
+                                </BindablePropertyTrigger>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueTriggerComparator/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1082">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyTrigger>
+                                    <DataBindContext sourcePathIds="50:1-50:62" propertyKey="686"/>
                                 </BindablePropertyTrigger>
                             </TransitionPropertyViewModelComparator>
                             <TransitionValueTriggerComparator/>

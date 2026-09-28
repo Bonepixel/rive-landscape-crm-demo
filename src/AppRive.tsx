@@ -263,10 +263,12 @@ export function AppRive({
   }, [role, vmi])
 
   const lastView = useRef<string | null>(null)
+  const viewSlide = useRef(false)
   useEffect(() => {
     if (!vmi) return
     const view = `${tab}:${moreRoute ?? ''}`
-    if (lastView.current !== null && lastView.current !== view) vmi.trigger('tabSwitch')?.trigger()
+    viewSlide.current = lastView.current !== null && lastView.current !== view
+    if (viewSlide.current) vmi.trigger('tabSwitch')?.trigger()
     lastView.current = view
   }, [tab, moreRoute, vmi])
 
@@ -280,7 +282,7 @@ export function AppRive({
   const lastHero = useRef<string | null>(null)
   useEffect(() => {
     if (!vmi) return
-    if (lastHero.current !== null && lastHero.current !== heroKey) vmi.trigger('heroSwap')?.trigger()
+    if (lastHero.current !== null && lastHero.current !== heroKey && !viewSlide.current) vmi.trigger('heroSwap')?.trigger()
     lastHero.current = heroKey
   }, [heroKey, vmi])
 
