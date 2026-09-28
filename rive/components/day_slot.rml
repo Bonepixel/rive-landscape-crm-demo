@@ -1,0 +1,251 @@
+<Rive version="1" kind="fragment">
+    <Artboard isComponent="true" defaultStateMachineId="65:5" viewModelId="45:1" viewModelInstanceId="45:20"
+              clip="true" x="420" y="350" width="358" height="58" styleId="65:2" name="DaySlot" id="65:1">
+        <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed" name="Day Style" id="65:2"/>
+        <Fill name="Clear"><SolidColor colorValue="00000000" name="C"/></Fill>
+
+        <LayoutComponent width="358" height="58" styleId="65:11" name="Slot" id="65:10">
+            <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed"
+                                  flexDirectionValue="row" layoutAlignmentType="centerLeft"
+                                  paddingLeft="12" paddingLeftUnitsValue="points"
+                                  paddingRight="12" paddingRightUnitsValue="points"
+                                  gapHorizontal="10" gapHorizontalUnitsValue="points"
+                                  cornerRadiusTL="14" name="Slot Style" id="65:11"/>
+            <Fill name="SlotFill"><SolidColor colorValue="FFF4F1FF" name="C" id="65:12"/></Fill>
+            <Stroke thickness="2" name="SlotEdge">
+                <SolidColor colorValue="0000E5FF" name="C" id="65:13"/>
+            </Stroke>
+            <LayoutComponent width="46" height="42" styleId="65:21" name="DayBox" id="65:20">
+                <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed"
+                                      layoutAlignmentType="center" cornerRadiusTL="10" name="DayBox Style" id="65:21"/>
+                <Fill name="DayFill"><SolidColor colorValue="FF1A1240" name="C" id="65:22"/></Fill>
+                <Text name="Day" id="65:23" sizingValue="autoWidth">
+                    <LayoutParticipant layoutWidthScaleType="hug" layoutHeightScaleType="hug" name="DL"/>
+                    <TextStylePaint fontSize="12" fontAssetId="10:1" name="DS" id="65:24">
+                        <Fill name="F"><SolidColor colorValue="FF00E5FF" name="C"/></Fill>
+                        <TextStyleAxis tag="2003265652" axisValue="700" name="Weight"/>
+                    </TextStylePaint>
+                    <TextValueRun styleId="65:24" text="Mon" name="Run">
+                        <DataBindContext sourcePathIds="45:1-45:2" propertyKey="268"/>
+                    </TextValueRun>
+                </Text>
+            </LayoutComponent>
+            <LayoutComponent width="0" height="0" styleId="65:31" name="Copy" id="65:30">
+                <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="hug"
+                                      flexDirectionValue="column" layoutAlignmentType="centerLeft"
+                                      gapVertical="2" gapVerticalUnitsValue="points" name="Copy Style" id="65:31"/>
+                <Text name="Title" id="65:32">
+                    <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="TL"/>
+                    <TextStylePaint fontSize="13" fontAssetId="10:1" name="TS" id="65:33">
+                        <Fill name="F"><SolidColor colorValue="FF120C24" name="C"/></Fill>
+                        <TextStyleAxis tag="2003265652" axisValue="650" name="Weight"/>
+                    </TextStylePaint>
+                    <TextValueRun styleId="65:33" text="Open slot" name="Run">
+                        <DataBindContext sourcePathIds="45:1-45:4" propertyKey="268"/>
+                    </TextValueRun>
+                </Text>
+                <Text name="Meta" id="65:34">
+                    <LayoutParticipant layoutWidthScaleType="fill" layoutHeightScaleType="hug" name="ML"/>
+                    <TextStylePaint fontSize="11" fontAssetId="10:1" name="MS" id="65:35">
+                        <Fill name="F"><SolidColor colorValue="FF6B5F8A" name="C"/></Fill>
+                        <TextStyleAxis tag="2003265652" axisValue="500" name="Weight"/>
+                    </TextStylePaint>
+                    <TextValueRun styleId="65:35" text="Slot" name="Run">
+                        <DataBindContext sourcePathIds="45:1-45:3" propertyKey="268"/>
+                    </TextValueRun>
+                    <TextValueRun styleId="65:35" text=" · " name="Dot"/>
+                    <TextValueRun styleId="65:35" text="Crew" name="Crew">
+                        <DataBindContext sourcePathIds="45:1-45:5" propertyKey="268"/>
+                    </TextValueRun>
+                </Text>
+            </LayoutComponent>
+        </LayoutComponent>
+
+        <LinearAnimation duration="1" name="SlotRest" id="65:3">
+            <KeyedObject objectId="65:10">
+                <KeyedProperty propertyKey="16"><KeyFrameDouble value="1" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="17"><KeyFrameDouble value="1" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="65:13">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="0000E5FF" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="65:22">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF1A1240" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="SlotOn" id="65:4">
+            <KeyedObject objectId="65:13">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF00E5FF" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="24" name="SlotHighlight" id="65:6">
+            <KeyedObject objectId="65:10">
+                <KeyedProperty propertyKey="16">
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="1.04" interpolationType="cubic" frame="8"/>
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="24"/>
+                </KeyedProperty>
+                <KeyedProperty propertyKey="17">
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="0"/>
+                    <KeyFrameDouble value="1.04" interpolationType="cubic" frame="8"/>
+                    <KeyFrameDouble value="1" interpolationType="cubic" frame="24"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="65:13">
+                <KeyedProperty propertyKey="37">
+                    <KeyFrameColor value="0000E5FF" interpolationType="cubic" frame="0"/>
+                    <KeyFrameColor value="FF00E5FF" interpolationType="cubic" frame="8"/>
+                    <KeyFrameColor value="FF00E5FF" interpolationType="cubic" frame="24"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="65:22">
+                <KeyedProperty propertyKey="37">
+                    <KeyFrameColor value="FF1A1240" interpolationType="cubic" frame="0"/>
+                    <KeyFrameColor value="FF00D4E8" interpolationType="cubic" frame="8"/>
+                    <KeyFrameColor value="FF1A1240" interpolationType="cubic" frame="24"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="SlotPress" id="65:7">
+            <KeyedObject objectId="65:10">
+                <KeyedProperty propertyKey="16"><KeyFrameDouble value="0.96" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="17"><KeyFrameDouble value="0.96" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="SlotLit" id="65:8">
+            <KeyedObject objectId="65:13">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF00E5FF" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="65:22">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF00D4E8" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+
+        <StateMachine name="DaySlot SM" id="65:5">
+            <StateMachineLayer name="Select" id="65:70">
+                <AnyState x="200" y="-120"/>
+                <ExitState x="400" y="-120"/>
+                <EntryState><StateTransition stateToId="65:71"/></EntryState>
+                <AnimationState x="160" y="40" animationId="65:3" id="65:71">
+                    <StateTransition stateToId="65:72" duration="140">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="45:1-45:7" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="true"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+                <AnimationState x="360" y="40" animationId="65:4" id="65:72">
+                    <StateTransition stateToId="65:71" duration="140">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="45:1-45:7" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="false"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+            </StateMachineLayer>
+            <StateMachineLayer name="Highlight" id="65:80">
+                <AnyState x="200" y="-120"/>
+                <ExitState x="400" y="-120"/>
+                <EntryState><StateTransition stateToId="65:81"/></EntryState>
+                <AnimationState x="160" y="40" animationId="65:3" id="65:81">
+                    <StateTransition stateToId="65:82" duration="80">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="45:1-45:6" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="true"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+                <AnimationState x="360" y="40" animationId="65:6" id="65:82">
+                    <StateTransition stateToId="65:83" duration="400"/>
+                </AnimationState>
+                <AnimationState x="560" y="40" animationId="65:8" id="65:83">
+                    <StateTransition stateToId="65:81" duration="160">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="45:1-45:6" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="false"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+            </StateMachineLayer>
+            <StateMachineLayer name="Press" id="65:40">
+                <AnyState x="200" y="-120"/>
+                <ExitState x="400" y="-120"/>
+                <EntryState><StateTransition stateToId="65:41"/></EntryState>
+                <AnimationState x="160" y="40" animationId="65:3" id="65:41">
+                    <StateTransition stateToId="65:42" duration="70">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="45:1-45:9" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="true"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+                <AnimationState x="360" y="40" animationId="65:7" id="65:42">
+                    <StateTransition stateToId="65:41" duration="80">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="45:1-45:9" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="false"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+            </StateMachineLayer>
+            <StateMachineListenerSingle targetId="65:10" listenerTypeValue="down" name="Down" id="65:50">
+                <ListenerViewModelChange>
+                    <BindablePropertyBoolean propertyValue="true">
+                        <DataBindContext sourcePathIds="45:1-45:9" propertyKey="634" direction="true"/>
+                    </BindablePropertyBoolean>
+                </ListenerViewModelChange>
+            </StateMachineListenerSingle>
+            <StateMachineListenerSingle targetId="65:10" listenerTypeValue="up" name="Up" id="65:51">
+                <ListenerViewModelChange>
+                    <BindablePropertyBoolean propertyValue="false">
+                        <DataBindContext sourcePathIds="45:1-45:9" propertyKey="634" direction="true"/>
+                    </BindablePropertyBoolean>
+                </ListenerViewModelChange>
+            </StateMachineListenerSingle>
+            <StateMachineListenerSingle targetId="65:10" listenerTypeValue="exit" name="Exit" id="65:52">
+                <ListenerViewModelChange>
+                    <BindablePropertyBoolean propertyValue="false">
+                        <DataBindContext sourcePathIds="45:1-45:9" propertyKey="634" direction="true"/>
+                    </BindablePropertyBoolean>
+                </ListenerViewModelChange>
+            </StateMachineListenerSingle>
+            <StateMachineListenerSingle targetId="65:10" listenerTypeValue="click" name="PickDay" id="65:53">
+                <ListenerViewModelChange>
+                    <BindablePropertyBoolean propertyValue="true">
+                        <DataBindContext sourcePathIds="45:1-45:7" propertyKey="634" direction="true"/>
+                    </BindablePropertyBoolean>
+                </ListenerViewModelChange>
+                <ListenerViewModelChange fromViewModelProperty="true" fromDataBindId="65:54">
+                    <BindablePropertyNumber>
+                        <DataBindContext sourcePathIds="45:1-45:8" propertyKey="636" id="65:54"/>
+                        <DataBindContext sourcePathIds="50:1-50:36" propertyKey="636" direction="true"/>
+                    </BindablePropertyNumber>
+                </ListenerViewModelChange>
+            </StateMachineListenerSingle>
+        </StateMachine>
+    </Artboard>
+</Rive>

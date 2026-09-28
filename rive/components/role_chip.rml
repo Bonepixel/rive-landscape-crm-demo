@@ -1,0 +1,175 @@
+<Rive version="1" kind="fragment">
+    <Artboard isComponent="true" defaultStateMachineId="61:5" viewModelId="41:1" viewModelInstanceId="41:20"
+              clip="false" x="420" y="90" width="72" height="48" styleId="61:2" name="DockItem" id="61:1">
+        <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed" name="RoleChip Style" id="61:2"/>
+        <Fill name="Clear"><SolidColor colorValue="00000000" name="C"/></Fill>
+
+        <Shape x="36" y="24" name="DockGlow" id="61:16" blendModeValue="screen" selectable="false">
+            <Ellipse width="46" height="28" originX="0.5" originY="0.5" name="P"/>
+            <Stroke thickness="10" name="GlowStroke">
+                <SolidColor colorValue="002EEBFA" name="C" id="61:17"/>
+                <Feather strength="12" name="GlowFeather"/>
+            </Stroke>
+        </Shape>
+
+        <LayoutComponent width="72" height="44" styleId="61:11" name="Chip" id="61:10">
+            <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fill"
+                                  layoutAlignmentType="center" cornerRadiusTL="12" name="Chip Style" id="61:11"/>
+            <Fill name="ChipFill">
+                <SolidColor colorValue="FF1A1730" name="C" id="61:12"/>
+            </Fill>
+            <Text name="Label" id="61:13" sizingValue="autoWidth">
+                <LayoutParticipant layoutWidthScaleType="hug" layoutHeightScaleType="hug" name="L"/>
+                <TextStylePaint fontSize="11" fontAssetId="10:1" name="LS" id="61:14">
+                    <Fill name="F"><SolidColor colorValue="FF71717A" name="C" id="61:15"/></Fill>
+                    <TextStyleAxis tag="2003265652" axisValue="650" name="Weight"/>
+                </TextStylePaint>
+                <TextValueRun styleId="61:14" text="Role" name="Run">
+                    <DataBindContext sourcePathIds="41:1-41:2" propertyKey="268"/>
+                </TextValueRun>
+            </Text>
+        </LayoutComponent>
+
+        <LinearAnimation duration="1" name="ChipOff" id="61:3">
+            <KeyedObject objectId="61:12">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="001A1730" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="61:15">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF71717A" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="61:17">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="002EEBFA" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="61:10">
+                <KeyedProperty propertyKey="14"><KeyFrameDouble value="2" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="16"><KeyFrameDouble value="1" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="17"><KeyFrameDouble value="1" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="0.72" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="ChipOn" id="61:4">
+            <KeyedObject objectId="61:12">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="332EEBFA" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="61:15">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="61:17">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="AA2EEBFA" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="61:10">
+                <KeyedProperty propertyKey="14"><KeyFrameDouble value="0" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="16"><KeyFrameDouble value="1.02" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="17"><KeyFrameDouble value="1.02" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="ChipScaleRest" id="61:7">
+            <KeyedObject objectId="61:10">
+                <KeyedProperty propertyKey="16"><KeyFrameDouble value="1" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="17"><KeyFrameDouble value="1" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="ChipPress" id="61:6">
+            <KeyedObject objectId="61:10">
+                <KeyedProperty propertyKey="16"><KeyFrameDouble value="0.97" interpolationType="hold"/></KeyedProperty>
+                <KeyedProperty propertyKey="17"><KeyFrameDouble value="0.97" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+
+        <StateMachine name="RoleChip SM" id="61:5">
+            <StateMachineLayer name="Select" id="61:20">
+                <AnyState x="200" y="-120"/>
+                <ExitState x="400" y="-120"/>
+                <EntryState><StateTransition stateToId="61:21"/></EntryState>
+                <AnimationState x="160" y="40" animationId="61:3" id="61:21">
+                    <StateTransition stateToId="61:22" duration="160">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="41:1-41:3" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="true"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+                <AnimationState x="360" y="40" animationId="61:4" id="61:22">
+                    <StateTransition stateToId="61:21" duration="180">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="41:1-41:3" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="false"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+            </StateMachineLayer>
+            <StateMachineLayer name="Press" id="61:30">
+                <AnyState x="200" y="-120"/>
+                <ExitState x="400" y="-120"/>
+                <EntryState><StateTransition stateToId="61:31"/></EntryState>
+                <AnimationState x="160" y="40" animationId="61:7" id="61:31">
+                    <StateTransition stateToId="61:32" duration="90">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="41:1-41:5" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="true"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+                <AnimationState x="360" y="40" animationId="61:6" id="61:32">
+                    <StateTransition stateToId="61:31" duration="140">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyBoolean>
+                                    <DataBindContext sourcePathIds="41:1-41:5" propertyKey="634"/>
+                                </BindablePropertyBoolean>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueBooleanComparator value="false"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+            </StateMachineLayer>
+            <StateMachineListenerSingle targetId="61:10" listenerTypeValue="down" name="Down" id="61:40">
+                <ListenerViewModelChange>
+                    <BindablePropertyBoolean propertyValue="true">
+                        <DataBindContext sourcePathIds="41:1-41:5" propertyKey="634" direction="true"/>
+                    </BindablePropertyBoolean>
+                </ListenerViewModelChange>
+            </StateMachineListenerSingle>
+            <StateMachineListenerSingle targetId="61:10" listenerTypeValue="up" name="Up" id="61:41">
+                <ListenerViewModelChange>
+                    <BindablePropertyBoolean propertyValue="false">
+                        <DataBindContext sourcePathIds="41:1-41:5" propertyKey="634" direction="true"/>
+                    </BindablePropertyBoolean>
+                </ListenerViewModelChange>
+            </StateMachineListenerSingle>
+            <StateMachineListenerSingle targetId="61:10" listenerTypeValue="exit" name="Exit" id="61:42">
+                <ListenerViewModelChange>
+                    <BindablePropertyBoolean propertyValue="false">
+                        <DataBindContext sourcePathIds="41:1-41:5" propertyKey="634" direction="true"/>
+                    </BindablePropertyBoolean>
+                </ListenerViewModelChange>
+            </StateMachineListenerSingle>
+            <StateMachineListenerSingle targetId="61:10" listenerTypeValue="click" name="PickRole" id="61:43">
+                <ListenerViewModelChange>
+                    <BindablePropertyBoolean propertyValue="true">
+                        <DataBindContext sourcePathIds="41:1-41:3" propertyKey="634" direction="true"/>
+                    </BindablePropertyBoolean>
+                </ListenerViewModelChange>
+                <ListenerViewModelChange fromViewModelProperty="true" fromDataBindId="61:44">
+                    <BindablePropertyNumber>
+                        <DataBindContext sourcePathIds="41:1-41:4" propertyKey="636" id="61:44"/>
+                        <DataBindContext sourcePathIds="50:1-50:8" propertyKey="636" direction="true"/>
+                    </BindablePropertyNumber>
+                </ListenerViewModelChange>
+            </StateMachineListenerSingle>
+        </StateMachine>
+    </Artboard>
+</Rive>
