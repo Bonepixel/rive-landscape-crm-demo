@@ -905,3 +905,66 @@
   color: #71717a;
   font-size: 11px;
 }
+
+.stages {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+
+.stages span {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stages i {
+  height: 5px;
+  border-radius: 3px;
+  background: #2a2452;
+  transition: background 360ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 360ms ease;
+}
+
+.stages small {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #71717a;
+}
+
+.stages .done i {
+  background: #2eebfa;
+}
+
+.stages .now i {
+  background: #2eebfa;
+  box-shadow: 0 0 10px rgb(46 235 250 / 55%);
+  animation: stage-breathe 1.2s ease-in-out infinite;
+}
+
+.stages .now small {
+  color: #2eebfa;
+}
+
+.stages .closed i {
+  background: #2dd4bf;
+  box-shadow: none;
+  animation: none;
+}
+
+@keyframes stage-breathe {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.back {
+  border: 1px solid rgb(255 255 255 / 10%);
+  background: transparent;
+  color: #a1a1aa;
+  border-radius: 10px;
+  min-height: 32px;
+  padding: 0 10px;
+  font-weight: 700;
+  cursor: pointer;
+}

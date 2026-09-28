@@ -1,3 +1,5 @@
+import type { Invoice } from './crm.ts'
+
 export const STAFF_ROLES = ['owner', 'admin', 'scheduling', 'sales', 'foreman', 'worker'] as const
 export type StaffRole = (typeof STAFF_ROLES)[number]
 
@@ -199,6 +201,24 @@ export function kindArgb(job: Job) {
 
 export function flowLabel(job: Job) {
   return STEP_PILL[job.step]
+}
+
+export const STAGES = ['Lead', 'Estimate', 'Won', 'Scheduled', 'Done'] as const
+
+const STAGE_BY_STEP: Record<Step, number> = {
+  request: 1,
+  create: 2,
+  awaiting: 2,
+  ready: 3,
+  schedule: 3,
+  start: 4,
+  progress: 4,
+  workDone: 5,
+  complete: 5,
+}
+
+export function stageOf(job: Job) {
+  return STAGE_BY_STEP[job.step]
 }
 
 export type JobCta = {
@@ -835,6 +855,7 @@ export const STORE_KEY = 'odinops-phone-v2'
 export type Persisted = {
   jobs: Job[]
   alerts: Alert[]
+  invoices: Invoice[]
   role: StaffRole
   tab: Tab
   selectedId: string
@@ -866,13 +887,22 @@ export function parseDeepLink(search: string) {
   const job = params.get('job') || undefined
   const fallback = params.has('fallback')
   const debug = params.has('debug')
-  return { role, tab, job, fallback, debug }
+  const route = MORE_NAV.find((item) => item.route === params.get('route'))?.route
+  return { role, tab, job, fallback, debug, route }
 }
 
-export function writeDeepLink(input: { role: StaffRole; tab: Tab; job: string; fallback: boolean; debug?: boolean }) {
+export function writeDeepLink(input: {
+  role: StaffRole
+  tab: Tab
+  job: string
+  route?: string | null
+  fallback: boolean
+  debug?: boolean
+}) {
   const params = new URLSearchParams()
   params.set('role', input.role)
   params.set('tab', input.tab)
+  if (input.tab === 'more' && input.route) params.set('route', input.route)
   if (input.job) params.set('job', input.job)
   if (input.fallback) params.set('fallback', '1')
   if (input.debug) params.set('debug', '1')

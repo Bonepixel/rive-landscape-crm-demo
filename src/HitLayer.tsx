@@ -7,6 +7,8 @@ export type BridgeRow =
   | { type: 'alert'; id: string; label: string }
   | { type: 'more'; id: string; label: string }
   | { type: 'seat'; id: string; label: string }
+  | { type: 'customer'; id: string; label: string }
+  | { type: 'invoice'; id: string; label: string }
 
 type Props = {
   tab: Tab

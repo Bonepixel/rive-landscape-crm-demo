@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { Customer, Invoice } from './crm'
 import {
   DOCK,
   HOME_DATE_LINE,
@@ -29,9 +30,12 @@ import {
   laneHex,
   money,
   filterJobs,
+  STAGES,
+  stageOf,
   type Alert,
   type CreateLane,
   type Job,
+  type JobCta,
   type JobFilter,
   type Seat,
   type StaffRole,
@@ -50,6 +54,13 @@ type Props = {
   darkMode: boolean
   sheetOpen: boolean
   burst: boolean
+  customers: Customer[]
+  invoices: Invoice[]
+  activeCustomer: Customer | null
+  activeInvoice: Invoice | null
+  crmCta: JobCta | null
+  onCustomer: (id: string) => void
+  onInvoice: (id: string) => void
   onSelect: (id: string) => void
   onTab: (tab: Tab) => void
   onRole: (role: StaffRole) => void
@@ -81,6 +92,62 @@ function MoreStub({ route, onBack }: { route: string; onBack: () => void }) {
       <button type="button" className="cta" onClick={onBack}>
         Back
       </button>
+    </section>
+  )
+}
+
+function StageTrack({ job }: { job: Job }) {
+  const stage = stageOf(job)
+  return (
+    <div className="stages" aria-label={`Stage ${STAGES[stage - 1]}`}>
+      {STAGES.map((label, index) => (
+        <span
+          key={label}
+          className={`${index < stage - 1 ? 'done' : ''} ${index === stage - 1 ? 'now' : ''} ${stage === 5 ? 'closed' : ''}`}
+        >
+          <i />
+          <small>{label}</small>
+        </span>
+      ))}
+    </div>
+  )
+}
+
+function CrmDetail({
+  kicker,
+  title,
+  lines,
+  cta,
+  burst,
+  onPrimary,
+  onBack,
+}: {
+  kicker: string
+  title: string
+  lines: string[]
+  cta: JobCta | null
+  burst: boolean
+  onPrimary: () => void
+  onBack: () => void
+}) {
+  return (
+    <section className="now">
+      <div className="sheet-top">
+        <span className="kicker">{kicker}</span>
+        <button type="button" className="back" onClick={onBack}>
+          Back
+        </button>
+      </div>
+      <h2>{title}</h2>
+      {lines.map((line) => (
+        <p key={line} className="reason">
+          {line}
+        </p>
+      ))}
+      <button type="button" className={`cta ${burst ? 'burst' : ''}`} disabled={cta?.disabled} onClick={onPrimary}>
+        {cta?.primary}
+      </button>
+      {cta?.disabled && cta.reason && <p className="reason">{cta.reason}</p>}
     </section>
   )
 }
@@ -130,6 +197,13 @@ export function AppFallback({
   darkMode,
   sheetOpen,
   burst,
+  customers,
+  invoices,
+  activeCustomer,
+  activeInvoice,
+  crmCta,
+  onCustomer,
+  onInvoice,
   onSelect,
   onTab,
   onRole,
@@ -250,6 +324,7 @@ export function AppFallback({
                 <p className="reason">
                   {now.title} · {now.estimate ? money(now.estimate) : '—'}
                 </p>
+                <StageTrack job={now} />
                 <button
                   type="button"
                   className={`cta ${burst ? 'burst' : ''}`}
@@ -360,7 +435,104 @@ export function AppFallback({
           </div>
         )}
 
-        {tab === 'more' && moreRoute && <MoreStub route={moreRoute} onBack={() => onMore(null)} />}
+        {tab === 'more' && moreRoute === 'customers' && (
+          <>
+            {activeCustomer && (
+              <CrmDetail
+                kicker="Customer"
+                title={activeCustomer.name}
+                lines={[
+                  `${activeCustomer.jobCount} ${activeCustomer.jobCount === 1 ? 'job' : 'jobs'} · ${money(activeCustomer.lifetime)} lifetime`,
+                  activeCustomer.address,
+                  crmCta?.attention ?? '',
+                ].filter(Boolean)}
+                cta={crmCta}
+                burst={burst}
+                onPrimary={onPrimary}
+                onBack={() => onMore(null)}
+              />
+            )}
+            <div className="stack">
+              {customers.map((customer) => (
+                <button
+                  key={customer.id}
+                  type="button"
+                  className={`row ${customer.id === activeCustomer?.id ? 'selected' : ''}`}
+                  onClick={() => onCustomer(customer.id)}
+                >
+                  <span className="avatar">{initials(customer.name)}</span>
+                  <span className="copy">
+                    <b>{customer.name}</b>
+                    <small>
+                      {customer.openCount} open · {customer.address}
+                    </small>
+                  </span>
+                  <span className="meta">
+                    <b>{money(customer.lifetime)}</b>
+                    {customer.balance > 0 && (
+                      <span className="pill" style={{ background: KIND_HEX.service }}>
+                        Owes {money(customer.balance)}
+                      </span>
+                    )}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+
+        {tab === 'more' && moreRoute === 'invoices' && (
+          <>
+            {activeInvoice && (
+              <CrmDetail
+                kicker={activeInvoice.status === 'paid' ? 'Paid' : 'Unpaid'}
+                title={`Invoice #${activeInvoice.number}`}
+                lines={[
+                  `${activeInvoice.customerName} · ${activeInvoice.title}`,
+                  `${money(activeInvoice.amount)} · issued ${activeInvoice.issued}`,
+                ]}
+                cta={crmCta}
+                burst={burst}
+                onPrimary={onPrimary}
+                onBack={() => onMore(null)}
+              />
+            )}
+            <div className="stack">
+              {invoices.map((invoice) => (
+                <button
+                  key={invoice.id}
+                  type="button"
+                  className={`row ${invoice.id === activeInvoice?.id ? 'selected' : ''}`}
+                  onClick={() => onInvoice(invoice.id)}
+                >
+                  <span
+                    className="pin"
+                    style={{
+                      background: invoice.status === 'paid' ? KIND_HEX.job : KIND_HEX.service,
+                      color: invoice.status === 'paid' ? KIND_HEX.job : KIND_HEX.service,
+                    }}
+                  />
+                  <span className="copy">
+                    <b>
+                      #{invoice.number} · {invoice.customerName}
+                    </b>
+                    <small>{invoice.title}</small>
+                  </span>
+                  <span className="meta">
+                    <b>{money(invoice.amount)}</b>
+                    <span className="pill" style={{ background: invoice.status === 'paid' ? KIND_HEX.job : KIND_HEX.service }}>
+                      {invoice.status === 'paid' ? 'Paid' : 'Unpaid'}
+                    </span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+
+        {tab === 'more' && moreRoute && moreRoute !== 'customers' && moreRoute !== 'invoices' && (
+          <MoreStub route={moreRoute} onBack={() => onMore(null)} />
+        )}
 
         {tab === 'more' && !moreRoute && (
           <>
@@ -456,6 +628,7 @@ export function AppFallback({
             <span className="pill" style={{ background: kindHex(selected) }}>
               {flowLabel(selected)}
             </span>
+            <StageTrack job={selected} />
             <button
               type="button"
               className={`cta ${burst ? 'burst' : ''}`}

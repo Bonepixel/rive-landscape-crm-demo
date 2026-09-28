@@ -3,6 +3,16 @@ import './App.css'
 import { AppFallback } from './AppFallback'
 import { AppRive } from './AppRive'
 import {
+  customerCta,
+  deriveCustomers,
+  estimateForCustomer,
+  invoiceCta,
+  invoiceOnClose,
+  markPaid,
+  seedInvoices,
+  type Invoice,
+} from './crm'
+import {
   ROLE_LABEL,
   SAMPLE_JOBS,
   SEATS,
@@ -17,6 +27,7 @@ import {
   jobCta,
   jobsForLens,
   loadPersisted,
+  money,
   parseDeepLink,
   savePersisted,
   seedAlerts,
@@ -43,12 +54,15 @@ function boot() {
   const tab = link.tab ?? stored?.tab ?? 'home'
   const jobs = stored?.jobs?.length ? stored.jobs : SAMPLE_JOBS
   const alerts = stored?.alerts?.length ? stored.alerts : seedAlerts(jobs)
+  const invoices = stored?.invoices?.length ? stored.invoices : seedInvoices()
   const selectedId = link.job ?? stored?.selectedId ?? featuredJob(jobs, homeLens(role), role)?.id ?? jobs[0].id
   return {
     jobs,
     alerts,
+    invoices,
     role,
     tab,
+    route: tab === 'more' ? (link.route ?? null) : null,
     selectedId,
     darkMode: true,
     fallback: link.fallback || !supportsWebGL2(),
@@ -63,7 +77,10 @@ export default function App() {
   const [selectedId, setSelectedId] = useState(initial.selectedId)
   const [role, setRole] = useState<StaffRole>(initial.role)
   const [tab, setTab] = useState<Tab>(initial.tab)
-  const [moreRoute, setMoreRoute] = useState<string | null>(null)
+  const [moreRoute, setMoreRoute] = useState<string | null>(initial.route)
+  const [invoices, setInvoices] = useState<Invoice[]>(initial.invoices)
+  const [customerId, setCustomerId] = useState<string | null>(null)
+  const [invoiceId, setInvoiceId] = useState<string | null>(null)
   const [toast, setToast] = useState('')
   const [canUndo, setCanUndo] = useState(false)
   const [darkMode, setDarkMode] = useState(initial.darkMode)
@@ -75,7 +92,7 @@ export default function App() {
   const [confetti, setConfetti] = useState(0)
   const [alertSpark, setAlertSpark] = useState(0)
   const [debugLine, setDebugLine] = useState(`tab=${initial.tab}`)
-  const undo = useRef<{ jobs: Job[]; alerts: Alert[] } | null>(null)
+  const undo = useRef<{ jobs: Job[]; alerts: Alert[]; invoices: Invoice[] } | null>(null)
   const toastTimer = useRef(0)
   const alertCount = useRef(initial.alerts.length)
 
@@ -84,16 +101,23 @@ export default function App() {
     [jobs, selectedId],
   )
 
+  const customers = useMemo(() => deriveCustomers(jobs, invoices), [jobs, invoices])
+  const activeCustomer = customers.find((item) => item.id === customerId) ?? customers[0] ?? null
+  const activeInvoice = invoices.find((item) => item.id === invoiceId)
+    ?? invoices.find((item) => item.status === 'unpaid')
+    ?? invoices[0]
+    ?? null
+
   useEffect(() => {
-    savePersisted({ jobs, alerts, role, tab, selectedId, darkMode })
-    writeDeepLink({ role, tab, job: selectedId, fallback: riveFailed, debug: initial.debug })
-  }, [jobs, alerts, role, tab, selectedId, darkMode, riveFailed, initial.debug])
+    savePersisted({ jobs, alerts, invoices, role, tab, selectedId, darkMode })
+    writeDeepLink({ role, tab, job: selectedId, route: moreRoute, fallback: riveFailed, debug: initial.debug })
+  }, [jobs, alerts, invoices, role, tab, moreRoute, selectedId, darkMode, riveFailed, initial.debug])
 
   const flash = useCallback((message: string, undoable = false) => {
     setToast(message)
     setCanUndo(undoable)
     setBurst((value) => value + 1)
-    if (message === 'Deposit paid' || message === 'Closed') {
+    if (message === 'Deposit paid' || message === 'Closed' || message === 'Payment recorded') {
       setConfetti((value) => value + 1)
     }
     window.clearTimeout(toastTimer.current)
@@ -104,13 +128,14 @@ export default function App() {
   }, [])
 
   const snapshot = useCallback(() => {
-    undo.current = { jobs, alerts }
-  }, [jobs, alerts])
+    undo.current = { jobs, alerts, invoices }
+  }, [jobs, alerts, invoices])
 
   const onUndo = useCallback(() => {
     if (!undo.current) return
     setJobs(undo.current.jobs)
     setAlerts(undo.current.alerts)
+    setInvoices(undo.current.invoices)
     undo.current = null
     flash('Undone')
   }, [flash])
@@ -168,6 +193,31 @@ export default function App() {
   }, [jobs.length, role, flash, snapshot, onDebug])
 
   const onPrimary = useCallback(() => {
+    if (tab === 'more' && moreRoute === 'customers') {
+      if (!activeCustomer) return
+      snapshot()
+      const job = estimateForCustomer(activeCustomer, jobs.length + 1, role)
+      setJobs((current) => [job, ...current])
+      setSelectedId(job.id)
+      setTab('jobs')
+      setMoreRoute(null)
+      setSheetOpen(true)
+      flash('Estimate created', true)
+      onDebug(`primary fire created=${job.id} for=${activeCustomer.id}`)
+      return
+    }
+    if (tab === 'more' && moreRoute === 'invoices') {
+      if (!activeInvoice) return
+      if (activeInvoice.status === 'paid') {
+        flash('Paid in full')
+        return
+      }
+      snapshot()
+      setInvoices((current) => current.map((item) => (item.id === activeInvoice.id ? markPaid(item) : item)))
+      flash('Payment recorded', true)
+      onDebug(`primary fire paid=${activeInvoice.id}`)
+      return
+    }
     const target = tab === 'home' && !sheetOpen
       ? featuredJob(jobs, homeLens(role), role) ?? selected
       : selected
@@ -179,17 +229,43 @@ export default function App() {
     }
     snapshot()
     const result = applyPrimary(target, role)
+    const invoice = invoiceOnClose(target, result.job, invoices)
     setJobs((current) => current.map((job) => (job.id === result.job.id ? result.job : job)))
     setSelectedId(result.job.id)
-    if (result.alert) {
-      setAlerts((current) => [result.alert!, ...current.filter((item) => item.id !== result.alert!.id)])
+    const newAlerts: Alert[] = []
+    if (result.alert) newAlerts.push(result.alert)
+    if (invoice) {
+      setInvoices((current) => [invoice, ...current])
+      newAlerts.push({
+        id: `invoice-${invoice.id}`,
+        title: 'Invoice ready',
+        detail: `#${invoice.number} · ${invoice.customerName} · ${money(invoice.amount)}`,
+        kind: 'ready',
+        jobId: invoice.jobId,
+        unread: true,
+        time: 'now',
+      })
+    }
+    if (newAlerts.length) {
+      const ids = new Set(newAlerts.map((item) => item.id))
+      setAlerts((current) => [...newAlerts, ...current.filter((item) => !ids.has(item.id))])
     }
     if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
       navigator.vibrate(12)
     }
     flash(result.toast, true)
-    onDebug(`primary fire ${result.toast} selected=${result.job.id}`)
-  }, [selected, role, flash, snapshot, tab, sheetOpen, jobs, onDebug])
+    onDebug(`primary fire ${result.toast} selected=${result.job.id}${invoice ? ` invoice=${invoice.id}` : ''}`)
+  }, [selected, role, flash, snapshot, tab, sheetOpen, jobs, onDebug, moreRoute, activeCustomer, activeInvoice, invoices])
+
+  const onCustomer = useCallback((id: string) => {
+    setCustomerId(id)
+    onDebug(`selected=customer:${id}`)
+  }, [onDebug])
+
+  const onInvoice = useCallback((id: string) => {
+    setInvoiceId(id)
+    onDebug(`selected=invoice:${id}`)
+  }, [onDebug])
 
   const onOverflow = useCallback((action: string) => {
     if (!selected) return
@@ -229,7 +305,13 @@ export default function App() {
   const widgets = homeNextActions(jobs, homeLens(role))
   const featured = featuredJob(jobs, homeLens(role), role)
   const ctaJob = tab === 'home' && !sheetOpen ? (featured ?? selected) : selected
-  const primaryLabel = ctaJob ? jobCta(ctaJob, role).primary : 'Open'
+  const crmCta = tab === 'more' && moreRoute === 'customers'
+    ? customerCta(activeCustomer)
+    : tab === 'more' && moreRoute === 'invoices'
+      ? invoiceCta(activeInvoice)
+      : null
+  const cta = crmCta ?? (ctaJob ? jobCta(ctaJob, role) : null)
+  const primaryLabel = cta?.primary ?? 'Open'
   const empty = (
     (tab === 'home' && list.length === 0)
     || (tab === 'jobs' && list.length === 0)
@@ -265,6 +347,14 @@ export default function App() {
               alertSpark={alertSpark}
               debug={initial.debug}
               primaryLabel={primaryLabel}
+              heroJob={ctaJob ?? null}
+              cta={cta}
+              customers={customers}
+              invoices={invoices}
+              activeCustomer={activeCustomer}
+              activeInvoice={activeInvoice}
+              onCustomer={onCustomer}
+              onInvoice={onInvoice}
               onReady={() => setRiveReady(true)}
               onError={() => setRiveFailed(true)}
               onTab={onTab}
@@ -294,6 +384,13 @@ export default function App() {
               darkMode={darkMode}
               sheetOpen={sheetOpen}
               burst={burst > 0}
+              customers={customers}
+              invoices={invoices}
+              activeCustomer={activeCustomer}
+              activeInvoice={activeInvoice}
+              crmCta={crmCta}
+              onCustomer={onCustomer}
+              onInvoice={onInvoice}
               onSelect={onSelect}
               onTab={onTab}
               onRole={onRole}
