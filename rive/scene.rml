@@ -360,6 +360,37 @@
                         <DataBindContext sourcePathIds="50:1-50:13" propertyKey="268"/>
                     </TextValueRun>
                 </Text>
+                <LayoutComponent width="0" height="4" styleId="70:1001" name="StageTrack" id="70:1000">
+                    <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fixed"
+                                          flexDirectionValue="row" layoutAlignmentType="centerLeft"
+                                          gapHorizontal="4" gapHorizontalUnitsValue="points"
+                                          name="StageTrack Style" id="70:1001"/>
+                    <LayoutComponent width="0" height="4" styleId="70:1011" name="Seg0" id="70:1010">
+                        <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fixed"
+                                              cornerRadiusTL="2" name="Seg0 Style" id="70:1011"/>
+                        <Fill name="SegFill"><SolidColor colorValue="FF2A2452" name="C" id="70:1012"/></Fill>
+                    </LayoutComponent>
+                    <LayoutComponent width="0" height="4" styleId="70:1021" name="Seg1" id="70:1020">
+                        <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fixed"
+                                              cornerRadiusTL="2" name="Seg1 Style" id="70:1021"/>
+                        <Fill name="SegFill"><SolidColor colorValue="FF2A2452" name="C" id="70:1022"/></Fill>
+                    </LayoutComponent>
+                    <LayoutComponent width="0" height="4" styleId="70:1031" name="Seg2" id="70:1030">
+                        <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fixed"
+                                              cornerRadiusTL="2" name="Seg2 Style" id="70:1031"/>
+                        <Fill name="SegFill"><SolidColor colorValue="FF2A2452" name="C" id="70:1032"/></Fill>
+                    </LayoutComponent>
+                    <LayoutComponent width="0" height="4" styleId="70:1041" name="Seg3" id="70:1040">
+                        <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fixed"
+                                              cornerRadiusTL="2" name="Seg3 Style" id="70:1041"/>
+                        <Fill name="SegFill"><SolidColor colorValue="FF2A2452" name="C" id="70:1042"/></Fill>
+                    </LayoutComponent>
+                    <LayoutComponent width="0" height="4" styleId="70:1051" name="Seg4" id="70:1050">
+                        <LayoutComponentStyle layoutWidthScaleType="fill" layoutHeightScaleType="fixed"
+                                              cornerRadiusTL="2" name="Seg4 Style" id="70:1051"/>
+                        <Fill name="SegFill"><SolidColor colorValue="FF2A2452" name="C" id="70:1052"/></Fill>
+                    </LayoutComponent>
+                </LayoutComponent>
             </LayoutComponent>
 
             <LayoutComponent width="0" height="48" styleId="70:141" name="Actions" id="70:140">
@@ -997,16 +1028,8 @@
         </LinearAnimation>
         <LinearAnimation duration="18" name="ContentSwitch" id="70:214">
             <KeyedObject objectId="70:80">
-                <KeyedProperty propertyKey="13">
-                    <KeyFrameDouble value="0" interpolationType="cubic" frame="0"/>
-                    <KeyFrameDouble value="16" interpolationType="cubic" frame="8"/>
-                    <KeyFrameDouble value="0" interpolationType="cubic" frame="18"/>
-                </KeyedProperty>
-                <KeyedProperty propertyKey="18">
-                    <KeyFrameDouble value="1" interpolationType="cubic" frame="0"/>
-                    <KeyFrameDouble value="0.28" interpolationType="cubic" frame="8"/>
-                    <KeyFrameDouble value="1" interpolationType="cubic" frame="18"/>
-                </KeyedProperty>
+                <KeyedProperty propertyKey="13"><KeyFrameDouble value="24" interpolationType="cubic" frame="0"/><KeyFrameDouble value="0" interpolationType="cubic" frame="18"/></KeyedProperty>
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="0" interpolationType="cubic" frame="0"/><KeyFrameDouble value="1" interpolationType="cubic" frame="18"/></KeyedProperty>
             </KeyedObject>
         </LinearAnimation>
 
@@ -1586,6 +1609,229 @@
             </KeyedObject>
         </LinearAnimation>
 
+        <LinearAnimation duration="72" loopValue="loop" name="Stage0" id="70:1100">
+            <KeyedObject objectId="70:1000">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="0" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1010">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1012">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1020">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1022">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1030">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1032">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1040">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1042">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1050">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1052">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="72" loopValue="loop" name="Stage1" id="70:1101">
+            <KeyedObject objectId="70:1000">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1010">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="cubic" frame="0"/><KeyFrameDouble value="0.4" interpolationType="cubic" frame="36"/><KeyFrameDouble value="1" interpolationType="cubic" frame="72"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1012">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1020">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1022">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1030">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1032">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1040">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1042">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1050">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1052">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="72" loopValue="loop" name="Stage2" id="70:1102">
+            <KeyedObject objectId="70:1000">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1010">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1012">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1020">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="cubic" frame="0"/><KeyFrameDouble value="0.4" interpolationType="cubic" frame="36"/><KeyFrameDouble value="1" interpolationType="cubic" frame="72"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1022">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1030">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1032">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1040">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1042">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1050">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1052">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="72" loopValue="loop" name="Stage3" id="70:1103">
+            <KeyedObject objectId="70:1000">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1010">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1012">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1020">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1022">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1030">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="cubic" frame="0"/><KeyFrameDouble value="0.4" interpolationType="cubic" frame="36"/><KeyFrameDouble value="1" interpolationType="cubic" frame="72"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1032">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1040">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1042">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1050">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1052">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="72" loopValue="loop" name="Stage4" id="70:1104">
+            <KeyedObject objectId="70:1000">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1010">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1012">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1020">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1022">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1030">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1032">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1040">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="cubic" frame="0"/><KeyFrameDouble value="0.4" interpolationType="cubic" frame="36"/><KeyFrameDouble value="1" interpolationType="cubic" frame="72"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1042">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2EEBFA" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1050">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1052">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2A2452" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="72" loopValue="loop" name="Stage5" id="70:1105">
+            <KeyedObject objectId="70:1000">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1010">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1012">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2DD4BF" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1020">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1022">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2DD4BF" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1030">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1032">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2DD4BF" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1040">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1042">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2DD4BF" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1050">
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:1052">
+                <KeyedProperty propertyKey="37"><KeyFrameColor value="FF2DD4BF" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="HeroRest" id="70:1110">
+            <KeyedObject objectId="70:100">
+                <KeyedProperty propertyKey="13"><KeyFrameDouble value="0" interpolationType="hold" frame="0"/></KeyedProperty>
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold" frame="0"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="24" name="HeroPop" id="70:1111">
+            <KeyedObject objectId="70:100">
+                <KeyedProperty propertyKey="13"><KeyFrameDouble value="18" interpolationType="cubic" frame="0"/><KeyFrameDouble value="0" interpolationType="cubic" frame="24"/></KeyedProperty>
+                <KeyedProperty propertyKey="18"><KeyFrameDouble value="0.35" interpolationType="cubic" frame="0"/><KeyFrameDouble value="1" interpolationType="cubic" frame="24"/></KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+
         <StateMachine name="State Machine 1" id="70:5">
             <StateMachineLayer name="Logo" id="70:220">
                 <AnyState x="200" y="-120"/>
@@ -1643,9 +1889,19 @@
                             <TransitionValueTriggerComparator/>
                         </TransitionViewModelCondition>
                     </StateTransition>
+                    <StateTransition stateToId="70:242">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyTrigger>
+                                    <DataBindContext sourcePathIds="50:1-50:62" propertyKey="686"/>
+                                </BindablePropertyTrigger>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueTriggerComparator/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
                 </AnimationState>
                 <AnimationState x="360" y="40" animationId="70:214" id="70:242">
-                    <StateTransition stateToId="70:241" duration="320"/>
+                    <StateTransition stateToId="70:241" duration="320" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
                 </AnimationState>
             </StateMachineLayer>
             <StateMachineLayer name="Success" id="70:250">
@@ -1665,7 +1921,7 @@
                     </StateTransition>
                 </AnimationState>
                 <AnimationState x="360" y="40" animationId="70:216" id="70:252">
-                    <StateTransition stateToId="70:251" duration="520"/>
+                    <StateTransition stateToId="70:251" duration="520" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
                 </AnimationState>
             </StateMachineLayer>
             <StateMachineLayer name="Confetti" id="70:930">
@@ -1685,7 +1941,7 @@
                     </StateTransition>
                 </AnimationState>
                 <AnimationState x="360" y="40" animationId="70:902" id="70:932">
-                    <StateTransition stateToId="70:931" duration="560"/>
+                    <StateTransition stateToId="70:931" duration="560" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
                 </AnimationState>
             </StateMachineLayer>
             <StateMachineLayer name="AlertSpark" id="70:940">
@@ -1705,7 +1961,7 @@
                     </StateTransition>
                 </AnimationState>
                 <AnimationState x="360" y="40" animationId="70:904" id="70:942">
-                    <StateTransition stateToId="70:941" duration="320"/>
+                    <StateTransition stateToId="70:941" duration="320" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
                 </AnimationState>
             </StateMachineLayer>
             <StateMachineLayer name="Splash" id="70:950">
@@ -1725,7 +1981,7 @@
                     </StateTransition>
                 </AnimationState>
                 <AnimationState x="360" y="40" animationId="70:906" id="70:952">
-                    <StateTransition stateToId="70:953" duration="360"/>
+                    <StateTransition stateToId="70:953" duration="360" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
                 </AnimationState>
                 <AnimationState x="560" y="40" animationId="70:908" id="70:953">
                     <StateTransition stateToId="70:951" duration="180">
@@ -1800,6 +2056,353 @@
                                 </BindablePropertyBoolean>
                             </TransitionPropertyViewModelComparator>
                             <TransitionValueBooleanComparator value="false"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+            </StateMachineLayer>
+            <StateMachineLayer name="Stage" id="70:1090">
+                <AnyState x="200" y="-120"/>
+                <ExitState x="400" y="-120"/>
+                <EntryState><StateTransition stateToId="70:1091"/></EntryState>
+                <AnimationState x="160" y="40" animationId="70:1100" id="70:1091">
+                    <StateTransition stateToId="70:1092" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="1"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1093" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="2"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1094" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="3"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1095" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="4"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1096" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="5"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+                <AnimationState x="300" y="40" animationId="70:1101" id="70:1092">
+                    <StateTransition stateToId="70:1091" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="0"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1093" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="2"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1094" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="3"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1095" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="4"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1096" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="5"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+                <AnimationState x="440" y="40" animationId="70:1102" id="70:1093">
+                    <StateTransition stateToId="70:1091" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="0"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1092" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="1"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1094" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="3"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1095" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="4"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1096" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="5"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+                <AnimationState x="580" y="40" animationId="70:1103" id="70:1094">
+                    <StateTransition stateToId="70:1091" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="0"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1092" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="1"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1093" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="2"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1095" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="4"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1096" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="5"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+                <AnimationState x="720" y="40" animationId="70:1104" id="70:1095">
+                    <StateTransition stateToId="70:1091" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="0"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1092" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="1"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1093" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="2"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1094" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="3"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1096" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="5"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+                <AnimationState x="860" y="40" animationId="70:1105" id="70:1096">
+                    <StateTransition stateToId="70:1091" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="0"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1092" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="1"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1093" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="2"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1094" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="3"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                    <StateTransition stateToId="70:1095" duration="360" interpolationType="cubic">
+                        <TransitionViewModelCondition opValue="equal">
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyNumber>
+                                    <DataBindContext sourcePathIds="50:1-50:61" propertyKey="636"/>
+                                </BindablePropertyNumber>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueNumberComparator value="4"/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+            </StateMachineLayer>
+            <StateMachineLayer name="HeroSwap" id="70:1080">
+                <AnyState x="200" y="-120"/>
+                <ExitState x="400" y="-120"/>
+                <EntryState><StateTransition stateToId="70:1081"/></EntryState>
+                <AnimationState x="160" y="40" animationId="70:1110" id="70:1081">
+                    <StateTransition stateToId="70:1082">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyTrigger>
+                                    <DataBindContext sourcePathIds="50:1-50:63" propertyKey="686"/>
+                                </BindablePropertyTrigger>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueTriggerComparator/>
+                        </TransitionViewModelCondition>
+                    </StateTransition>
+                </AnimationState>
+                <AnimationState x="360" y="40" animationId="70:1111" id="70:1082">
+                    <StateTransition stateToId="70:1081" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+                    <StateTransition stateToId="70:1082">
+                        <TransitionViewModelCondition>
+                            <TransitionPropertyViewModelComparator>
+                                <BindablePropertyTrigger>
+                                    <DataBindContext sourcePathIds="50:1-50:63" propertyKey="686"/>
+                                </BindablePropertyTrigger>
+                            </TransitionPropertyViewModelComparator>
+                            <TransitionValueTriggerComparator/>
                         </TransitionViewModelCondition>
                     </StateTransition>
                 </AnimationState>

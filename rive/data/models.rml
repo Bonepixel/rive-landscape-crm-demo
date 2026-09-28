@@ -472,6 +472,9 @@
         <ViewModelPropertyTrigger name="fireConfetti" id="50:58"/>
         <ViewModelPropertyTrigger name="fireAlertSpark" id="50:59"/>
         <ViewModelPropertyBoolean name="toastOn" id="50:60"/>
+        <ViewModelPropertyNumber name="heroStage" id="50:61"/>
+        <ViewModelPropertyTrigger name="tabSwitch" id="50:62"/>
+        <ViewModelPropertyTrigger name="heroSwap" id="50:63"/>
 
         <ViewModelInstance exports="true" name="Default" id="50:40">
             <ViewModelInstanceString propertyValue="OdinOps" viewModelPropertyId="50:2"/>
@@ -527,6 +530,9 @@
             <ViewModelInstanceTrigger viewModelPropertyId="50:58"/>
             <ViewModelInstanceTrigger viewModelPropertyId="50:59"/>
             <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="50:60"/>
+            <ViewModelInstanceNumber propertyValue="0" viewModelPropertyId="50:61"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="50:62"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="50:63"/>
         </ViewModelInstance>
     </ViewModel>
 </Rive>
