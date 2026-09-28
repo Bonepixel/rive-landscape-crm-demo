@@ -212,7 +212,7 @@
                                           flexDirectionValue="column" layoutAlignmentType="center"
                                           paddingTop="18" paddingTopUnitsValue="points"
                                           paddingBottom="18" paddingBottomUnitsValue="points"
-                                          gapVertical="8" gapVerticalUnitsValue="points"
+                                          gapVertical="8" gapVerticalUnitsValue="points" displayValue="none"
                                           name="Empty Style" id="70:551"/>
                     <LayoutComponent width="64" height="64" styleId="70:553" name="EmptyMark" id="70:552" selectable="false">
                         <LayoutComponentStyle layoutWidthScaleType="fixed" layoutHeightScaleType="fixed"
@@ -1589,10 +1589,16 @@
             <KeyedObject objectId="70:550">
                 <KeyedProperty propertyKey="18"><KeyFrameDouble value="0" interpolationType="hold"/></KeyedProperty>
             </KeyedObject>
+            <KeyedObject objectId="70:551">
+                <KeyedProperty propertyKey="596"><KeyFrameUint value="1" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
         </LinearAnimation>
         <LinearAnimation duration="1" name="EmptyShow" id="70:910">
             <KeyedObject objectId="70:550">
                 <KeyedProperty propertyKey="18"><KeyFrameDouble value="1" interpolationType="hold"/></KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="70:551">
+                <KeyedProperty propertyKey="596"><KeyFrameUint value="0" interpolationType="hold"/></KeyedProperty>
             </KeyedObject>
         </LinearAnimation>
 
